@@ -1,0 +1,12 @@
+/* Write your global styles here, in PostCSS syntax */
+body{
+    min-height: 100vh;
+}
+
+#svelte{
+    height: 100vh;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities
