@@ -1,8 +1,7 @@
 <script>
-import Login from '$components/login.svelte'
+  import Login from '$components/login.svelte'
 </script>
 
-
 <div class="flex justify-center items-center h-full">
-    <Login />
+  <Login />
 </div>
