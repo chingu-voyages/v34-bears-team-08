@@ -1,20 +1,20 @@
-<div class="container">
-	<h1 class="font-bold">Welcome to Instagram</h1>
-	<img src="instagram.jpg" alt="Instagram" />
-	<a class="uppercase" href="https://v34-bears-team-08.netlify.app">Live Preview</a>
-</div>
-
 <style>
-	.container {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		min-height: 100vh;
-		min-width: 100vw;
-	}
+    .container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        min-width: 100vw;
+    }
 
-	img {
-		height: 60vh;
-	}
+    img{
+        height: 60vh;
+    }
+
+</style>
+<div class="container">
+    <h1 class="">Welcome to Instagram</h1>
+    <img src="instagram.jpg" alt="Instagram">
+    <a class="uppercase" href="https://v34-bears-team-08.netlify.app">Live Preview</a>
 </div>
