@@ -14,8 +14,9 @@
     }
 
 </style>
+  
 <div class="container">
     <h1 class="">Welcome to Instagram</h1>
     <img src="instagram.jpg" alt="Instagram">
-    <a class="uppercase" href="https://v34-bears-team-08.netlify.app">Live Preview</a>
+    <a class="uppercase" href="/login">Login</a>
 </div>
