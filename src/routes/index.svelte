@@ -6,6 +6,7 @@
         align-items: center;
         min-height: 100vh;
         min-width: 100vw;
+        background-color: #f2f2f2;
     }
 
     img{
