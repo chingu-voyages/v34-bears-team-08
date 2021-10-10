@@ -24,6 +24,7 @@ export const initClient = () =>
       // ? Consider using offline exchange for persistence, w/ request policy exchange for clearing stale data.
       cacheExchange({}),
       // [async] auth-exchange: https://waa.ai/auth-exchange
+      // TODO: Modify to remove localStorage reliance. SSR auth details obtained and in-memory.
       authExchange({
         addAuthToOperation: ({ authState, operation }) => {
           // Nothing to change, return the operation without changes

@@ -2,6 +2,7 @@ import { Magic } from '@magic-sdk/admin'
 import { gql } from '@urql/svelte'
 import { mutation } from './utils/_query'
 
+// TODO: Modify for Oauth and SSR.
 export async function post({ body, headers: { authorization } }) {
   const m = new Magic(process.env.MAGIC)
   const { email } = body

@@ -3,8 +3,7 @@ type User {
 }
 
 type Mutation {
-  loginUser(input: LoginUserInput!): LoginUserPayload!
-    @resolver(name: "login_user")
+  loginUser(input: LoginUserInput!): LoginUserPayload! @resolver(name: "login_user")
 }
 
 input LoginUserInput {
@@ -15,3 +14,5 @@ type LoginUserPayload @embedded {
   exp: Time!
   userInfo: User!
 }
+
+# TODO: Add base types from adaptation
