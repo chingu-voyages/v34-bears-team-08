@@ -3,8 +3,10 @@ lockfileVersion: 5.3
 specifiers:
   '@sveltejs/adapter-netlify': ^1.0.0-next.32
   '@sveltejs/kit': next
+  '@urql/svelte': ^1.3.1
   autoprefixer: ^10.3.6
   cssnano: ^5.0.8
+  graphql: ^15.6.1
   postcss: ^8.3.8
   postcss-load-config: ^3.1.0
   svelte: ^3.42.6
@@ -14,8 +16,10 @@ specifiers:
 devDependencies:
   '@sveltejs/adapter-netlify': 1.0.0-next.32
   '@sveltejs/kit': 1.0.0-next.180_svelte@3.43.1
+  '@urql/svelte': 1.3.1_graphql@15.6.1+svelte@3.43.1
   autoprefixer: 10.3.7_postcss@8.3.9
   cssnano: 5.0.8_postcss@8.3.9
+  graphql: 15.6.1
   postcss: 8.3.9
   postcss-load-config: 3.1.0
   svelte: 3.43.1
@@ -43,6 +47,14 @@ packages:
       '@babel/helper-validator-identifier': 7.15.7
       chalk: 2.4.2
       js-tokens: 4.0.0
+    dev: true
+
+  /@graphql-typed-document-node/core/3.1.0_graphql@15.6.1:
+    resolution: {integrity: sha512-wYn6r8zVZyQJ6rQaALBEln5B1pzxb9shV5Ef97kTvn6yVGrqyXVnDqnU24MXnFubR+rZjBY9NWuxX3FB2sTsjg==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+    dependencies:
+      graphql: 15.6.1
     dev: true
 
   /@iarna/toml/2.2.5:
@@ -149,6 +161,28 @@ packages:
     resolution: {integrity: sha512-iZUcRrGuz/Tbg3loODpW7vrQJkUtpY2fFSf4ELqqkApcS2TkZ1msk7ie8iZPB86lDOP8QOTTmuvWjc5S0R9OjQ==}
     dependencies:
       '@types/node': 16.10.3
+    dev: true
+
+  /@urql/core/2.3.3_graphql@15.6.1:
+    resolution: {integrity: sha512-Bi9mafTFu0O1XZmI7/HrEk12LHZW+Fs/V1FqSJoUDgYIhARIJW6cCh3Havy1dJJ0FETxYmmQQXPf6kst+IP2qQ==}
+    peerDependencies:
+      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+    dependencies:
+      '@graphql-typed-document-node/core': 3.1.0_graphql@15.6.1
+      graphql: 15.6.1
+      wonka: 4.0.15
+    dev: true
+
+  /@urql/svelte/1.3.1_graphql@15.6.1+svelte@3.43.1:
+    resolution: {integrity: sha512-zJT8mGCisEtV9g+b8OPYMXIomtxPb1WcgKFj5DWL8FXp+ntuvO0zshHf+KfprONbVAez7LCHLMxivLDpYIxULg==}
+    peerDependencies:
+      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+      svelte: ^3.0.0
+    dependencies:
+      '@urql/core': 2.3.3_graphql@15.6.1
+      graphql: 15.6.1
+      svelte: 3.43.1
+      wonka: 4.0.15
     dev: true
 
   /acorn-node/1.8.2:
@@ -835,6 +869,11 @@ packages:
 
   /graceful-fs/4.2.8:
     resolution: {integrity: sha512-qkIilPUYcNhJpd33n0GBXTB1MMPp14TxEsEs0pTrsSVucApsYzW5V+Q8Qxhik6KU3evy+qkAAowTByymK0avdg==}
+    dev: true
+
+  /graphql/15.6.1:
+    resolution: {integrity: sha512-3i5lu0z6dRvJ48QP9kFxBkJ7h4Kso7PS8eahyTFz5Jm6CvQfLtNIE8LX9N6JLnXTuwR+sIYnXzaWp6anOg0QQw==}
+    engines: {node: '>= 10.x'}
     dev: true
 
   /has-flag/3.0.0:
@@ -1873,6 +1912,10 @@ packages:
       rollup: 2.58.0
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
+
+  /wonka/4.0.15:
+    resolution: {integrity: sha512-U0IUQHKXXn6PFo9nqsHphVCE5m3IntqZNB9Jjn7EB1lrR7YTDY3YWgFvEvwniTzXSvOH/XMzAZaIfJF/LvHYXg==}
     dev: true
 
   /wrappy/1.0.2:
