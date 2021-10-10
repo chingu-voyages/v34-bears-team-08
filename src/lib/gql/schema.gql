@@ -1,0 +1,17 @@
+type User {
+  email: String! @unique
+}
+
+type Mutation {
+  loginUser(input: LoginUserInput!): LoginUserPayload!
+    @resolver(name: "login_user")
+}
+
+input LoginUserInput {
+  email: String!
+}
+type LoginUserPayload @embedded {
+  token: String!
+  exp: Time!
+  userInfo: User!
+}

@@ -1,0 +1,42 @@
+// * Schema must be uploaded before running setup script!
+// * Please run blocks one at a time to prevent race conditions
+
+// Auth
+
+// Login with only email, for User collection/type
+Update(Function('login_user'), {
+  body: Query(
+    Lambda(
+      ['input'],
+      // Auth and user info payload
+      Let(
+        {
+          // Let() declarations evaluate variable expressions in order, like Do()
+          userMatch: Match(Index('unique_User_email'), Select('email', Var('input'))),
+          // Create user if doesn't exist
+          userRef: If(
+            IsNonEmpty(Var('userMatch')),
+            Select('ref', Get(Var('userMatch'))),
+            Select(
+              'ref',
+              Create(Collection('User'), {
+                data: Var('input'),
+              })
+            )
+          ),
+          tokenDoc: Create(Tokens(), {
+            instance: Var('userRef'),
+            // ⚙ Adjust access token expiry here
+            // ? Need a shorter active token expiry? Typically secure apps go 10m/20m/1hr, if user data security
+            ttl: TimeAdd(Now(), 30, 'days'), // doesn't matter in your app, you can increase the access token duration.
+          }),
+        },
+        {
+          userInfo: Var('userRef'), // Fauna GraphQL API codegens Get() using doc ref of the type/collection
+          exp: Select('ttl', Var('tokenDoc')),
+          token: Select('secret', Var('tokenDoc')),
+        }
+      )
+    )
+  ),
+})
