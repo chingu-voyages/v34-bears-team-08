@@ -5,6 +5,7 @@
     "bradlc.vscode-tailwindcss",
     "svelte.svelte-vscode",
     "ms-vsliveshare.vsliveshare",
-    "GitHub.vscode-pull-request-github"
+    "GitHub.vscode-pull-request-github",
+    "GraphQL.vscode-graphql"
   ]
 }
