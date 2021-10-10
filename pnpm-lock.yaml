@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@sveltejs/adapter-netlify': ^1.0.0-next.32
   '@sveltejs/kit': next
+  '@urql/exchange-graphcache': ^4.3.5
   '@urql/svelte': ^1.3.1
   autoprefixer: ^10.3.6
   cssnano: ^5.0.8
@@ -16,6 +17,7 @@ specifiers:
 devDependencies:
   '@sveltejs/adapter-netlify': 1.0.0-next.32
   '@sveltejs/kit': 1.0.0-next.180_svelte@3.43.1
+  '@urql/exchange-graphcache': 4.3.5_graphql@15.6.1
   '@urql/svelte': 1.3.1_graphql@15.6.1+svelte@3.43.1
   autoprefixer: 10.3.7_postcss@8.3.9
   cssnano: 5.0.8_postcss@8.3.9
@@ -169,6 +171,16 @@ packages:
       graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
     dependencies:
       '@graphql-typed-document-node/core': 3.1.0_graphql@15.6.1
+      graphql: 15.6.1
+      wonka: 4.0.15
+    dev: true
+
+  /@urql/exchange-graphcache/4.3.5_graphql@15.6.1:
+    resolution: {integrity: sha512-q5/CzNtSxd5fW/YZ94KABmtQ34XliyS+KKKhyJ+/y66D7mYrN/ZEiuKTlnB7FTt9GLZ0yRtgIfXjwoGicB/Tlw==}
+    peerDependencies:
+      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+    dependencies:
+      '@urql/core': 2.3.3_graphql@15.6.1
       graphql: 15.6.1
       wonka: 4.0.15
     dev: true
