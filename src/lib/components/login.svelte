@@ -3,7 +3,7 @@
   import GitLabIcon from '@svicons/fa-brands/gitlab.svelte'
   import BitBucketIcon from '@svicons/fa-brands/bitbucket.svelte'
   let error = false
-  let newUser = true
+  let newUser = false
 
   let loginOrSignUp = { type: 'Sign up', function: signUp }
 
@@ -31,7 +31,6 @@
 
 <div class="container flex mx-auto max-w-screen-md items-center h-screen">
   <div class="flex w-3/5">
-    <!--Add Image with mobile preview-->
     <img src="/images/iphone.png" alt="iPhone with app on screen" />
   </div>
   <div class="flex flex-col w-3/5">
@@ -45,22 +44,22 @@
 
     <div class="flex flex-col items-center bg-white p-4 border border-gray-primary mb-4 rounded">
       <button
-        class="bg-black flex flex-row text-black p-3 rounded-md hover:scale-100"
+        class="bg-black-light text-white mb-4 flex flex-row text-black p-3 rounded-md hover:scale-100"
         on:click={loginOrSignUp.function}
       >
-        {loginOrSignUp.type} with GitHub <GitHubIcon class="pl-4 text-3xl" width="1.5em" color="black" />
+        {loginOrSignUp.type} with GitHub <GitHubIcon class="pl-4 text-3xl" width="1.5em" color="white" />
       </button>
       <button
-        class="bg-black flex flex-row text-black p-3 rounded-md hover:scale-100"
+        class="bg-black-light text-white mb-4 flex flex-row text-black p-3 rounded-md hover:scale-100"
         on:click={loginOrSignUp.function}
       >
-        {loginOrSignUp.type} with BitBucket <BitBucketIcon class="pl-4 text-3xl" width="1.5em" color="black" />
+        {loginOrSignUp.type} with BitBucket <BitBucketIcon class="pl-4 text-3xl" width="1.5em" color="white" />
       </button>
       <button
-        class="bg-black flex flex-row text-black p-3 rounded-md hover:scale-100"
+        class="bg-black-light text-white flex flex-row text-black p-3 rounded-md hover:scale-100"
         on:click={loginOrSignUp.function}
       >
-        {loginOrSignUp.type} with GitLab <GitLabIcon class="pl-4 text-3xl" width="1.5em" color="black" />
+        {loginOrSignUp.type} with GitLab <GitLabIcon class="pl-4 text-3xl" width="1.5em" color="white" />
       </button>
     </div>
 
