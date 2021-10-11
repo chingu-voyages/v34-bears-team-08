@@ -1,10 +1,10 @@
-# Instagram Clone
+# Devvy
 
 Instagram clone using Svelte Kit
 
 ## Developing
 
-Install dependencies with `npm install` or `yarn install` 
+Install dependencies with `npm install` or `yarn install`
 
 ```bash
 npm run dev
