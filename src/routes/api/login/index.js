@@ -1,6 +1,6 @@
 import { Magic } from '@magic-sdk/admin'
 import { gql } from '@urql/svelte'
-import { mutation } from './utils/_query'
+import { mutation } from './_query'
 
 // TODO: Modify for Oauth and SSR. Might need cookies
 export async function post({ body, headers: { authorization } }) {
