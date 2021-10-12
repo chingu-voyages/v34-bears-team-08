@@ -1,6 +1,6 @@
 type User {
   email: String! @unique
-  username: String! @unique
+  username: String @unique
   fullName: String!
   following: [User]
   followers: [User]
