@@ -1,4 +1,3 @@
-import { browser } from '$app/env'
 import { goto } from '$app/navigation'
 import { derived, get, writable } from 'svelte/store'
 
@@ -79,6 +78,7 @@ export async function verify({ email = get(auth).userInfo?.email, idToken = null
 /** Remove token and log out of Magic, then go to login page */
 export async function logout() {
   const mLogoutProm = createMagic().then((m) => m.user.logout())
+  await apiReq.get('/auth/logout')
   auth.set(initAuth)
   await mLogoutProm
   goto('/login')
