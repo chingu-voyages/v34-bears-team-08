@@ -1,6 +1,6 @@
 type User {
-  email: String! @unique # unique
-  username: String! # unique # TODO: enforce index uniqueness see https://forums.fauna.com/t/allow-unique-directive-to-support-multiple-fields/32
+  email: String! @unique
+  username: String! @unique
   fullName: String!
   following: [User]
   followers: [User]
