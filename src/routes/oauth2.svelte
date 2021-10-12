@@ -14,7 +14,8 @@
     } */
     const res = await magic.oauth.getRedirectResult()
     await verify({ email: res.magic?.userMetadata.email, idToken: res.magic?.idToken })
-    goto('/')
+    // TODO: If this isn't causing a redirect that reloads __layout, then we need to just use the native location API.
+    goto('/', { replaceState: true })
     // ? Deal with possible errors? Try doing this on error? goto('/login')
   })
 </script>
