@@ -2,6 +2,8 @@
   import GitHubIcon from '@svicons/fa-brands/github.svelte'
   import GitLabIcon from '@svicons/fa-brands/gitlab.svelte'
   import BitBucketIcon from '@svicons/fa-brands/bitbucket.svelte'
+  import { oAuthLogin } from '$lib/utils/magic'
+
   let error = false
   let newUser = false
 
@@ -50,11 +52,12 @@
     <div class="flex flex-col items-center bg-white p-4 border border-gray-primary mb-4 rounded">
       <button
         class="bg-black-light text-white flex flex-row text-black p-3 rounded-md hover:scale-100"
-        on:click={() => {
+        on:click={async () => {
           //loginOrSignUp.function
           // TODO: Endpoint set cookies after being hit
           // TODO: login logic?
           // TODO: redirect URI...? maybe unnecessary. Let's test it first
+          const res = await oAuthLogin('github')
         }}
       >
         {loginOrSignUp.type} with GitHub <GitHubIcon class="pl-4 text-3xl" width="1.5em" color="white" />
