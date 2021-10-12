@@ -8,7 +8,11 @@
 </script>
 
 <script>
+  import { initClient } from '$lib/gql/urql'
+
   import '../app.css'
+
+  initClient()
 </script>
 
 <slot />
