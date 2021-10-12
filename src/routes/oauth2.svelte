@@ -1,17 +1,20 @@
 <!-- OAuth2 callback route -->
 <script>
   import { goto } from '$app/navigation'
+  import { verify } from '$lib/stores/auth'
   import { magic } from '$lib/utils/magic'
   import { onMount } from 'svelte'
 
-  onMount(() => {
-    magic.oauth.getRedirectResult().then(
-      (result) => {
-        // TODO: ID Token is critical. Use it for logging in!
-        // result.magic = { userMetadata, idToken }
-        // result.oauth.userInfo = { email, emailVerified: boolean, picture, profile }
-      },
-      () => goto('/login') // error
-    )
+  onMount(async () => {
+    /* res = {
+      magic: { userMetadata, idToken }
+      oauth: {
+        userInfo = { email, emailVerified: boolean, picture, profile }
+      }
+    } */
+    const res = await magic.oauth.getRedirectResult()
+    await verify({ email: res.magic?.userMetadata.email, idToken: res.magic?.idToken })
+    goto('/')
+    // ? Deal with possible errors? Try doing this on error? goto('/login')
   })
 </script>
