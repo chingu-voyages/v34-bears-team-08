@@ -57,4 +57,4 @@ export function removeSessionCookie() {
 }
 
 // Server magic client
-export const magic = new Magic(import.meta.env.PROD ? process.env.MAGIC_SECRET : import.meta.env.VITE_MAGIC_SECRET)
+export const magic = new Magic(import.meta.env.PROD ? process.env['MAGIC_SECRET'] : import.meta.env.VITE_MAGIC_SECRET)

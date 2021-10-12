@@ -4,7 +4,8 @@ import { createSessionCookie, magic, mutation } from './_utils'
 // Also acts as refresh endpoint
 export async function post({ body, headers: { authorization } }) {
   const { email } = body
-  console.log(process.env)
+  console.log(process.env['MAGIC_SECRET'])
+  // console.log(process.env)
   const didToken = magic.utils.parseAuthorizationHeader(authorization)
 
   if (email && didToken) {
