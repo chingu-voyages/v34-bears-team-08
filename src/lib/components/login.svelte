@@ -7,6 +7,11 @@
 
   let loginOrSignUp = { type: 'Sign up', function: signUp }
 
+  function toggleNewUser(){
+    newUser = !newUser
+    changeLoginOrSignUp()
+  }
+
   function changeLoginOrSignUp() {
     if (newUser) {
       loginOrSignUp.type = 'Sign up'
@@ -49,6 +54,7 @@
       >
         {loginOrSignUp.type} with GitHub <GitHubIcon class="pl-4 text-3xl" width="1.5em" color="white" />
       </button>
+      <!--Buttons hidden for later
       <button
         class="bg-black-light text-white mb-4 flex flex-row text-black p-3 rounded-md hover:scale-100"
         on:click={loginOrSignUp.function}
@@ -60,16 +66,24 @@
         on:click={loginOrSignUp.function}
       >
         {loginOrSignUp.type} with GitLab <GitLabIcon class="pl-4 text-3xl" width="1.5em" color="white" />
-      </button>
+      </button> 
+      -->
     </div>
 
-    {#if newUser}
+    {#if !newUser}
       <div class="flex justify-center items-center flex-col w-full bg-white p-4 rounded border border-gray-primary">
         <p class="text-sm">
           Don't have an account?{` `}
-          <a href="/login" class="font-bold text-blue-medium"> Sign up </a>
+          <button on:click={toggleNewUser} class="font-bold text-blue-medium"> Sign up </button>
         </p>
       </div>
+    {:else}
+    <div class="flex justify-center items-center flex-col w-full bg-white p-4 rounded border border-gray-primary">
+      <p class="text-sm">
+        Already have an account?{` `}
+        <button on:click={toggleNewUser} class="font-bold text-blue-medium"> Login </button>
+      </p>
+    </div>
     {/if}
   </div>
 </div>
