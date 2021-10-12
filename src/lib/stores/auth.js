@@ -57,7 +57,7 @@ async function createMagic() {
  * @param {?string} options.idToken If not passed in, refreshes access token.
  * @param {?object} options.magic client dynamic import override. Can be the client itself or a promise resolving into it.
  * @param {?string} options.email */
-export async function verify({ email = get(auth).userInfo?.email, idToken = null, magic = createMagic() }) {
+export async function verify({ email = get(auth).userInfo?.email, idToken = null, magic = createMagic() } = {}) {
   const m = await Promise.resolve(magic)
   idToken ||= await m.user.getIdToken()
 
