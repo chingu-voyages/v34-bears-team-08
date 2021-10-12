@@ -54,10 +54,7 @@
         class="bg-black-light text-white flex flex-row text-black p-3 rounded-md hover:scale-100"
         on:click={async () => {
           //loginOrSignUp.function
-          // TODO: Endpoint set cookies after being hit
-          // TODO: login logic?
-          // TODO: redirect URI...? maybe unnecessary. Let's test it first
-          const res = await oAuthLogin('github')
+          await oAuthLogin('github')
         }}
       >
         {loginOrSignUp.type} with GitHub <GitHubIcon class="pl-4 text-3xl" width="1.5em" color="white" />
