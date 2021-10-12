@@ -9,7 +9,7 @@ const client = createClient({
   exchanges: [fetchExchange], // we never send duplicate queries, we also do not need caching
   fetchOptions: {
     headers: {
-      Authorization: `Bearer ${import.meta.env.PROD ? process.env.FAUNA_SERVER : import.meta.env.VITE_FAUNA_SERVER}`,
+      Authorization: `Bearer ${import.meta.env.PROD ? process.env['FAUNA_SERVER'] : import.meta.env.VITE_FAUNA_SERVER}`,
       'X-Schema-Preview': 'partial-update-mutation',
     },
   },
@@ -27,7 +27,9 @@ export function mutation(query, variables, ctx) {
 }
 
 // ==== sessions and cookies
-const ENCRYPTION_SECRET = import.meta.env.PROD ? process.env.ENCRYPTION_SECRET : import.meta.env.VITE_ENCRYPTION_SECRET
+const ENCRYPTION_SECRET = import.meta.env.PROD
+  ? process.env['ENCRYPTION_SECRET']
+  : import.meta.env.VITE_ENCRYPTION_SECRET
 
 async function encrypt(data) {
   return data && Iron.seal(data, ENCRYPTION_SECRET, Iron.defaults)
