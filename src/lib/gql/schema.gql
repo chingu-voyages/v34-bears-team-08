@@ -1,7 +1,7 @@
 type User {
   email: String! @unique
   username: String @unique
-  fullName: String!
+  fullName: String
   following: [User]
   followers: [User]
   dateCreated: Time!
