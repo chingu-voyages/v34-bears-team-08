@@ -1,6 +1,7 @@
 {
-  "name": "v34-bears-team-08-main",
+  "name": "devvy",
   "version": "0.0.1",
+  "license": "Apache-2.0",
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
