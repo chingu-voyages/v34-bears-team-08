@@ -1,16 +1,14 @@
-import { Magic } from '@magic-sdk/admin'
 import { gql } from '@urql/svelte'
-import { mutation } from './_query'
+import { createSessionCookie, magic, mutation } from './_utils'
 
-// TODO: Modify for Oauth and SSR. Might need cookies
+// Also acts as refresh endpoint
 export async function post({ body, headers: { authorization } }) {
-  const m = new Magic(process.env.MAGIC)
   const { email } = body
-  const didToken = m.utils.parseAuthorizationHeader(authorization)
+  const didToken = magic.utils.parseAuthorizationHeader(authorization)
 
   if (email && didToken) {
     try {
-      const validation = m.token.validate(didToken)
+      const validation = magic.token.validate(didToken)
       const [
         metadata,
         {
@@ -19,7 +17,7 @@ export async function post({ body, headers: { authorization } }) {
           },
         },
       ] = await Promise.all([
-        m.users.getMetadataByToken(didToken),
+        magic.users.getMetadataByToken(didToken),
         mutation(
           gql`
             mutation Login($email: String!) {
@@ -38,11 +36,14 @@ export async function post({ body, headers: { authorization } }) {
 
       await validation // throws error if failed
 
-      // confirm details align
+      const authData = { token, exp, userInfo }
+      // confirm details align with what client sent
       if (userInfo.email == metadata.email)
         return {
-          body: { token, exp, userInfo },
-          status: 200,
+          headers: {
+            'set-cookie': await createSessionCookie(authData),
+          },
+          body: authData,
         }
     } catch (error) {
       console.log(error)
