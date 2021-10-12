@@ -2,9 +2,13 @@ type User {
   email: String! @unique
   username: String @unique
   fullName: String
-  following: [User]
-  followers: [User]
   dateCreated: Time!
+  following: [Follow] @relation(name: "following")
+}
+
+type Follow {
+  user: User
+  follows: User @relation(name: "following")
 }
 
 type Mutation {
