@@ -1,5 +1,6 @@
-<!--Import this loader where ever a loader is needed-->
-<!--The loader is always running, display it conditionally-->
+<!-- @component
+Import this loader where ever a loader is needed
+  The loader is always in motion, display it conditionally-->
 
 <div class="lds-ring">
   <div />
