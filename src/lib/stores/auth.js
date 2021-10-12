@@ -3,26 +3,7 @@ import { goto } from '$app/navigation'
 import { derived, get, writable } from 'svelte/store'
 
 const initAuth = { token: null, exp: null, userInfo: {} }
-function createAuth() {
-  if (browser) {
-    var userInfo = localStorage.getItem('userInfo')
-    return writable({
-      token: localStorage.getItem('token'),
-      exp: localStorage.getItem('exp'),
-      userInfo: userInfo ? JSON.parse(userInfo) : {},
-    })
-  }
-  return writable(initAuth)
-}
-
-export const auth = createAuth()
-
-export function setAuthState({ token, userInfo, exp }) {
-  localStorage.setItem('token', token)
-  localStorage.setItem('exp', exp)
-  localStorage.setItem('userInfo', JSON.stringify(userInfo))
-  auth.set({ token, userInfo, exp })
-}
+export const auth = writable(initAuth)
 
 export const isAuthenticated = derived(auth, ({ token, exp }) => (!token || !exp ? false : new Date() < new Date(exp)))
 
@@ -67,51 +48,37 @@ export const apiReq = {
   },
 }
 
-async function magic() {
-  const { Magic } = await import('magic-sdk')
-  return new Magic(import.meta.env.VITE_MAGIC_PUBLIC)
+async function createMagic() {
+  const [{ Magic }, { OAuthExtension }] = await Promise.all([import('magic-sdk'), import('@magic-ext/oauth')])
+  return new Magic(import.meta.env.VITE_MAGIC_PUBLIC, { extensions: [new OAuthExtension()] })
 }
 
-/** Handles login+signup or refresh. Returns new auth state & no return on errors. Signup uses exact same logic.
- *
- * Token refresh and login are basically equivalent, only difference being how Magic gets the didToken again.
- * @param {LoginOptions?}
- * @typedef {Object} LoginOptions
- * @property {object} magic client dynamic import override. Can be the client itself or a promise resolving into it.
- * @property {boolean} refresh Enable `refresh` mode. Default `false`
- * @property {string} email
- */
-export async function login({ email = get(auth).userInfo?.email, refresh = false, magic = magic() }) {
+/** Handles login verification+signup or refresh. Returns new auth state & no return on errors. Signup uses exact same logic.
+ * @param {object} options
+ * @param {?string} options.idToken If not passed in, refreshes access token.
+ * @param {?object} options.magic client dynamic import override. Can be the client itself or a promise resolving into it.
+ * @param {?string} options.email */
+export async function verify({ email = get(auth).userInfo?.email, idToken = null, magic = createMagic() }) {
   const m = await Promise.resolve(magic)
-  try {
-    const didToken = await (refresh
-      ? m.user.getIdToken()
-      : m.auth.loginWithMagicLink({
-          email,
-        }))
-    // Validate the did token on the server
-    if (didToken) {
-      const authPayload = await apiReq.post('/login', {
-        headers: { Authorization: `Bearer ${didToken}` },
-        body: { email },
-      })
-      // Finish up login
-      if (authPayload?.token) {
-        setAuthState(authPayload)
-        return authPayload
-      }
-    }
-  } catch (error) {
-    if (error.message.includes('-32602')) return false // invalid email error
-  }
+  idToken ||= await m.user.getIdToken()
+
+  // probably some error if there's no tokens throughout this func
+  if (!idToken) return
+
+  // Validate the did token on the server
+  const authPayload = await apiReq.post('/auth/login', {
+    headers: { Authorization: `Bearer ${idToken}` },
+    body: { email },
+  })
+  if (!authPayload?.token) return
+  // Finish up login
+  auth.set(authPayload)
+  return authPayload
 }
 
 /** Remove token and log out of Magic, then go to login page */
 export async function logout() {
-  const mLogoutProm = magic().then((m) => m.user.logout())
-  localStorage.removeItem('token')
-  localStorage.removeItem('exp')
-  localStorage.removeItem('userInfo')
+  const mLogoutProm = createMagic().then((m) => m.user.logout())
   auth.set(initAuth)
   await mLogoutProm
   goto('/login')
