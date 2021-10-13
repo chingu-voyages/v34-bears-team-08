@@ -10,3 +10,5 @@ export function oAuthLogin(provider) {
     redirectURI: `${origin}/oauth2`,
   })
 }
+
+

@@ -166,3 +166,4 @@ const opFn =
 export const queryOp = opFn(query)
 /** Mutation Operation Store: Creates a mutation function store from a gql query */
 export const mutationOp = opFn(mutation)
+
