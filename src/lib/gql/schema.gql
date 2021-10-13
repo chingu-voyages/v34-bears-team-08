@@ -3,11 +3,12 @@ type User {
   username: String @unique
   fullName: String
   dateCreated: Time!
+  followers: [Follow] @relation(name: "followers")
   following: [Follow] @relation(name: "following")
 }
 
 type Follow {
-  user: User
+  user: User @relation(name: "followers")
   follows: User @relation(name: "following")
 }
 
