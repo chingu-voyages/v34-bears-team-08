@@ -20,7 +20,7 @@ Update(Function('login_user'), {
             Select(
               'ref',
               Create(Collection('User'), {
-                data: Var('input'),
+                data: Merge(Var('input'), { newUser: true, dateCreated: Now() }),
               })
             )
           ),

@@ -3,13 +3,14 @@ type User {
   username: String @unique
   fullName: String
   dateCreated: Time!
-  followers: [Follow] @relation(name: "followers")
+  newUser: Boolean!
   following: [Follow] @relation(name: "following")
+  followers: [Follow] @relation(name: "followers")
 }
 
 type Follow {
-  user: User @relation(name: "followers")
-  follows: User @relation(name: "following")
+  user: User! @relation(name: "following")
+  follows: User! @relation(name: "followers")
 }
 
 type Mutation {
