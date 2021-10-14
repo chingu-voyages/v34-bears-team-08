@@ -1,17 +1,17 @@
 <script context="module">
-  export function load() {
-    //{ session, fetch }
+  
+  export function load({ session, fetch }) {
     // we can use this for SSR
-    //if (!session?.token)
-      return {
-        headers: { Location: '/login' },
-        status: 302,
-      }
-
-    return {}
+    //!session?.token
+    if(false)
+    return {
+      redirect: '/login',
+      status: 302,
+    }
   }
 </script>
 
 <svelte:head>
   <title>Home</title>
 </svelte:head>
+

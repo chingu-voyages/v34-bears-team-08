@@ -3,6 +3,7 @@
   import Home from '@svicons/fa-solid/home.svelte'
   import Signout from '@svicons/fa-solid/sign-out-alt.svelte'
   import User from '@svicons/fa-solid/user-alt.svelte'
+  import Compass from '@svicons/fa-solid/compass.svelte'
 </script>
 
 <header class="h-16 bg-white border-b border-gray-primary mb-8">
@@ -27,7 +28,15 @@
               stroke="currentColor"
             />
           </a>
-
+          <a href="/explore" area-label="explore">
+            <Compass
+              class="w-8 mr-6 text-black-light cursor-pointer"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            />
+          </a>
           <button
             type="button"
             title="Sign Out"
