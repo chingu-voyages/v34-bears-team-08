@@ -8,8 +8,8 @@ export async function post({ body, headers: { authorization } }) {
 
   if (email && didToken) {
     try {
-      const validation = magic.token.validate(didToken)
       const [
+        _,
         metadata,
         {
           data: {
@@ -17,6 +17,7 @@ export async function post({ body, headers: { authorization } }) {
           },
         },
       ] = await Promise.all([
+        magic.token.validate(didToken), // throws error if failed
         magic.users.getMetadataByToken(didToken),
         mutation(
           gql`
@@ -33,8 +34,6 @@ export async function post({ body, headers: { authorization } }) {
           { email }
         ),
       ])
-
-      await validation // throws error if failed
 
       const authData = { token, exp, userInfo }
       // confirm details align with what client sent

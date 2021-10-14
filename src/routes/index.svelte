@@ -3,8 +3,7 @@
   import ProfileInfo from '$lib/components/ProfileInfo.svelte'
   export function load({ session, fetch }) {
     // we can use this for SSR
-    //!session?.token
-    if (false)
+    if (!session?.token)
       return {
         redirect: '/login',
         status: 302,
