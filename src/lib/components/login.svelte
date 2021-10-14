@@ -33,6 +33,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>{loginOrSignUp.type}</title>
+</svelte:head>
+
 <div class="container flex mx-auto max-w-screen-md items-center h-screen">
   <div class="flex w-3/5">
     <img src="/images/iphone.png" alt="iPhone with app on screen" />

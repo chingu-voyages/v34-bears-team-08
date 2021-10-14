@@ -23,7 +23,7 @@ let commentsSlice = 3;
         onClick={showNextComments}
         onKeyDown={(event) => {
           if (event.key === 'Enter') {
-           console.log('You pressed Enter')
+            console.log('You pressed Enter')
           }
         }}
       >
