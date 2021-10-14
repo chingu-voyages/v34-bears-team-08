@@ -1,5 +1,5 @@
 <script>
-  import Login from '$components/login.svelte'
+  import Login from '$lib/components/Login.svelte'
 </script>
 
 <div class="flex justify-center items-center h-full">

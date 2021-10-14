@@ -1,9 +1,9 @@
 <script>
     import Header from './Header.svelte';
-    import Image from './image.svelte';
-    import Actions from './actions.svelte';
-    import Footer from './footer.svelte';
-    import Comments from './comments.svelte';
+    import Image from './Image.svelte';
+    import Actions from './Actions.svelte';
+    import Footer from './Footer.svelte';
+    import Comments from './Comments.svelte';
 
     const  likes = [];
     const comments= [

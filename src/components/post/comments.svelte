@@ -1,6 +1,6 @@
 <script>
 import { login } from "$lib/stores/auth";
-import AddComments from "./add-comments.svelte";
+import AddComments from "./AddComments.svelte";
 
 export let comments;
 
