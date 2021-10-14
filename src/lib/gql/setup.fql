@@ -1,5 +1,5 @@
 // * Schema must be uploaded before running setup script!
-// * Please run blocks one at a time to prevent race conditions
+// * Please run blocks one at a time to prevent race conditions, or use `Do` to execute them in order.
 
 // Auth
 
