@@ -1,3 +1,8 @@
+<!-- @component 
+Load this component on either a flex row or column. 
+-->
+
+
 <div>I will be a photo</div>
 <div class="flex flex-col w-1/2">
     <h2 class="p-1">I will be a name</h2>

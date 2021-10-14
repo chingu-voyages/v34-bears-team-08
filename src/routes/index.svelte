@@ -19,7 +19,7 @@
 
 <Header />
 <div class="flex flex-row w-full justify-center">
-  <div class="flex flex-col w-1/2">
+  <div class="flex flex-col w-1/2 items-center">
     <div>This will be a post</div>
     <div>This will be a post</div>
     <div>This will be a post</div>
