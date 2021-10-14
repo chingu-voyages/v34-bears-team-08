@@ -1,14 +1,17 @@
 <script>
-
+function handleToggleLiked (){}
+let toggleLiked = true
+function handleFocus (){}
+let like = true
 </script>
 
-<div className="flex justify-between p-4">
-    <div className="flex">
+<div class="flex justify-between p-4">
+    <div class="flex">
       <svg
         onClick={handleToggleLiked}
         onKeyDown={(event) => {
           if (event.key === 'Enter') {
-            handleToggleLiked();
+            //handleToggleLiked();
           }
         }}
         xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +19,7 @@
         viewBox="0 0 24 24"
         stroke="currentColor"
         tabIndex={0}
-        className={`w-8 mr-4 select-none cursor-pointer focus:outline-none ${
+        class={`w-8 mr-4 select-none cursor-pointer focus:outline-none ${
           toggleLiked ? 'fill-red text-red-primary' : 'text-black-light'
         }`}
       >
@@ -31,10 +34,10 @@
         onClick={handleFocus}
         onKeyDown={(event) => {
           if (event.key === 'Enter') {
-            handleFocus();
+            //handleFocus();
           }
         }}
-        className="w-8 text-black-light select-none cursor-pointer focus:outline-none"
+        class="w-8 text-black-light select-none cursor-pointer focus:outline-none"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -50,6 +53,6 @@
       </svg>
     </div>
   </div>
-  <div className="p-4 py-0">
-    <p className="font-bold">{likes === 1 ? `${likes} like` : `${likes} likes`}</p>
+  <div class="p-4 py-0">
+    <p class="font-bold">{likes === 1 ? `${likes} like` : `${likes} likes`}</p>
   </div>
