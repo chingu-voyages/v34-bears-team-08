@@ -1,21 +1,20 @@
 <script>
-  import GitHubIcon from '@svicons/fa-brands/github.svelte'
-  import GitLabIcon from '@svicons/fa-brands/gitlab.svelte'
-  import BitBucketIcon from '@svicons/fa-brands/bitbucket.svelte'
+  import GitHub from '@svicons/fa-brands/github.svelte'
   import { oAuthLogin } from '$lib/utils/magic'
+  
 
   let error = false
-  let newUser = false
+  let onboard = false
 
   let loginOrSignUp = { type: 'Sign up', function: signUp }
 
   function toggleNewUser() {
-    newUser = !newUser
-    changeLoginOrSignUp()
+    onboard = !onboard
   }
 
-  function changeLoginOrSignUp() {
-    if (newUser) {
+  $: {
+    // reactively switch to login or sign up depending on state of onboard
+    if (onboard) {
       loginOrSignUp.type = 'Sign up'
       loginOrSignUp.function = signUp
     } else {
@@ -24,8 +23,6 @@
       loginOrSignUp.signUpBtn = ''
     }
   }
-
-  $: newUser = changeLoginOrSignUp()
 
   function signUp() {
     console.log('sign in')
@@ -57,38 +54,21 @@
           await oAuthLogin('github')
         }}
       >
-        {loginOrSignUp.type} with GitHub <GitHubIcon class="pl-4 text-3xl" width="1.5em" color="white" />
+        {loginOrSignUp.type} with GitHub <GitHub class="pl-4 text-3xl" width="1.5em" color="white" />
       </button>
-      <!--Buttons hidden for later
-      <button
-        class="bg-black-light text-white mb-4 flex flex-row text-black p-3 rounded-md hover:scale-100"
-        on:click={loginOrSignUp.function}
-      >
-        {loginOrSignUp.type} with BitBucket <BitBucketIcon class="pl-4 text-3xl" width="1.5em" color="white" />
-      </button>
-      <button
-        class="bg-black-light text-white flex flex-row text-black p-3 rounded-md hover:scale-100"
-        on:click={loginOrSignUp.function}
-      >
-        {loginOrSignUp.type} with GitLab <GitLabIcon class="pl-4 text-3xl" width="1.5em" color="white" />
-      </button> 
-      -->
     </div>
 
-    {#if !newUser}
-      <div class="flex justify-center items-center flex-col w-full bg-white p-4 rounded border border-gray-primary">
-        <p class="text-sm">
+    <div class="flex justify-center items-center flex-col w-full bg-white p-4 rounded border border-gray-primary">
+      <p class="text-sm">
+        {#if !onboard}
           Don't have an account?{` `}
-          <button on:click={toggleNewUser} class="font-bold text-blue-medium"> Sign up </button>
-        </p>
-      </div>
-    {:else}
-      <div class="flex justify-center items-center flex-col w-full bg-white p-4 rounded border border-gray-primary">
-        <p class="text-sm">
+        {:else}
           Already have an account?{` `}
-          <button on:click={toggleNewUser} class="font-bold text-blue-medium"> Login </button>
-        </p>
-      </div>
-    {/if}
+        {/if}
+        <button on:click={toggleNewUser} class="font-bold text-blue-medium">
+          {loginOrSignUp.type === 'Login' ? 'Sign up' : 'Login'}
+        </button>
+      </p>
+    </div>
   </div>
 </div>
