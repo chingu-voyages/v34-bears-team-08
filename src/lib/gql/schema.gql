@@ -6,11 +6,28 @@ type User {
   onboard: Boolean!
   following: [Follow] @relation(name: "following")
   followers: [Follow] @relation(name: "followers")
+  likes: [Photo] @relation
 }
 
 type Follow {
   user: User! @relation(name: "following")
   follows: User! @relation(name: "followers")
+}
+
+type Photo {
+  author: User!
+  src: String!
+  posted: Time!
+  caption: String
+  liked: [User] @relation
+  comments: [Comment] @relation
+}
+
+type Comment {
+  author: User!
+  photo: Photo!
+  text: String!
+  posted: Time!
 }
 
 type Mutation {
@@ -27,3 +44,5 @@ type LoginUserPayload @embedded {
 }
 
 # TODO: Add base types from adaptation
+# TODO: type query with follow and like counts for users and photos respectively.
+# easy implementation see FQL Count func: https://docs.fauna.com/fauna/current/api/fql/functions/count?lang=javascript
