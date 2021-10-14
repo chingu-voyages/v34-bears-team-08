@@ -20,15 +20,16 @@ Update(Function('login_user'), {
             Select(
               'ref',
               Create(Collection('User'), {
-                data: Merge(Var('input'), { newUser: true, dateCreated: Now() }),
+                // ⚙ User creation defaults
+                data: Merge(Var('input'), { onboard: true, created: Now() }),
               })
             )
           ),
           tokenDoc: Create(Tokens(), {
             instance: Var('userRef'),
-            // ⚙ Adjust access token expiry here
+            // ⚙ Access token expiry
             // ? Need a shorter active token expiry? Typically secure apps go 10m/20m/1hr, if user data security
-            ttl: TimeAdd(Now(), 30, 'days'), // doesn't matter in your app, you can increase the access token duration.
+            ttl: TimeAdd(Now(), 30, 'days'), //? doesn't matter in your app, you can increase the access token duration.
           }),
         },
         {
