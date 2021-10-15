@@ -30,6 +30,16 @@ type Comment {
   posted: Time!
 }
 
+type Query {
+  getTimeline: [PhotoItem]! @resolver(name: "get_timeline", paginated: true)
+  getExplore: [PhotoItem]! @resolver(name: "get_explore", paginated: true)
+}
+
+type PhotoItem @embedded {
+  photo: Photo!
+  likeCount: Int!
+}
+
 type Mutation {
   loginUser(input: LoginUserInput!): LoginUserPayload! @resolver(name: "login_user")
 }

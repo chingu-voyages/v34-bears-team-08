@@ -42,7 +42,8 @@ Update(Function('login_user'), {
   ),
 })
 
-// Internal index that returns who the user is following rather than the Follow doc by auto-generated FQL by SDL
+// Internal index that returns who the user is following rather than the Follow doc by auto-generated FQL via SDL
+// This is almost always the desired behavior when searching for all the people the user follows.
 CreateIndex({
   name: '_following_by_user',
   unique: false,
@@ -58,4 +59,59 @@ CreateIndex({
       field: ['data', 'follows'],
     },
   ],
+})
+
+// ? If reusable code desired, can abstract this UDF into a more general UDF that takes the size, after, before, & `match` as a variable and invoke it.
+Update(Function('get_timeline'), {
+  body: Query(
+    Lambda(
+      ['size', 'after', 'before'],
+      Let(
+        {
+          match: Reverse(Join(Match(Index('_following_by_user'), Identity()), Index('photo_author_by_user'))),
+          page: If(
+            Equals(Var('before'), null),
+            If(
+              Equals(Var('after'), null),
+              Paginate(Var('match'), { size: Var('size') }),
+              Paginate(Var('match'), { size: Var('size'), after: Var('after') })
+            ),
+            Paginate(Var('match'), { size: Var('size'), before: Var('before') })
+          ),
+        },
+        Map(
+          Var('page'),
+          // Lambdas take an expression to return as second arg, in this case we're creating an obj as the expression
+          Lambda('ref', { photo: Var('ref'), likeCount: Count(Match(Index('photo_liked_by_photo'), Var('ref'))) })
+        )
+      )
+    )
+  ),
+})
+
+// Basically same UDF as get_timeline, but with a match on the entire Photo collection, reversed.
+Update(Function('get_explore'), {
+  body: Query(
+    Lambda(
+      ['size', 'after', 'before'],
+      Let(
+        {
+          match: Reverse(Documents(Collection('Photo'))),
+          page: If(
+            Equals(Var('before'), null),
+            If(
+              Equals(Var('after'), null),
+              Paginate(Var('match'), { size: Var('size') }),
+              Paginate(Var('match'), { size: Var('size'), after: Var('after') })
+            ),
+            Paginate(Var('match'), { size: Var('size'), before: Var('before') })
+          ),
+        },
+        Map(
+          Var('page'),
+          Lambda('ref', { photo: Var('ref'), likeCount: Count(Match(Index('photo_liked_by_photo'), Var('ref'))) })
+        )
+      )
+    )
+  ),
 })
