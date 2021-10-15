@@ -41,3 +41,21 @@ Update(Function('login_user'), {
     )
   ),
 })
+
+// Internal index that returns who the user is following rather than the Follow doc by auto-generated FQL by SDL
+CreateIndex({
+  name: '_following_by_user',
+  unique: false,
+  serialized: true,
+  source: Collection('Follow'),
+  terms: [
+    {
+      field: ['data', 'user'],
+    },
+  ],
+  values: [
+    {
+      field: ['data', 'follows'],
+    },
+  ],
+})
