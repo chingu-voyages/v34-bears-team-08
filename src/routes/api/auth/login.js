@@ -27,6 +27,7 @@ export async function post({ body, headers: { authorization } }) {
                 exp
                 userInfo {
                   email
+                  onboard
                 }
               }
             }
