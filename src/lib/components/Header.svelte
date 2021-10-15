@@ -1,5 +1,5 @@
 <script>
-  import { isAuthenticated } from '$lib/stores/auth'
+  import { isAuthenticated, logout } from '$lib/stores/auth'
   import Home from '@svicons/fa-solid/home.svelte'
   import Signout from '@svicons/fa-solid/sign-out-alt.svelte'
   import User from '@svicons/fa-solid/user-alt.svelte'
@@ -19,7 +19,7 @@
       <div class="text-gray-700 text-center flex items-center align-items">
         <!--This conditional will be replaced with isAuthenticated-->
         {#if true}
-          <a href="/dashboard" aria-label="Dashboard">
+          <a href="/" aria-label="Timeline">
             <Home
               class="w-8 mr-6 text-black-light cursor-pointer"
               xmlns="http://www.w3.org/2000/svg"
@@ -40,16 +40,8 @@
           <button
             type="button"
             title="Sign Out"
-            onClick={() => {
-              /*  
-                  firebase.auth().signOut();
-                  history.push(ROUTES.LOGIN);
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') {
-                    firebase.auth().signOut();
-                    history.push(ROUTES.LOGIN);
-                  }*/
+            on:click={() => {
+              logout()
             }}
           >
             <Signout

@@ -1,6 +1,7 @@
 <script context="module">
   import Header from '$lib/components/Header.svelte'
   import ProfileInfo from '$lib/components/ProfileInfo.svelte'
+  import NoPosts from '$lib/components/NoPosts.svelte';
   export function load({ session, fetch }) {
     // we can use this for SSR
     if (!session?.token)
@@ -9,6 +10,8 @@
         status: 302,
       }
     return {}
+
+    
   }
 </script>
 
