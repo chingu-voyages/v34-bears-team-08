@@ -1,6 +1,5 @@
 <!-- OAuth2 callback route -->
 <script>
-  import { goto } from '$app/navigation'
   import Loader from '$lib/components/Loader.svelte'
   import { verify } from '$lib/stores/auth'
   import { magic } from '$lib/utils/magic'
@@ -16,10 +15,9 @@
     } */
     const res = await magic.oauth.getRedirectResult()
     await verify({ email: res.magic?.userMetadata.email, idToken: res.magic?.idToken })
-    // TODO: If this isn't causing a redirect that reloads __layout, then we need to just use the native location API.
     loading = false
     location.pathname = '/'
-    // ? Deal with possible errors? Try doing this on error? goto('/login')
+    // ? Deal with possible errors? Redirect to login on error? goto('/login')
   })
 </script>
 
