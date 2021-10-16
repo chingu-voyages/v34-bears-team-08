@@ -20,7 +20,7 @@
         {#if true}
           <a href="/" aria-label="Timeline">
             <Home
-              class="w-8 mr-6 text-black-light cursor-pointer"
+              class="w-6 mr-6 text-black-light cursor-pointer"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -29,7 +29,7 @@
           </a>
           <a href="/explore" area-label="explore">
             <Compass
-              class="w-8 mr-6 text-black-light cursor-pointer"
+              class="w-5 mr-6 text-black-light cursor-pointer"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -44,7 +44,7 @@
             }}
           >
             <Signout
-              class="w-8 mr-6 text-black-light cursor-pointer"
+              class="w-6 mr-6 text-black-light cursor-pointer"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -57,7 +57,7 @@
             <div class="flex items-center cursor-pointer">
               <a href="/{username}"
                 ><User
-                  class="w-8 mr-6 text-black-light cursor-pointer"
+                  class="w-5 mr-6 text-black-light cursor-pointer"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
