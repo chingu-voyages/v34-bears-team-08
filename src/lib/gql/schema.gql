@@ -7,6 +7,8 @@ type User {
   following: [Follow] @relation(name: "following")
   followers: [Follow] @relation(name: "followers")
   likes: [Photo] @relation
+  bio: String 
+  headline: String
 }
 
 type Follow {
@@ -20,6 +22,7 @@ type Photo {
   posted: Time!
   caption: String
   liked: [User] @relation
+  likeCount: Int
   comments: [Comment] @relation
 }
 
@@ -42,6 +45,7 @@ type PhotoItem @embedded {
 
 type Mutation {
   loginUser(input: LoginUserInput!): LoginUserPayload! @resolver(name: "login_user")
+  likePhoto(input: LikePhotoInput!): Photo! @resolver(name: "like_photo")
 }
 
 input LoginUserInput {
@@ -51,6 +55,10 @@ type LoginUserPayload @embedded {
   token: String!
   exp: Time!
   userInfo: User!
+}
+
+input LikePhotoInput {
+  like: Boolean!
 }
 
 # TODO: Add base types from adaptation
