@@ -28,6 +28,7 @@ export async function post({ body, headers: { authorization } }) {
                 userInfo {
                   email
                   onboard
+                  _id
                 }
               }
             }
