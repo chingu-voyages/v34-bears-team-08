@@ -81,5 +81,5 @@ export async function logout() {
   await apiReq.get('/auth/logout')
   auth.set(initAuth)
   await mLogoutProm
-  goto('/login')
+  location.pathname = '/login'
 }

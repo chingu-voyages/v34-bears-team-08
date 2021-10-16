@@ -18,7 +18,7 @@
     await verify({ email: res.magic?.userMetadata.email, idToken: res.magic?.idToken })
     // TODO: If this isn't causing a redirect that reloads __layout, then we need to just use the native location API.
     loading = false
-    goto('/', { replaceState: true })
+    location.pathname = '/'
     // ? Deal with possible errors? Try doing this on error? goto('/login')
   })
 </script>
