@@ -1,6 +1,6 @@
 <!-- ? Do we want a load func to redirect if already onboarded? -->
 <script>
-  import { auth, verify } from '$lib/stores/auth'
+  import { auth, dbLogout, verify } from '$lib/stores/auth'
   import { UpdateOnboard } from '$lib/gql/UpdateOnboard'
 
   const execUpdateOnboard = UpdateOnboard()
@@ -11,6 +11,7 @@
     await execUpdateOnboard({ username, fullName, bio, headline, id: $auth.userInfo?._id })
     // ? Do we want to deal with errors? $UpdateOnboard.error
     await verify()
+    dbLogout()
     location.pathname = '/'
   }
 

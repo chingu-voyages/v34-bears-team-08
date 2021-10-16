@@ -77,23 +77,28 @@ export async function verify({ email = get(auth).userInfo?.email, idToken = null
 }
 
 /** Remove token and log out of Magic, then go to login page */
-export async function logout(allDevices = false) {
-  const client = getCurClient()
+export async function logout(allDevices) {
   await Promise.all([
     createMagic().then((m) => m.user.logout()), // logout from magic
     apiReq.get('/auth/logout'), // clear cookies
-    // logout token from DB
-    client
-      ?.mutation(
-        gql`
-          mutation LogoutUser($allDevices: Boolean!) {
-            result: logoutUser(input: { allDevices: $allDevices })
-          }
-        `,
-        { allDevices }
-      )
-      .toPromise(),
+    dbLogout(allDevices), // logout token from DB
   ])
   auth.set(initAuth)
   location.pathname = '/login'
+}
+
+/** Only for clearing tokens from DB. Doesn't modify app's auth state */
+export async function dbLogout(allDevices = false) {
+  const client = getCurClient()
+  if (!get(auth)?.token || !client) return // no token == no point of DB logout
+  return await client
+    .mutation(
+      gql`
+        mutation LogoutUser($allDevices: Boolean!) {
+          result: logoutUser(input: { allDevices: $allDevices })
+        }
+      `,
+      { allDevices }
+    )
+    .toPromise()
 }
