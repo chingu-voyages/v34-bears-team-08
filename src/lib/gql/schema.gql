@@ -73,6 +73,4 @@ input FollowUserInput {
   value: Boolean!
 }
 
-# TODO: Add base types from adaptation
-# TODO: type query with follow and like counts for users and photos respectively.
-# easy implementation see FQL Count func: https://docs.fauna.com/fauna/current/api/fql/functions/count?lang=javascript
+# TODO: Check base types from adaptation have all been added to schema
