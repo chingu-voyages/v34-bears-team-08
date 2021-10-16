@@ -42,6 +42,10 @@ Update(Function('login_user'), {
   ),
 })
 
+Update(Function('logout_user'), {
+  body: Query(Lambda(['input'], Logout(Select('allDevices', Var('input'))))),
+})
+
 // Internal index that returns who the user is following rather than the Follow doc by auto-generated FQL via SDL
 // This is almost always the desired behavior when searching for all the people the user follows.
 CreateIndex({
@@ -69,20 +73,16 @@ Update(Function('get_timeline'), {
       Let(
         {
           match: Reverse(Join(Match(Index('_following_by_user'), Identity()), Index('photo_author_by_user'))),
-          page: If(
-            Equals(Var('before'), null),
-            If(
-              Equals(Var('after'), null),
-              Paginate(Var('match'), { size: Var('size') }),
-              Paginate(Var('match'), { size: Var('size'), after: Var('after') })
-            ),
-            Paginate(Var('match'), { size: Var('size'), before: Var('before') })
-          ),
         },
-        Map(
-          Var('page'),
-          // Lambdas take an expression to return as second arg, in this case we're creating an obj as the expression
-          Lambda('ref', { photo: Var('ref'), likeCount: Count(Match(Index('photo_liked_by_photo'), Var('ref'))) })
+        // Return page based on supplied pagination args
+        If(
+          Equals(Var('before'), null),
+          If(
+            Equals(Var('after'), null),
+            Paginate(Var('match'), { size: Var('size') }),
+            Paginate(Var('match'), { size: Var('size'), after: Var('after') })
+          ),
+          Paginate(Var('match'), { size: Var('size'), before: Var('before') })
         )
       )
     )
@@ -97,19 +97,99 @@ Update(Function('get_explore'), {
       Let(
         {
           match: Reverse(Documents(Collection('Photo'))),
-          page: If(
-            Equals(Var('before'), null),
-            If(
-              Equals(Var('after'), null),
-              Paginate(Var('match'), { size: Var('size') }),
-              Paginate(Var('match'), { size: Var('size'), after: Var('after') })
-            ),
-            Paginate(Var('match'), { size: Var('size'), before: Var('before') })
-          ),
         },
-        Map(
-          Var('page'),
-          Lambda('ref', { photo: Var('ref'), likeCount: Count(Match(Index('photo_liked_by_photo'), Var('ref'))) })
+        If(
+          Equals(Var('before'), null),
+          If(
+            Equals(Var('after'), null),
+            Paginate(Var('match'), { size: Var('size') }),
+            Paginate(Var('match'), { size: Var('size'), after: Var('after') })
+          ),
+          Paginate(Var('match'), { size: Var('size'), before: Var('before') })
+        )
+      )
+    )
+  ),
+})
+
+Update(Function('like_photo'), {
+  body: Query(
+    Lambda(
+      'input',
+      Let(
+        {
+          photoRef: Ref(Collection('Photo'), Select('photoID', Var('input'))),
+          likedMatch: Match(Index('photo_liked_by_photo_and_user'), [Var('photoRef'), Identity()]),
+        },
+        Do(
+          // Create likes
+          If(
+            Select('value', Var('input')),
+            // like
+            If(
+              Exists(Var('likedMatch')),
+              null,
+              Create(Collection('photo_liked'), {
+                data: {
+                  userID: Identity(),
+                  photoID: Var('photoRef'),
+                },
+              })
+            ),
+            // unlike
+            If(Exists(Var('likedMatch')), Delete(Select('ref', Get(Var('likedMatch')))), null)
+          ),
+          // Update likeCount on photo
+          Update(Var('photoRef'), {
+            data: { likeCount: Count(Match(Index('photo_liked_by_photo'), Var('photoRef'))) },
+          })
+        )
+      )
+    )
+  ),
+})
+
+Update(Function('follow_user'), {
+  body: Query(
+    Lambda(
+      'input',
+      Let(
+        {
+          userRef: Ref(Collection('User'), Select('userID', Var('input'))),
+          // all the users the user is following
+          followingMatch: Match(Index('following_by_user'), Identity()),
+          // all users following who the user is trying to follow
+          followersMatch: Match(Index('followers_by_user'), Var('userRef')),
+          // check if the user is already following, however we're not creating a new index with multiple match terms
+          followMatch: Intersection(Var('followingMatch'), Var('followersMatch')),
+        },
+        Do(
+          // Create Follow doc
+          If(
+            Select('value', Var('input')),
+            // follow
+            If(
+              Exists(Var('followMatch')),
+              null,
+              Create(Collection('Follow'), {
+                data: {
+                  user: Identity(),
+                  follows: Var('userRef'),
+                },
+              })
+            ),
+            // unfollow
+            If(Exists(Var('followMatch')), Delete(Select('ref', Get(Var('followMatch')))), null)
+          ),
+          // Update followerCount and followingCount on both user and who they're following
+          Do(
+            Update(Identity(), {
+              data: { followingCount: Count(Var('followingMatch')) },
+            }),
+            Update(Var('userRef'), {
+              data: { followerCount: Count(Var('followersMatch')) },
+            })
+          )
         )
       )
     )
