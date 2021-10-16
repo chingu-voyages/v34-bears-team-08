@@ -18,9 +18,6 @@
     let id = e.target.id
     userInput = { ...userInput, [id]: value }
   }
-
-  //$: error = $updateOnboard.error
-  //$: $updateOnboard.data
 </script>
 
 <div class="flex flex-row w-full justify-center h-screen items-center ">
@@ -30,7 +27,7 @@
     <label class="my-2" for="username">Username:</label>
     <input
       class="text-black-light"
-      on:change|self={setInput}
+      on:change={setInput}
       type="text"
       name="username"
       id="username"
@@ -50,7 +47,7 @@
     <label class="my-2" for="bio">Bio:</label>
     <input
       class="text-black-light"
-      on:change|self={setInput}
+      on:change={setInput}
       type="text"
       name="bio"
       id="bio"
@@ -60,7 +57,7 @@
     <label class="my-2 " for="headline">Title:</label>
     <input
       class="text-black-light"
-      on:change|self={setInput}
+      on:change={setInput}
       type="text"
       name="headline"
       id="headline"
