@@ -1,34 +1,14 @@
 <script>
-  import { mutationOp } from '$lib/gql/urql'
   import { auth, verify } from '$lib/stores/auth'
-  import { gql } from '@urql/core'
-  import { introspectionTypes } from 'graphql'
+  import { UpdateOnboard } from '$lib/gql/UpdateOnboard'
   auth
-  const OnboardStore = mutationOp(gql`
-    mutation UpdateProfile(
-      $username: String!, 
-      $fullName: String, 
-      $bio: String, 
-      $headline:String, 
-      $id: ID! = ${$auth.userInfo?._id}) {
-      result: partialUpdateUser(id: $id, data: { 
-        onboard: false, 
-        username: $username, 
-        fullName: $fullName,
-        bio: $bio
-        headline:$headline
-      }) {
-        _id
-      }
-    }
-  `)
 
-  const UpdateOnboard = OnboardStore()
+  const updateOnboard = UpdateOnboard()
 
   let userInput = { username: '', fullName: '', bio: '', headline: '' }
   async function submitHandler() {
     const { username, fullName, bio, headline } = userInput
-    UpdateOnboard({ username, fullName, bio, headline, id: $auth.userInfo?._id })
+    updateOnboard({ username, fullName, bio, headline, id: $auth.userInfo?._id })
     await verify()
     location.pathname= "/"
   }
@@ -39,8 +19,8 @@
     userInput = { ...userInput, [id]: value }
   }
 
-  $: error = $OnboardStore.error
-  $: $OnboardStore.data
+  //$: error = $updateOnboard.error
+  //$: $updateOnboard.data
 </script>
 
 <div class="flex flex-row w-full justify-center h-screen items-center ">
@@ -91,7 +71,5 @@
     <p class="mt-3 self-center text-gray-500">Thanks for signing up!</p>
   </form>
 
-  {#if error}
-  <div>{error}</div>
-  {/if}
+
 </div>
