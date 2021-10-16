@@ -7,7 +7,7 @@ type User {
   following: [Follow] @relation(name: "following")
   followers: [Follow] @relation(name: "followers")
   likes: [Photo] @relation
-  bio: String 
+  bio: String
   headline: String
 }
 
@@ -58,7 +58,8 @@ type LoginUserPayload @embedded {
 }
 
 input LikePhotoInput {
-  like: Boolean!
+  photoID: ID!
+  value: Boolean!
 }
 
 # TODO: Add base types from adaptation
