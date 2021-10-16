@@ -12,7 +12,7 @@
     <div class="flex justify-between h-full">
       <div class="text-gray-700 text-center flex items-center align-items cursor-pointer">
         <h1 class="flex justify-center w-full">
-          <a href="/" class="logo text-[2.6rem]" aria-label="Home">DEVVY</a>
+          <a href="/" class="logo text-3xl" aria-label="Home">DEVVY</a>
         </h1>
       </div>
       <div class="text-gray-700 text-center flex items-center align-items">
