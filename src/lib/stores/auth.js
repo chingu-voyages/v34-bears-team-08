@@ -1,5 +1,6 @@
-import { goto } from '$app/navigation'
 import { derived, get, writable } from 'svelte/store'
+import { getCurClient } from '$lib/gql/urql'
+import { gql } from '@urql/svelte'
 
 const initAuth = { token: null, exp: null, userInfo: {} }
 export const auth = writable(initAuth)
@@ -76,10 +77,23 @@ export async function verify({ email = get(auth).userInfo?.email, idToken = null
 }
 
 /** Remove token and log out of Magic, then go to login page */
-export async function logout() {
-  const mLogoutProm = createMagic().then((m) => m.user.logout())
-  await apiReq.get('/auth/logout')
+export async function logout(allDevices = false) {
+  const client = getCurClient()
+  await Promise.all([
+    createMagic().then((m) => m.user.logout()), // logout from magic
+    apiReq.get('/auth/logout'), // clear cookies
+    // logout token from DB
+    client
+      ?.mutation(
+        gql`
+          mutation LogoutUser($allDevices: Boolean!) {
+            result: logoutUser(input: { allDevices: $allDevices })
+          }
+        `,
+        { allDevices }
+      )
+      .toPromise(),
+  ])
   auth.set(initAuth)
-  await mLogoutProm
   location.pathname = '/login'
 }

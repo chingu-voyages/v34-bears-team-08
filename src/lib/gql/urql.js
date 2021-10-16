@@ -18,6 +18,7 @@ import { get } from 'svelte/store'
 // Used to track if the client has been initialized, which will only happen when components are mounting, after all load functions have run.
 // If it is initialized, it'll be used as the client for `loadQueries()` to query with.
 let curClient = null
+export const getCurClient = () => curClient
 
 const clientSsr = ssrExchange({ isClient: true })
 // TODO: See other TODO about extractData. We need this to make sure that we're not calling restoreData after initial restore
@@ -166,4 +167,3 @@ const opFn =
 export const queryOp = opFn(query)
 /** Mutation Operation Store: Creates a mutation function store from a gql query */
 export const mutationOp = opFn(mutation)
-
