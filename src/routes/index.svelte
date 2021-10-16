@@ -20,8 +20,6 @@
   import Header from '$lib/components/Header.svelte'
   import ProfileInfo from '$lib/components/ProfileInfo.svelte'
   import NoPosts from '$lib/components/NoPosts.svelte'
-  import { queryOp } from '$lib/gql/urql'
-  import { gql } from '@urql/core'
   import { auth } from '$lib/stores/auth'
   auth
 

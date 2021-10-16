@@ -1,5 +1,5 @@
 import { mutationOp } from '$lib/gql/urql'
-import { gql } from '@urql/core'
+import { gql } from '@urql/svelte'
 export const UpdateOnboard = mutationOp(gql`
  mutation UpdateProfile(
    $username: String!, 
