@@ -1,18 +1,20 @@
 <script context="module">
 
 export function load (){
-    console.log("load function")
+    return {}
 }
 
 </script>
 
 <script>
     import Header from '$lib/components/Header.svelte'
+    import ProfileInfo from '$lib/components/ProfileInfo.svelte';
 </script>
   
   <Header />
   <div class="flex flex-col items-center h-screen mt-10">
     <div class="flex flex-row justify-between w-3/5">
+        <ProfileInfo/>
     </div>
     <div class="flex flex-wrap justify-between w-3/5">
       <div class="placeholder mt-10" />

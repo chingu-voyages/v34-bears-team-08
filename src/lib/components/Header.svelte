@@ -57,7 +57,7 @@
           {#if true}
             <!--The <User/> icon is a placeholder for where the user img will go-->
             <div class="flex items-center cursor-pointer">
-              <a href={`/${username}`}
+              <a href='/{username}'
                 ><User
                   class="w-8 mr-6 text-black-light cursor-pointer"
                   xmlns="http://www.w3.org/2000/svg"

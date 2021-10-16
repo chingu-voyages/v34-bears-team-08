@@ -3,12 +3,12 @@
   import { UpdateOnboard } from '$lib/gql/UpdateOnboard'
   auth
 
-  const updateOnboard = UpdateOnboard()
+  const execUpdateOnboard = UpdateOnboard()
 
   let userInput = { username: '', fullName: '', bio: '', headline: '' }
   async function submitHandler() {
     const { username, fullName, bio, headline } = userInput
-    updateOnboard({ username, fullName, bio, headline, id: $auth.userInfo?._id })
+    execUpdateOnboard({ username, fullName, bio, headline, id: $auth.userInfo?._id })
     await verify()
     location.pathname= "/"
   }
