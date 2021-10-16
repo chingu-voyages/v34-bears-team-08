@@ -29,17 +29,17 @@
 </script>
 
 <svelte:head>
-  <title>Home</title>
+  <title>Devvy - Timeline</title>
 </svelte:head>
 
-  <Header />
-  <div class="flex flex-row w-full justify-center">
-    <div class="flex flex-col w-1/2 items-center">
-      <div>This will be a post</div>
-      <div>This will be a post</div>
-      <div>This will be a post</div>
-    </div>
-    <div class="flex flex-col w-1/5">
-      <ProfileInfo />
-    </div>
+<Header />
+<div class="flex flex-row w-full justify-center">
+  <div class="flex flex-col w-1/2 items-center">
+    <div>This will be a post</div>
+    <div>This will be a post</div>
+    <div>This will be a post</div>
   </div>
+  <div class="flex flex-col w-1/5">
+    <ProfileInfo />
+  </div>
+</div>
