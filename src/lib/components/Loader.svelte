@@ -1,8 +1,12 @@
 <!-- @component
 Import this loader where ever a loader is needed
   The loader is always in motion, display it conditionally-->
+<script>
+  export { className as class }
+  var className = ''
+</script>
 
-<div class="lds-ring">
+<div class="lds-ring {className}">
   <div />
   <div />
   <div />
