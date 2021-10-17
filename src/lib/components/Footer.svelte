@@ -19,6 +19,6 @@ const footerLinks = [
 
 <style>
     footer{
-        
+
     }
 </style>

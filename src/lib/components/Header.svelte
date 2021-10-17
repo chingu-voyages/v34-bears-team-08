@@ -4,7 +4,8 @@
   import Signout from '@svicons/fa-solid/sign-out-alt.svelte'
   import User from '@svicons/fa-solid/user-alt.svelte'
   import Compass from '@svicons/fa-solid/compass.svelte'
-  let username = $auth.userInfo?.username
+  let username = $auth.userInfo?.username;
+  console.log($isAuthenticated)
 </script>
 
 <header class="px-4 h-16 bg-white border-b border-gray-primary mb-8">
@@ -16,8 +17,7 @@
         </h1>
       </div>
       <div class="text-gray-700 text-center flex items-center align-items">
-        <!--This conditional will be replaced with isAuthenticated-->
-        {#if true}
+        {#if $isAuthenticated}
           <a href="/" aria-label="Timeline">
             <Home
               class="w-6 mr-6 text-black-light cursor-pointer"
@@ -52,7 +52,7 @@
             />
           </button>
           <!--This conditional will be replaced with some user data containing a user image (avatar)-->
-           {#if true}
+           {#if $isAuthenticated}
             <!--The <User/> icon is a placeholder for where the user img will go-->
             <div class="flex items-center cursor-pointer">
               <a href="/{username}"
