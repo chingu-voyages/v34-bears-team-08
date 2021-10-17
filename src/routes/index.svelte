@@ -17,7 +17,6 @@
 </script>
 
 <script>
-  import Header from '$lib/components/Header.svelte'
   import ProfileInfo from '$lib/components/ProfileInfo.svelte'
   import NoPosts from '$lib/components/NoPosts.svelte'
   import { auth } from '$lib/stores/auth'
@@ -32,7 +31,7 @@
   <title>Devvy - Timeline</title>
 </svelte:head>
 
-<Header />
+
 <div class="flex flex-row w-full justify-center">
   <div class="flex flex-col w-1/2 items-center">
     <div>This will be a post</div>

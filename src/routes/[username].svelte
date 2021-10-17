@@ -7,11 +7,9 @@ export function load (){
 </script>
 
 <script>
-    import Header from '$lib/components/Header.svelte'
     import ProfileInfo from '$lib/components/ProfileInfo.svelte';
 </script>
   
-  <Header />
   <div class="flex flex-col items-center h-screen mt-10">
     <div class="flex flex-row justify-between w-3/5">
         <ProfileInfo/>

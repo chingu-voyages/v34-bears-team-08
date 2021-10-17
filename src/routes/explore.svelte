@@ -1,10 +1,5 @@
-<script>
-  import Header from '$lib/components/header.svelte'
-</script>
-
-<Header />
 <div class="w-full flex flex-row justify-center">
-  <div class="flex flex-wrap justify-between w-4/5">
+  <div class="flex flex-wrap justify-between px-5">
     <div class="placeholder mt-10" />
     <div class="placeholder mt-10" />
     <div class="placeholder mt-10" />

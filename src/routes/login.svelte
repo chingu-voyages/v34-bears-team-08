@@ -36,16 +36,16 @@
   <title>{loginOrSignUp.type}</title>
 </svelte:head>
 <div class="flex justify-center items-center h-full">
-  <div class="container flex mx-auto max-w-screen-md items-center h-screen">
+  <div class="container flex mx-auto max-w-screen-md items-center h-screen px-3">
     <div class="flex w-3/5">
-      <img src="/images/iphone.png" alt="iPhone with app on screen" />
+      <img class="max-h-full" src="/images/iphone.png" alt="iPhone with app on screen" />
     </div>
     <div class="flex flex-col w-3/5">
       <div class="flex flex-col items-center bg-white p-4 border border-gray-primary mb-4 rounded">
         <h1 class="flex justify-center w-full">
           <img src="/images/devvy-01.png" alt="Placeholder" class="mt-2 w-3/4" />
         </h1>
-
+        
         {#if error} <p class="mb-4 text-xs text-red-primary">{error}</p> {/if}
       </div>
 

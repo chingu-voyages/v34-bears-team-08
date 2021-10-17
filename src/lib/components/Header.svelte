@@ -52,7 +52,7 @@
             />
           </button>
           <!--This conditional will be replaced with some user data containing a user image (avatar)-->
-          {#if true}
+           {#if true}
             <!--The <User/> icon is a placeholder for where the user img will go-->
             <div class="flex items-center cursor-pointer">
               <a href="/{username}"
