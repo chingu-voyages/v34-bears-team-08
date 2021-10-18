@@ -8,6 +8,10 @@ export function load (){
 
 <script>
     import ProfileInfo from '$lib/components/ProfileInfo.svelte';
+
+    
+
+
 </script>
   
   <div class="flex flex-col items-center h-screen mt-10">

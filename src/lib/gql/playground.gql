@@ -4,15 +4,26 @@ mutation {
   }
 }
 
-
 mutation {
   createPhoto(
     data: {
-      author:{ connect:  "312744115794084416" }
+      author: { connect: "312744115794084416" }
       src: "https://picsum.photos/200"
       posted: "2011-10-05T14:48:00.000Z"
     }
-  ){
-    author{email}
+  ) {
+    author {
+      email
+    }
+  }
+}
+
+query {
+  findUserByID(id: "312756914412847682") {
+    photos {
+      data {
+        _id
+      }
+    }
   }
 }

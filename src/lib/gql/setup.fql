@@ -118,7 +118,7 @@ Update(Function('get_profile_photos'), {
       ['id', 'size', 'after', 'before'],
       Let(
         {
-          match: Reverse(Match(Index('user_photos_by_user'), Var('id'))),
+          match: Reverse(Match(Index('user_photos_by_user'), Ref(Collection('User'), Var('id')))),
         },
         If(
           Equals(Var('before'), null),
