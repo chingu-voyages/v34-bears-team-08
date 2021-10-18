@@ -37,13 +37,9 @@ type Comment {
 }
 
 type Query {
-  getTimeline: [PhotoItem]! @resolver(name: "get_timeline", paginated: true)
-  getExplore: [PhotoItem]! @resolver(name: "get_explore", paginated: true)
-}
-
-type PhotoItem @embedded {
-  photo: Photo!
-  likeCount: Int!
+  getTimeline: [Photo]! @resolver(name: "get_timeline", paginated: true)
+  getExplore: [Photo]! @resolver(name: "get_explore", paginated: true)
+  getProfilePhotos(id: ID!): [Photo]! @resolver(name: "get_profile_photos", paginated: true)
 }
 
 type Mutation {

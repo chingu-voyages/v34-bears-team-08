@@ -112,6 +112,28 @@ Update(Function('get_explore'), {
   ),
 })
 
+Update(Function('get_profile_photos'), {
+  body: Query(
+    Lambda(
+      ['size', 'after', 'before', 'id'],
+      Let(
+        {
+          match: Reverse(Match(Index('user_photos_by_user'), Var('id'))),
+        },
+        If(
+          Equals(Var('before'), null),
+          If(
+            Equals(Var('after'), null),
+            Paginate(Var('match'), { size: Var('size') }),
+            Paginate(Var('match'), { size: Var('size'), after: Var('after') })
+          ),
+          Paginate(Var('match'), { size: Var('size'), before: Var('before') })
+        )
+      )
+    )
+  ),
+})
+
 Update(Function('like_photo'), {
   body: Query(
     Lambda(
