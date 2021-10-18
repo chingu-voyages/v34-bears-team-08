@@ -5,23 +5,24 @@
   import User from '@svicons/fa-solid/user-alt.svelte'
   import Compass from '@svicons/fa-solid/compass.svelte'
   import Logo from '$components/Logo.svelte'
-  let username = $auth.userInfo?.username;
+  let username = $auth.userInfo?.username,
+    disableLogout = false
   console.log($isAuthenticated)
 </script>
 
 <header class="px-4 h-16 bg-white border-b border-gray-primary mb-8">
   <div class="container mx-auto max-w-screen-lg h-full">
     <div class="flex justify-between h-full">
-      <div class="text-gray-700 text-center flex items-center align-items cursor-pointer">
+      <div class="text-gray-700 text-center flex items-center align-items">
         <h1 class="flex justify-center w-full">
-          <Logo/>
+          <Logo />
         </h1>
       </div>
       <div class="text-gray-700 text-center flex items-center align-items">
         {#if $isAuthenticated}
           <a href="/" aria-label="Timeline">
             <Home
-              class="w-6 mr-6 text-black-light cursor-pointer"
+              class="w-6 mr-6 text-black-light"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -30,7 +31,7 @@
           </a>
           <a href="/explore" area-label="explore">
             <Compass
-              class="w-5 mr-6 text-black-light cursor-pointer"
+              class="w-5 mr-6 text-black-light"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -40,12 +41,14 @@
           <button
             type="button"
             title="Sign Out"
+            disabled={disableLogout}
             on:click={() => {
+              disableLogout = true
               logout()
             }}
           >
             <Signout
-              class="w-6 mr-6 text-black-light cursor-pointer"
+              class="w-6 mr-6 text-black-light"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -53,12 +56,12 @@
             />
           </button>
           <!--This conditional will be replaced with some user data containing a user image (avatar)-->
-           {#if $isAuthenticated}
+          {#if $isAuthenticated}
             <!--The <User/> icon is a placeholder for where the user img will go-->
-            <div class="flex items-center cursor-pointer">
+            <div class="flex items-center">
               <a href="/{username}"
                 ><User
-                  class="w-5 mr-6 text-black-light cursor-pointer"
+                  class="w-5 mr-6 text-black-light"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
