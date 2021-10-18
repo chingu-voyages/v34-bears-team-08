@@ -74,17 +74,27 @@ Update(Function('get_timeline'), {
       ['size', 'after', 'before'],
       Let(
         {
-          match: Reverse(Join(Match(Index('_following_by_user'), Identity()), Index('photo_author_by_user'))),
+          match: Reverse(
+            Join(
+              // Potential optimization incurs significantly more calls and will not be applied here as it handles an edge case.
+              // Paginate could be used on these matches to prevent resulting Join set from being too large (100k) if following too many users w/ too many photos.
+              Match(Index('_following_by_user'), Identity()),
+              Index('photo_author_by_user')
+            )
+          ),
         },
         // Return page based on supplied pagination args
-        If(
-          Equals(Var('before'), null),
+        Map(
           If(
-            Equals(Var('after'), null),
-            Paginate(Var('match'), { size: Var('size') }),
-            Paginate(Var('match'), { size: Var('size'), after: Var('after') })
+            Equals(Var('before'), null),
+            If(
+              Equals(Var('after'), null),
+              Paginate(Var('match'), { size: Var('size') }),
+              Paginate(Var('match'), { size: Var('size'), after: Var('after') })
+            ),
+            Paginate(Var('match'), { size: Var('size'), before: Var('before') })
           ),
-          Paginate(Var('match'), { size: Var('size'), before: Var('before') })
+          Lambda('docRef', Get(Var('docRef')))
         )
       )
     )
@@ -97,39 +107,22 @@ Update(Function('get_explore'), {
     Lambda(
       ['size', 'after', 'before'],
       Let(
-        {
-          match: Reverse(Documents(Collection('Photo'))),
-        },
-        If(
-          Equals(Var('before'), null),
+        { match: Reverse(Documents(Collection('Photo'))) },
+        Map(
           If(
-            Equals(Var('after'), null),
-            Paginate(Var('match'), { size: Var('size') }),
-            Paginate(Var('match'), { size: Var('size'), after: Var('after') })
+            Equals(Var('before'), null),
+            If(
+              Equals(Var('after'), null),
+              Paginate(Var('match'), { size: Var('size') }),
+              Paginate(Var('match'), { size: Var('size'), after: Var('after') })
+            ),
+            Paginate(Var('match'), { size: Var('size'), before: Var('before') })
           ),
-          Paginate(Var('match'), { size: Var('size'), before: Var('before') })
+          Lambda('docRef', Get(Var('docRef')))
         )
       )
     )
   ),
-})
-
-CreateIndex({
-  name: '_user_photos_by_user',
-  unique: false,
-  serialized: true,
-  source: Collection('Photo'),
-  terms: [
-    {
-      field: ['data', 'author'],
-    },
-  ],
-  values: [
-    {
-      field: 'ref',
-      reverse: true,
-    },
-  ],
 })
 
 Update(Function('get_profile_photos'), {
@@ -139,9 +132,7 @@ Update(Function('get_profile_photos'), {
       // variables are after.
       ['id', 'size', 'after', 'before'],
       Let(
-        {
-          match: Match(Index('_user_photos_by_user'), Ref(Collection('User'), Var('id'))),
-        },
+        { match: Reverse(Match(Index('user_photos_by_user'), Ref(Collection('User'), Var('id')))) },
         Map(
           If(
             Equals(Var('before'), null),
