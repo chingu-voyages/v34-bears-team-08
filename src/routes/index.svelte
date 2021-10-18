@@ -1,12 +1,15 @@
 <script context="module">
-  export function load({ session, fetch }) {
+  import { get } from 'svelte/store'
+  import { auth } from '$lib/stores/auth'
+  export function load({ fetch }) {
+    const { token, userInfo } = get(auth)
     // we can use this for SSR
-    if (!session?.token) {
+    if (!token) {
       return {
         redirect: '/login',
         status: 302,
       }
-    } else if (session?.userInfo.onboard) {
+    } else if (userInfo?.onboard) {
       return {
         redirect: '/onboard',
         status: 302,
@@ -19,8 +22,6 @@
 <script>
   import ProfileInfo from '$lib/components/ProfileInfo.svelte'
   import NoPosts from '$lib/components/NoPosts.svelte'
-  import { auth } from '$lib/stores/auth'
-  auth
 
   let onboard = $auth.userInfo?.onboard
 
@@ -30,7 +31,6 @@
 <svelte:head>
   <title>Devvy - Timeline</title>
 </svelte:head>
-
 
 <div class="flex flex-row w-full justify-center">
   <div class="flex flex-col w-1/2 items-center">

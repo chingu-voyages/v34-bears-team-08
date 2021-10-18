@@ -1,6 +1,7 @@
 import { derived, get, writable } from 'svelte/store'
 import { getCurClient } from '$lib/gql/urql'
 import { gql } from '@urql/svelte'
+import { goto } from '$app/navigation'
 
 const initAuth = { token: null, exp: null, userInfo: {} }
 export const auth = writable(initAuth)
@@ -84,7 +85,7 @@ export async function logout(allDevices) {
     dbLogout(allDevices), // logout token from DB
   ])
   auth.set(initAuth)
-  location.pathname = '/login'
+  await goto('/login')
 }
 
 /** Only for clearing tokens from DB. Doesn't modify app's auth state */
