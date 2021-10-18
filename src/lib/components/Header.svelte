@@ -13,7 +13,7 @@
 <header class="px-4 h-16 bg-white border-b border-gray-primary mb-8">
   <div class="container mx-auto max-w-screen-lg h-full">
     <div class="flex justify-between h-full">
-      <div class="text-gray-700 text-center flex items-center align-items cursor-pointer">
+      <div class="text-gray-700 text-center flex items-center align-items">
         <h1 class="flex justify-center w-full">
           <Logo />
         </h1>
@@ -22,7 +22,7 @@
         {#if $isAuthenticated}
           <a href="/" aria-label="Timeline">
             <Home
-              class="w-6 mr-6 text-black-light cursor-pointer"
+              class="w-6 mr-6 text-black-light"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -31,7 +31,7 @@
           </a>
           <a href="/explore" area-label="explore">
             <Compass
-              class="w-5 mr-6 text-black-light cursor-pointer"
+              class="w-5 mr-6 text-black-light"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -48,7 +48,7 @@
             }}
           >
             <Signout
-              class="w-6 mr-6 text-black-light cursor-pointer"
+              class="w-6 mr-6 text-black-light"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -58,10 +58,10 @@
           <!--This conditional will be replaced with some user data containing a user image (avatar)-->
           {#if $isAuthenticated}
             <!--The <User/> icon is a placeholder for where the user img will go-->
-            <div class="flex items-center cursor-pointer">
+            <div class="flex items-center">
               <a href="/{username}"
                 ><User
-                  class="w-5 mr-6 text-black-light cursor-pointer"
+                  class="w-5 mr-6 text-black-light"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
