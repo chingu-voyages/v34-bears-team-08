@@ -138,7 +138,7 @@ Update(Function('get_profile_photos'), {
         {
           match: Match(Index('_user_photos_by_user'), Ref(Collection('User'), Var('id'))),
         },
-        If(
+        Map(If(
           Equals(Var('before'), null),
           If(
             Equals(Var('after'), null),
@@ -146,7 +146,9 @@ Update(Function('get_profile_photos'), {
             Paginate(Var('match'), { size: Var('size'), after: Var('after') })
           ),
           Paginate(Var('match'), { size: Var('size'), before: Var('before') })
-        )
+        ), Lambda(
+          "docRef", Get(Var("docRef"))
+        ))
       )
     )
   ),
