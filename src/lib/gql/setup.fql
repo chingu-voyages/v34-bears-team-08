@@ -115,7 +115,7 @@ Update(Function('get_explore'), {
 Update(Function('get_profile_photos'), {
   body: Query(
     Lambda(
-      ['size', 'after', 'before', 'id'],
+      ['id', 'size', 'after', 'before'],
       Let(
         {
           match: Reverse(Match(Index('user_photos_by_user'), Var('id'))),
