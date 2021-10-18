@@ -43,7 +43,8 @@ export const apiReq = {
     }
 
     const resp = await fetch(`/api${route}`, init)
-    if (resp.headers.get('Content-type') == 'application/json') return await resp.json()
+    // application/json may have UTF-8 appended, so check start only
+    if (resp.headers.get('Content-type')?.startsWith('application/json')) return await resp.json()
 
     return resp
   },
