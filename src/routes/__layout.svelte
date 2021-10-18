@@ -8,7 +8,7 @@
 </script>
 
 <script>
-  import { initClient } from '$lib/gql/urql'
+import { initClient } from '$lib/gql/urql'
 
 import '../app.css'
 import Footer from '$lib/components/Footer.svelte';
