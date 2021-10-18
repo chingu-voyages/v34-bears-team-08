@@ -7,8 +7,6 @@ export const magic = browser && new Magic(import.meta.env.VITE_MAGIC_PUBLIC, { e
 export function oAuthLogin(provider) {
   return magic.oauth.loginWithRedirect({
     provider,
-    redirectURI: `${origin}/oauth2`,
+    redirectURI: `${origin}/login/oauth2`,
   })
 }
-
-

@@ -2,6 +2,7 @@
 <script>
   import { auth, dbLogout, verify } from '$lib/stores/auth'
   import { UpdateOnboard } from '$lib/gql/UpdateOnboard'
+  import { goto } from '$app/navigation'
 
   const execUpdateOnboard = UpdateOnboard()
 
@@ -12,7 +13,7 @@
     // ? Do we want to deal with errors? $UpdateOnboard.error
     await verify()
     dbLogout()
-    location.pathname = '/'
+    goto('/')
   }
 
   const baseInputClass =
