@@ -124,11 +124,8 @@ CreateIndex({
   ],
   values: [
     {
-      field: 'posted',
-      reverse: true,
-    },
-    {
       field: 'ref',
+      reverse: true,
     },
   ],
 })
