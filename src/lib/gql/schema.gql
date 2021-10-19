@@ -71,3 +71,4 @@ input FollowUserInput {
 }
 
 # TODO: Check base types from adaptation have all been added to schema
+# * VSCode >Fauna: Upload GraphQL Schema
