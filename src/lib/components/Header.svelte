@@ -1,5 +1,6 @@
 <script>
   import { auth, isAuthenticated, logout } from '$lib/stores/auth';
+  import {fileForUpload} from '$lib/stores/post'
   import Modal from '$components/Modal.svelte';
   import Home from '@svicons/fa-solid/home.svelte'
   import Signout from '@svicons/fa-solid/sign-out-alt.svelte'
@@ -8,9 +9,10 @@
   import Plus from '@svicons/fa-solid/plus-circle.svelte'
   import Logo from '$components/Logo.svelte'
   let username = $auth.userInfo?.username,
-    disableLogout = false
+  disableLogout = false
   console.log($isAuthenticated)
   let showModal = false;
+  let file; 
 </script>
 
 <header class="px-4 h-16 bg-white border-b border-gray-primary mb-8">
@@ -98,8 +100,9 @@
 			Create a post
 	</h2>
 	<form class="w-full flex flex-col content-center items-center">
-		<input type="file" class="w-full my-5"/>
+		<input type="file" class="w-full my-5" bind:fileForUpload/>
     <textarea  class="w-full focus:outline-none" name="" id="" cols="3" rows="2" placeholder="Write a caption"></textarea>
+    <button>post</button>
   </form>
 </Modal>
 {/if}
