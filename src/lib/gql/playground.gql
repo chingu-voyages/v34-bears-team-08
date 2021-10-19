@@ -1,29 +1,38 @@
 mutation {
-  deleteUser(id: "") {
+    deleteUser(id: "") {
     _id
-  }
+    }
 }
-
+# create a photo in playground
 mutation {
-  createPhoto(
-    data: {
-      author: { connect: "312744115794084416" }
-      src: "https://picsum.photos/200"
-      posted: "2011-10-05T14:48:00.000Z"
+    createPhoto(
+        data: {
+            author: { connect: "312744115794084416" }
+            src: "https://picsum.photos/200"
+            posted: "2011-10-05T14:48:00.000Z"
     }
-  ) {
-    author {
-      email
+    ) {
+        author {
+        email
     }
-  }
+    }
 }
-
+# get all photos from user oldest to newest
 query {
-  findUserByID(id: "312756914412847682") {
+findUserByID(id: "312756914412847682") {
     photos {
       data {
         _id
       }
+    }
+  }
+}
+
+# get all photos by user with ID in reverse
+query {
+  getProfilePhotos(id: "312756914412847682") {
+    data {
+      _id
     }
   }
 }

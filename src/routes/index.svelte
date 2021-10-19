@@ -25,7 +25,6 @@
 
   let onboard = $auth.userInfo?.onboard
 
-  $: console.log(onboard)
 </script>
 
 <svelte:head>
