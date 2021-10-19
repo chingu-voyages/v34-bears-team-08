@@ -1,5 +1,5 @@
 import { gql } from '@urql/svelte'
-import { createSessionCookie, magic, mutation } from './_utils'
+import { createSessionCookie, removeSessionCookie, magic, mutation } from './_utils'
 
 // Also acts as refresh endpoint
 export async function post({ body, headers: { authorization } }) {
@@ -52,4 +52,15 @@ export async function post({ body, headers: { authorization } }) {
     }
   }
   return { status: 400, body: 'Unable to validate email.' }
+}
+
+// If get req, then it means the user is looking to logout (clear cookies)
+export async function get() {
+  const cookie = removeSessionCookie()
+
+  return {
+    headers: {
+      'set-cookie': cookie,
+    },
+  }
 }

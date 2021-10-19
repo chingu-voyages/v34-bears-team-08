@@ -82,7 +82,7 @@ export async function verify({ email = get(auth).userInfo?.email, idToken = null
 export async function logout(allDevices) {
   await Promise.all([
     createMagic().then((m) => m.user.logout()), // logout from magic
-    apiReq.get('/auth/logout'), // clear cookies
+    apiReq.get('/auth/login'), // clear cookies
     dbLogout(allDevices), // logout token from DB
   ])
   auth.set(initAuth)
