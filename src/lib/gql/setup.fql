@@ -4,6 +4,7 @@
 /* VSCode Fauna (+extension) tips
 Easily format for Do: wrap all in Do(), then select a closing parens + whitespace and ctrl+shift+l to get all cursors. 
 Finally add the comma.
+Must have ext and .faunarc w/ key for below:
 Running queries from Fauna FQL files: Regex replace comments: //.+ (Create Query -> Copy/Paste -> Replace -> Run 
 Query/CTRL+Enter)
 */
