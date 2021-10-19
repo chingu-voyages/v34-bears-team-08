@@ -1,6 +1,9 @@
 // * Schema must be uploaded before running setup script!
 // * Please run blocks one at a time to prevent race conditions, or use `Do` to execute them in order.
 
+// * Tip: To easily format for Do in VSCode, wrap all in Do(), then select a closing parens + whitespace and ctrl+shift+l
+// * to get all cursors. Finally add the comma.
+
 // Auth
 
 // Login with only email, for User collection/type
