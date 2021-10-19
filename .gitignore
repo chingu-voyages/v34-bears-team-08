@@ -5,3 +5,5 @@ node_modules
 /package
 .ai
 .env.local
+.graphqlconfig
+.faunarc
