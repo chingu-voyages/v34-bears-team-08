@@ -68,7 +68,7 @@ export async function verify({ email = get(auth).userInfo?.email, idToken = null
   if (!idToken) return
 
   // Validate the did token on the server
-  const authPayload = await apiReq.post('/auth/login', {
+  const authPayload = await apiReq.post('/auth', {
     headers: { Authorization: `Bearer ${idToken}` },
     body: { email },
   })
@@ -82,7 +82,7 @@ export async function verify({ email = get(auth).userInfo?.email, idToken = null
 export async function logout(allDevices) {
   await Promise.all([
     createMagic().then((m) => m.user.logout()), // logout from magic
-    apiReq.get('/auth/login'), // clear cookies
+    apiReq.get('/auth'), // clear cookies
     dbLogout(allDevices), // logout token from DB
   ])
   auth.set(initAuth)
