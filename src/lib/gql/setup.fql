@@ -3,6 +3,7 @@
 
 // * Tip: To easily format for Do in VSCode, wrap all in Do(), then select a closing parens + whitespace and ctrl+shift+l
 // * to get all cursors. Finally add the comma.
+// Running queries from Fauna VSCode FQL files? Regex replace comments: //.+
 
 // Auth
 
