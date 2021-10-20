@@ -86,7 +86,7 @@ Update(Function('get_timeline'), {
             Join(
               // Potential optimization incurs significantly more calls and will not be applied here as it handles an edge case.
               // Paginate could be used on these matches to prevent resulting Join set from being too large (100k) if following too many users w/ too many photos.
-              Match(Index('_following_by_user'), Identity()),
+              Match(Index('_following_by_user'), CurrentIdentity()),
               Index('photo_author_by_user')
             )
           ),
@@ -133,14 +133,18 @@ Update(Function('get_explore'), {
   ),
 })
 
+Update(Function('get_user_by_username'), {
+  body: Query(Lambda(['username'], Get(Match(Index('unique_User_username'), Var('username'))))),
+})
+
 Update(Function('get_profile_photos'), {
   body: Query(
     Lambda(
       // yep, with GraphQL paginate: true on resolver, all values defined in schema will be first and any of the paginate
       // variables are after.
-      ['id', 'size', 'after', 'before'],
+      ['username', 'size', 'after', 'before'],
       Let(
-        { match: Reverse(Match(Index('user_photos_by_user'), Ref(Collection('User'), Var('id')))) },
+        { match: Reverse(Join(Match(Index('unique_User_username'), Var('username')), Index('user_photos_by_user'))) },
         Map(
           If(
             Equals(Var('before'), null),
@@ -165,7 +169,7 @@ Update(Function('like_photo'), {
       Let(
         {
           photoRef: Ref(Collection('Photo'), Select('photoID', Var('input'))),
-          likedMatch: Match(Index('photo_liked_by_photo_and_user'), [Var('photoRef'), Identity()]),
+          likedMatch: Match(Index('photo_liked_by_photo_and_user'), [Var('photoRef'), CurrentIdentity()]),
         },
         Do(
           // Create likes
@@ -177,7 +181,7 @@ Update(Function('like_photo'), {
               null,
               Create(Collection('photo_liked'), {
                 data: {
-                  userID: Identity(),
+                  userID: CurrentIdentity(),
                   photoID: Var('photoRef'),
                 },
               })
@@ -203,7 +207,7 @@ Update(Function('follow_user'), {
         {
           userRef: Ref(Collection('User'), Select('userID', Var('input'))),
           // all the users the user is following
-          followingMatch: Match(Index('following_by_user'), Identity()),
+          followingMatch: Match(Index('following_by_user'), CurrentIdentity()),
           // all users following who the user is trying to follow
           followersMatch: Match(Index('followers_by_user'), Var('userRef')),
           // check if the user is already following, however we're not creating a new index with multiple match terms
@@ -219,7 +223,7 @@ Update(Function('follow_user'), {
               null,
               Create(Collection('Follow'), {
                 data: {
-                  user: Identity(),
+                  user: CurrentIdentity(),
                   follows: Var('userRef'),
                 },
               })
@@ -229,7 +233,7 @@ Update(Function('follow_user'), {
           ),
           // Update followerCount and followingCount on both user and who they're following
           Do(
-            Update(Identity(), {
+            Update(CurrentIdentity(), {
               data: { followingCount: Count(Var('followingMatch')) },
             }),
             Update(Var('userRef'), {
