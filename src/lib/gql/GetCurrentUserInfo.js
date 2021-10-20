@@ -1,7 +1,5 @@
-import { queryOp } from "./urql"
-import { gql } from "@urql/svelte"
-import {get} from 'svelte/store'
-import { auth } from "$lib/stores/auth"
+import { queryOp } from './urql'
+import { gql } from '@urql/svelte'
 
 export const GetCurrentUserInfo = queryOp(
   gql`
@@ -17,6 +15,5 @@ export const GetCurrentUserInfo = queryOp(
         _id
       }
     }
-  `,
-  { id: get(auth).userInfo?._id }
+  `
 )
