@@ -153,16 +153,11 @@ const opFn =
   (queryFn) =>
   /** @typedef {import('@urql/svelte/dist/types').OperationStore} OperationStore
    * @returns {OperationStore} Query func operation store combo. You can subscribe to it or call to query,  */
-  (
-    gql,
-    variables
-    // TODO: Cleanup these comments after live share session
-    //intentionally omit taking variables into the opStore b/c there doesn't seem to be a use case
-    // ? but if you think of one you can add it in later
-  ) =>
-    Object.defineProperties(function q() {
+  (gql, vars) =>
+    Object.defineProperties(function q(qVars) {
+      qVars && (q.variables = qVars)
       return queryFn(q)
-    }, Object.getOwnPropertyDescriptors(operationStore(gql, variables)))
+    }, Object.getOwnPropertyDescriptors(operationStore(gql, vars)))
 
 /** Query Operation Store: Creates a query function store from a gql query.
  *
