@@ -13,7 +13,7 @@ export const GetCurrentUserInfo = queryOp(
         followerCount
         bio
         username
-        profilePhoto
+        profileImgSrc
         _id
       }
     }
