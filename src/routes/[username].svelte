@@ -1,44 +1,43 @@
 <script context="module">
-
-export function load (){
-    return {}
+export function load() {
+  return {}
 }
-
 </script>
 
 <script>
-    import ProfileInfo from '$lib/components/ProfileInfo.svelte';
+import ProfileInfo from '$lib/components/ProfileInfo.svelte'
+import {queryOp} from '$lib/gql/urql'
+import { gql } from '@urql/svelte'
+import { auth } from '$lib/stores/auth'
 
-    
+console.log($auth.userInfo?._id)
 
-
-</script>
-  
-  <div class="flex flex-col items-center h-screen mt-10">
-    <div class="flex flex-row justify-between w-3/5">
-        <ProfileInfo/>
-    </div>
-    <div class="flex flex-wrap justify-between w-3/5">
-      <div class="placeholder mt-10" />
-      <div class="placeholder mt-10" />
-      <div class="placeholder mt-10" />
-      <div class="placeholder mt-10" />
-      <div class="placeholder mt-10" />
-      <div class="placeholder mt-10" />
-      <div class="placeholder mt-10" />
-      <div class="placeholder mt-10" />
-      <div class="placeholder mt-10" />
-      <div class="placeholder mt-10" />
-      <div class="placeholder mt-10" />
-      <div class="placeholder mt-10" />
-    </div>
-  </div>
-  
-  <style>
-    .placeholder {
-      width: 300px;
-      height: 300px;
-      background-color: black;
+const GetCurrentUserPhotos = queryOp(
+  gql`
+    query GetCurrentUserPhotos {
+      result: getProfilePhotos(id: ${$auth.userInfo?._id}) {
+        data {
+          _id
+          src
+        }
+      }
     }
-  </style>
-  
+  `
+)
+
+console.dir(GetCurrentUserPhotos())
+$: (photoArr = $GetCurrentUserPhotos.data?.result.data || [])
+$: console.log("photos",photoArr)
+</script>
+
+<div class="flex flex-col items-center h-screen mt-10">
+  <div class="flex flex-row justify-between w-3/5">
+    <ProfileInfo />
+  </div>
+  <ul class="flex flex-wrap justify-between w-3/5">
+   {#each photoArr as photo, index }
+    <li><img src={photo.src} width="300px" alt="photo #{index + 1}" class="mt-5"></li>
+   {/each}
+  </ul>
+</div>
+

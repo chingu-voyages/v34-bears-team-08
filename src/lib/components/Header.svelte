@@ -1,6 +1,6 @@
 <script>
   import { auth, isAuthenticated, logout } from '$lib/stores/auth';
-  import {filesForUpload, upload} from '$lib/stores/post'
+  //import {filesForUpload, upload} from '$lib/stores/post'
   import Modal from '$components/Modal.svelte';
   import {Home, Compass, SignOutAlt, UserAlt, PlusCircle} from '@svicons/fa-solid'
   import Logo from '$components/Logo.svelte'
@@ -90,7 +90,7 @@
     </div>
   </div>
 </header>
-
+<!--
 {#if showModal}
 <Modal on:close="{() => showModal = false}">
 	<h2 slot="header" class="w-full text-center text-4xl font-bold px-2 mb-2">
@@ -102,5 +102,5 @@
     <button on:submit|preventDefault= {upload}">post</button>
   </form>
 </Modal>
-{/if}
+{/if}-->
 

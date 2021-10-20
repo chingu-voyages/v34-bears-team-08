@@ -12,6 +12,7 @@ type User {
   bio: String
   headline: String
   photos: [Photo] @relation(name: "user_photos")
+  profileImgSrc: String
 }
 
 type Follow {

@@ -9,11 +9,11 @@ import {GetCurrentUserInfo} from '$lib/gql/GetCurrentUserInfo'
 // Logged in user profile
 GetCurrentUserInfo()
 
-$: ({ headline, fullName, followingCount, followerCount, bio, username } = $GetCurrentUserInfo.data?.result || {})
+$: ({ headline, fullName, followingCount, followerCount, bio, username, profileImgSrc } = $GetCurrentUserInfo.data?.result || {})
 </script>
 
 {#if $GetCurrentUserInfo.data}
-  <div>I will be a photo</div>
+  <img src={profileImgSrc || "https://picsum.photos/200"} alt="profile avatar"/>
   <div class="flex flex-col w-1/2">
     <h2 class="p-1">{fullName || username}</h2>
     <div class="p-1">{followingCount || 0} following / {followerCount || 0} followers</div>

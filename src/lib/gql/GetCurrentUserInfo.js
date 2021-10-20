@@ -5,7 +5,7 @@ import { auth } from "$lib/stores/auth"
 
 export const GetCurrentUserInfo = queryOp(
   gql`
-    query GetProfileInfo($id: ID!) {
+    query GetCurrentUserInfo($id: ID!) {
       result: findUserByID(id: $id) {
         headline
         fullName
@@ -13,6 +13,7 @@ export const GetCurrentUserInfo = queryOp(
         followerCount
         bio
         username
+        profilePhoto
         _id
       }
     }
