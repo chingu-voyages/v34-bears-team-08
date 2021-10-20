@@ -36,3 +36,14 @@ query {
     }
   }
 }
+
+# get profile info 
+query {
+  findUserByID(id: "312904030864015938") {
+    headline
+    fullName
+    followingCount
+    followerCount
+    bio
+  }
+}
