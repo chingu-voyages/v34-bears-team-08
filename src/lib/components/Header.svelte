@@ -2,12 +2,9 @@
   import { auth, isAuthenticated, logout } from '$lib/stores/auth';
   import {filesForUpload, upload} from '$lib/stores/post'
   import Modal from '$components/Modal.svelte';
-  import Home from '@svicons/fa-solid/home.svelte'
-  import Signout from '@svicons/fa-solid/sign-out-alt.svelte'
-  import User from '@svicons/fa-solid/user-alt.svelte'
-  import Compass from '@svicons/fa-solid/compass.svelte'
-  import Plus from '@svicons/fa-solid/plus-circle.svelte'
+  import {Home, Compass, SignOutAlt, UserAlt, PlusCircle} from '@svicons/fa-solid'
   import Logo from '$components/Logo.svelte'
+
   let username = $auth.userInfo?.username,
   disableLogout = false
   console.log($isAuthenticated)
@@ -30,7 +27,7 @@
         title="Add Post"
         on:click="{() => showModal = true}"
       >
-        <Plus
+        <PlusCircle
           class="w-6 mr-6 text-black-light"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -65,7 +62,7 @@
               logout()
             }}
           >
-            <Signout
+            <SignOutAlt
               class="w-6 mr-6 text-black-light"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -78,7 +75,7 @@
             <!--The <User/> icon is a placeholder for where the user img will go-->
             <div class="flex items-center">
               <a href="/{username}"
-                ><User
+                ><UserAlt
                   class="w-5 mr-6 text-black-light"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
