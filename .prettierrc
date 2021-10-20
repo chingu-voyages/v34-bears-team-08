@@ -3,5 +3,13 @@
   "semi": false,
   "printWidth": 120,
   "tabWidth": 2,
-  "svelteIndentScriptAndStyle": false
+  "svelteIndentScriptAndStyle": false,
+  "overrides": [
+    {
+      "files": "*.fql",
+      "options": {
+        "parser": "babel"
+      }
+    }
+  ]
 }
