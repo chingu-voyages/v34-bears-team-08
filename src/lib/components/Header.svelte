@@ -1,6 +1,6 @@
 <script>
   import { auth, isAuthenticated, logout } from '$lib/stores/auth';
-  import {fileForUpload} from '$lib/stores/post'
+  import {filesForUpload, upload} from '$lib/stores/post'
   import Modal from '$components/Modal.svelte';
   import Home from '@svicons/fa-solid/home.svelte'
   import Signout from '@svicons/fa-solid/sign-out-alt.svelte'
@@ -100,9 +100,9 @@
 			Create a post
 	</h2>
 	<form class="w-full flex flex-col content-center items-center">
-		<input type="file" class="w-full my-5" bind:fileForUpload/>
+		<input type="file" class="w-full my-5" bind:files={$filesForUpload}/>
     <textarea  class="w-full focus:outline-none" name="" id="" cols="3" rows="2" placeholder="Write a caption"></textarea>
-    <button>post</button>
+    <button on:submit|preventDefault= {upload}">post</button>
   </form>
 </Modal>
 {/if}

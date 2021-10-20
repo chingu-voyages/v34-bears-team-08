@@ -1,21 +1,22 @@
-import ImageKit from 'imagekit';
+import ImageKit from 'imagekit-javascript';
 import { writable } from "svelte/store";
 
-export const fileForUpload = writable(0);
+
+export const filesForUpload = writable([]);
 //The img url which gets returned once successfully posted
 export const image = writable({});
 
-{/* <script type="text/javascript" src="https://unpkg.com/imagekit-javascript/dist/imagekit.min.js"></script> */}
 const imagekit = new ImageKit({
-    publicKey : process.env['IMAGEKIT_PUBLIC_KEY'],
-    urlEndpoint : process.env['IMAGEKIT_URL_END_POINT'],
-    authenticationEndpoint : process.env['IMAGEKIT_AUTHENTICATION_END_POINT'],
+publicKey : import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY,
+    urlEndpoint : import.meta.env.VITE_IMAGEKIT_URL_END_POINT,
+    authenticationEndpoint : import.meta.env.VITE_IMAGEKIT_AUTHENTICATION_END_POINT,
 });
 
-function upload () {
-    imagekit.upload({
-        file : fileForUpload.files[0],
-        fileName : fileForUpload.files[0].name ||  "default.jpg",
+export function upload (image) {
+    const file = get(filesForUpload)[0]
+    return imagekit.upload({
+        file,
+        fileName : file.name ||  "default.jpg",
         tags : [""]
     }, function (err, result) {
         image = result;
@@ -35,6 +36,8 @@ function upload () {
         })});
     })
 }
+
+
 
 
 
