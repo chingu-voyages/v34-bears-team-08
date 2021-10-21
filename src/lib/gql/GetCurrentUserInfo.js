@@ -3,8 +3,8 @@ import { gql } from '@urql/svelte'
 
 export const GetCurrentUserInfo = queryOp(
   gql`
-    query GetCurrentUserInfo($id: ID!) {
-      result: findUserByID(id: $id) {
+    query GetCurrentUserInfo($username: String!) {
+      result: getUserByUsername(username: $username) {
         headline
         fullName
         followingCount

@@ -28,7 +28,7 @@ findUserByID(id: "312756914412847682") {
   }
 }
 
-# get all photos by user with ID in reverse
+# get all photos by user with ID in reverse OLD (ID)
 query {
   getProfilePhotos(id: "312756914412847682") {
     data {
@@ -36,6 +36,17 @@ query {
     }
   }
 }
+
+# get all photos by user with ID in reverse NEW (username)
+
+query {
+  getProfilePhotos(username: "keithers98") {
+    data {
+      src
+    }
+  }
+}
+
 
 # get profile info 
 query {
@@ -45,5 +56,12 @@ query {
     followingCount
     followerCount
     bio
+  }
+}
+
+#get user by username 
+query {
+  getUserByUsername(username: "keithers98") {
+    _id
   }
 }
