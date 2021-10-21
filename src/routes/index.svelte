@@ -23,7 +23,7 @@
   import ProfileInfo from '$lib/components/ProfileInfo.svelte'
   import NoPosts from '$lib/components/NoPosts.svelte'
 
-  let onboard = $auth.userInfo?.onboard
+  let username = $auth.userInfo?.username
 
 </script>
 
@@ -38,6 +38,6 @@
     <div>This will be a post</div>
   </div>
   <div class="flex flex-col w-1/5">
-    <ProfileInfo />
+    <ProfileInfo {username}/>
   </div>
 </div>
