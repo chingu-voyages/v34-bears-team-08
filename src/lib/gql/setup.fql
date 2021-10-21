@@ -245,3 +245,37 @@ Update(Function('follow_user'), {
     )
   ),
 })
+
+// ! EXPERIMENTAL
+
+// Methods for getting likedByCurrentUser on a photo
+// Method 1: Individual query for getting if a user liked a post. Returns true/false
+Update(Function('get_liked_by_current_user'), {
+  body: Query(
+    Lambda(
+      'photoID',
+      Exists(
+        Match(Index('photo_liked_by_photo_and_user'), [Ref(Collection('photo'), Var('photoID')), CurrentIdentity()])
+      )
+    )
+  ),
+})
+
+// Method 2: Append to fetches for photos
+// Con: You'll have to update for every query involving returning photo(s). Perhaps a modular UDF could help here.
+//      Includes needing to return it for `like_photo` func, allowing it to optimistically update.
+// Note: add likedByCurrentUser: Boolean to Photo type field as a placeholder
+Example({
+  data: {
+    likedByCurrentUser: Exists(
+      // in some cases, this is likedMatch
+      Match(Index('photo_liked_by_photo_and_user'), [Ref(Collection('photo'), Var('photoID')), CurrentIdentity()]),
+      // in other cases, it's a photo/doc ref
+      Match(Index('photo_liked_by_photo_and_user'), [Var('photoRef'), CurrentIdentity()])
+    ),
+  },
+})
+// Either way, you may need to merge the result to create the desired obj
+Merge(Var('photoDoc'), {
+  data: Merge(Select('data', Var('photoDoc')), { likedByCurrentUser: Var('userLiked') }),
+})
