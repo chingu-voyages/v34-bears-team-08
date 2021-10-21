@@ -7,26 +7,11 @@ export function load({ page }) {
 
 <script>
 import ProfileInfo from '$lib/components/ProfileInfo.svelte'
-import { queryOp } from '$lib/gql/urql'
-import { gql } from '@urql/svelte'
+import { GetCurrentUserPhotos } from '$lib/gql/GetProfilePhotos';
 export let username
 username = username.slice(1)
 
-console.log(typeof username)
-const GetCurrentUserPhotos = queryOp(
-  gql`
-    query GetCurrentUserPhotos {
-      result: getProfilePhotos(username: "${username}") {
-        data {
-          _id
-          src
-        }
-      }
-    }
-  `
-)
-
-console.dir(GetCurrentUserPhotos())
+console.dir(GetCurrentUserPhotos({username}))
 $: photoArr = $GetCurrentUserPhotos.data?.result.data || []
 $: console.log('photos', photoArr)
 </script>
