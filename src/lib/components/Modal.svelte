@@ -6,11 +6,15 @@
             publicKey : import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY,
             urlEndpoint : import.meta.env.VITE_IMAGEKIT_URL_END_POINT,
             authenticationEndpoint : import.meta.env.VITE_IMAGEKIT_AUTHENTICATION_END_POINT,
+            // Need to fix the  server endpoint issue, tested with express server hosted at 
+            // eg: http://localhost:5000/api/imagekit-auth method POST which returns the url 
+            // successfully
         });
         
         const uploadPost = async () => {
         uploading = true;
         const result = await imagekit.upload({file:files[0],fileName:files[0].name || 'default.jpg',tags:['']})
+        //This function probably need to go in the module
         console.log(result)
         //Save the Post along with url to our database
         setTimeout(() => {
@@ -19,7 +23,6 @@
             caption = ''
         }, 5000);
         }
-
 
         const dispatch = createEventDispatcher();
         const close = () => dispatch('close');
