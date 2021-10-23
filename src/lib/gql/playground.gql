@@ -65,3 +65,23 @@ query {
     _id
   }
 }
+
+# get timeline 
+
+query {
+  getTimeline(_size: 10) {
+    data {
+      src
+      likeCount
+      comments
+      caption
+    }
+  }
+}
+
+# delete photo by photo ID
+mutation {
+  deletePhoto(id: "312951668549354050") {
+    src
+  }
+}
