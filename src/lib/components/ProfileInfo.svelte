@@ -6,10 +6,8 @@ import Loader from './Loader.svelte'
 import { auth } from '$lib/stores/auth'
 import { GetCurrentUserInfo } from '$lib/gql/GetCurrentUserInfo'
 export let username
-console.log("profileInfo", username)
 // Logged in user profile
 GetCurrentUserInfo({ username })
-$: console.log($GetCurrentUserInfo.error)
 $: ({ headline, fullName, followingCount, followerCount, bio, username, profileImgSrc } =
   $GetCurrentUserInfo.data?.result || {})
 </script>

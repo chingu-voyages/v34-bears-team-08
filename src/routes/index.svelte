@@ -1,30 +1,59 @@
 <script context="module">
-  import { get } from 'svelte/store'
-  import { auth } from '$lib/stores/auth'
-  export function load({ fetch }) {
-    const { token, userInfo } = get(auth)
-    // we can use this for SSR
-    if (!token) {
-      return {
-        redirect: '/login',
-        status: 302,
-      }
-    } else if (userInfo?.onboard) {
-      return {
-        redirect: '/onboard',
-        status: 302,
-      }
+import { get } from 'svelte/store'
+import { auth } from '$lib/stores/auth'
+export function load({ fetch }) {
+  const { token, userInfo } = get(auth)
+  // we can use this for SSR
+  if (!token) {
+    return {
+      redirect: '/login',
+      status: 302,
     }
-    return {}
+  } else if (userInfo?.onboard) {
+    return {
+      redirect: '/onboard',
+      status: 302,
+    }
   }
+  return {}
+}
 </script>
 
 <script>
-  import ProfileInfo from '$lib/components/ProfileInfo.svelte'
-  import NoPosts from '$lib/components/NoPosts.svelte'
+import ProfileInfo from '$lib/components/ProfileInfo.svelte'
+import { queryOp } from '$lib/gql/urql'
+import { gql } from '@urql/core'
 
-  let username = $auth.userInfo?.username
+let username = $auth.userInfo?.username
 
+const getTimeline = queryOp(gql`
+  query getTimeline {
+    result: getTimeline(_size: 10) {
+      data {
+        author {
+          username
+        }
+        src
+        likeCount
+        comments {
+          data {
+            author {
+              username
+            }
+            text
+          }
+        }
+        caption
+      }
+    }
+  }
+`)
+
+getTimeline()
+
+$: photoArr = $getTimeline.data?.result.data || []
+$: console.dir(getTimeline)
+$: console.log(getTimeline.error)
 </script>
 
 <svelte:head>
@@ -32,12 +61,35 @@
 </svelte:head>
 
 <div class="flex flex-row w-full justify-center">
-  <div class="flex flex-col w-1/2 items-center">
-    <div>This will be a post</div>
-    <div>This will be a post</div>
-    <div>This will be a post</div>
-  </div>
+  <ul class="flex flex-col w-1/2 items-center">
+    {#if photoArr.length === 0 || !photoArr}
+      <div class="flex flex-col w-3/4 h-80 bg-gray-50 text-center rounded-sm pb-36 justify-between">
+        <div class="w-full bg-gray-300 py-2 rounded-sm">
+          <h4 class="text-black-light">Your feed is empty!</h4>
+        </div>
+        <p class="text-gray-500 self-center">Follow people to see their recent activity.</p>
+      </div>
+    {:else}
+      {#each photoArr as photo}
+        <li>
+          <img src={photo.src} width="500px" alt="{photo.username}'s photo" />
+          <span>{photo.likeCount} likes</span>
+          <div>
+            <span>Comments</span>
+            <ul>
+              {#each photo.comments as comment}
+                <li>
+                  <!--Should username be a link to the user account?-->
+                  <span>{comment.username} {comment.text}</span>
+                </li>
+              {/each}
+            </ul>
+          </div>
+        </li>
+      {/each}
+    {/if}
+  </ul>
   <div class="flex flex-col w-1/5">
-    <ProfileInfo {username}/>
+    <ProfileInfo {username} />
   </div>
 </div>
