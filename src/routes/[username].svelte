@@ -9,11 +9,12 @@ export function load({ page }) {
 import ProfileInfo from '$lib/components/ProfileInfo.svelte'
 import { GetCurrentUserPhotos } from '$lib/gql/GetProfilePhotos'
 import { mutationOp } from '$lib/gql/urql'
-import Times from '@svicons/fa-solid/times.svelte'
+import { auth } from '$lib/stores/auth';
+import User from '@svicons/fa-solid/user.svelte';
 import { gql } from '@urql/core'
 export let username
 username = username.slice(1)
-
+let currentUser = $auth?.userInfo.username
 GetCurrentUserPhotos({ username })
 $: photoArr = $GetCurrentUserPhotos.data?.result.data || []
 
@@ -42,6 +43,7 @@ function deletePost(e) {
       <li class="w-max relative">
         <div class="w-full">
           <img src={photo.src} width="300px" alt="photo #{index + 1}" class="mt-5 z-0" />
+          {#if currentUser === username}
           <button
             class="z-10 display-block absolute top-0 right-0 mt-7 ml-3 text-white text-lg pr-4 pb-4"
             on:click={deletePost}
@@ -49,6 +51,7 @@ function deletePost(e) {
           >
             x
           </button>
+          {/if}
         </div>
       </li>
     {/each}
