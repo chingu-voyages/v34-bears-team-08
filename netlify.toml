@@ -1,7 +1,7 @@
 [functions]
 node_bundler = "esbuild"
 [build.environment]
-NODE_VERSION = "16"
+NODE_VERSION = "17"
 [dev]
 command = "pnpm run dev"
 port = 8888
