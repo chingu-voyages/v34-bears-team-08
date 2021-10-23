@@ -279,3 +279,57 @@ Example({
 Merge(Var('photoDoc'), {
   data: Merge(Select('data', Var('photoDoc')), { likedByCurrentUser: Var('userLiked') }),
 })
+
+// Search for usernames
+// Exact contains using Ngrams
+CreateIndex({
+  name: 'user_search_by_username',
+  // we actually want to sort to get the shortest word that matches first
+  source: [
+    {
+      // If your collections have the same property that you want to access you can pass a list to the collection
+      collection: [Collection('User')],
+      fields: {
+        searchTerms: Query(
+          Lambda(
+            'User',
+            Distinct(
+              Union(
+                Let(
+                  {
+                    // TODO: Reduce this array if you want less ngrams per word.
+                    indexes: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    indexesFiltered: Filter(
+                      Var('indexes'),
+                      // filter out the ones below 0
+                      Lambda('l', GT(Var('l'), 0))
+                    ),
+                    ngramsArray: Map(
+                      Var('indexesFiltered'),
+                      // you can also cleanup the input data by surrounding the Lowercase in a replace
+                      Lambda('l', NGram(LowerCase(Select(['data', 'username'], Var('User'))), Var('l'), Var('l')))
+                    ),
+                  },
+                  Var('ngramsArray')
+                )
+              )
+            )
+          )
+        ),
+      },
+    },
+  ],
+  terms: [{ binding: 'searchTerms' }],
+})
+
+// TODO: Add searchUser to schema
+Update(
+  Function('search_user', {
+    body: Query(
+      Lambda(
+        'username',
+        Map(Paginate(Match(Index('user_search_by_username'), Var('username'))), Lambda('ref', Get(Var('ref'))))
+      )
+    ),
+  })
+)
