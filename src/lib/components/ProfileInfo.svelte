@@ -22,11 +22,15 @@ function follow(){
 execCreateFollow({ currentUserId, _id })
 }
 
-const execDeleteFollow = deleteFollow()
+const execDeleteFollow = DeleteFollow()
 function unfollow() {
 //need to get follow id
 //execDeleteFollow()
 }
+
+$: console.log(followers?.data[0])
+$: currentUserFollowsPage = followers?.data.find(({user}) => user.username === currentUser)
+$: console.log(currentUserFollowsPage, "oijinio")
 </script>
 
 {#if $GetCurrentUserInfo.data}
@@ -36,8 +40,8 @@ function unfollow() {
     <div class="p-1">{followingCount || 0} following / {followerCount || 0} followers</div>
     <h3 class="p-1">{headline}</h3>
     <p class="p-1">{bio}</p>
-    {#if currentUser && currentUser != username && followers.data.includes(currentUser)}
-      <button class="bg-blue-400 rounded-md p-3 text-white">Unfollow</button>
+    {#if currentUser && currentUser != username && currentUserFollowsPage}
+      <button class="bg-blue-400 rounded-md py-1 px-2 w-min text-white">Unfollow</button>
     {:else if currentUser && currentUser != username}
       <button class="bg-blue-400 rounded-md py-1 px-2 w-min text-white" on:click={follow}
         >Follow</button
