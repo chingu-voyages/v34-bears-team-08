@@ -22,7 +22,7 @@ export function load({ fetch }) {
 <script>
 import ProfileInfo from '$lib/components/ProfileInfo.svelte'
 import { queryOp } from '$lib/gql/urql'
-import { gql } from '@urql/core'
+import { gql } from '@urql/svelte'
 
 let username = $auth.userInfo?.username
 
