@@ -10,12 +10,14 @@ import ProfileInfo from '$lib/components/ProfileInfo.svelte'
 import { GetCurrentUserPhotos } from '$lib/gql/GetProfilePhotos'
 import { mutationOp } from '$lib/gql/urql'
 import { auth } from '$lib/stores/auth';
-import User from '@svicons/fa-solid/user.svelte';
-import { gql } from '@urql/core'
+import { gql } from '@urql/svelte'
 export let username
 username = username.slice(1)
 let currentUser = $auth?.userInfo.username
 GetCurrentUserPhotos({ username })
+//get current user 
+//check who follows 
+//dispplay follow or unfollow button
 $: photoArr = $GetCurrentUserPhotos.data?.result.data || []
 
 const deletePhoto = mutationOp(gql`
@@ -36,7 +38,7 @@ function deletePost(e) {
 
 <div class="flex flex-col items-center h-screen mt-10">
   <div class="flex flex-row justify-between w-3/5">
-    <ProfileInfo {username} />
+    <ProfileInfo {username} {currentUser} />
   </div>
   <ul class="flex flex-wrap justify-between w-3/5 relative">
     {#each photoArr as photo, index}

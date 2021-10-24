@@ -1,25 +1,25 @@
 mutation {
-    deleteUser(id: "") {
+  deleteUser(id: "") {
     _id
-    }
+  }
 }
 # create a photo in playground
 mutation {
-    createPhoto(
-        data: {
-            author: { connect: "312744115794084416" }
-            src: "https://picsum.photos/200"
-            posted: "2011-10-05T14:48:00.000Z"
+  createPhoto(
+    data: {
+      author: { connect: "312744115794084416" }
+      src: "https://picsum.photos/200"
+      posted: "2011-10-05T14:48:00.000Z"
     }
-    ) {
-        author {
-        email
+  ) {
+    author {
+      email
     }
-    }
+  }
 }
 # get all photos from user oldest to newest
 query {
-findUserByID(id: "312756914412847682") {
+  findUserByID(id: "312756914412847682") {
     photos {
       data {
         _id
@@ -47,8 +47,7 @@ query {
   }
 }
 
-
-# get profile info 
+# get profile info
 query {
   findUserByID(id: "312904030864015938") {
     headline
@@ -59,14 +58,14 @@ query {
   }
 }
 
-#get user by username 
+#get user by username
 query {
   getUserByUsername(username: "keithers98") {
     _id
   }
 }
 
-# get timeline 
+# get timeline
 
 query {
   getTimeline(_size: 10) {
@@ -83,5 +82,24 @@ query {
 mutation {
   deletePhoto(id: "312951668549354050") {
     src
+  }
+}
+
+#create follow
+mutation {
+  createFollow(data: { user: { connect: "312950643766592066" }, follows: { connect: "312836571385561665" } }) {
+    _id
+  }
+}
+
+#delete follow 
+mutation {
+  deleteFollow(id: "313291905631781442") {
+    user {
+      username
+    }
+    follows {
+      username
+    }
   }
 }

@@ -13,6 +13,14 @@ export const GetCurrentUserInfo = queryOp(
         username
         profileImgSrc
         _id
+        followers {
+          data {
+            user {
+              username
+              _id
+            }
+          }
+        }
       }
     }
   `
