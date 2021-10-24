@@ -21,39 +21,13 @@ export function load({ fetch }) {
 
 <script>
 import ProfileInfo from '$lib/components/ProfileInfo.svelte'
-import { queryOp } from '$lib/gql/urql'
-import { gql } from '@urql/svelte'
+import {GetTimeline} from '$lib/gql/GetTimeline'
 
-let username = $auth.userInfo?.username
+let currentUser = $auth.userInfo?.username
 
-const getTimeline = queryOp(gql`
-  query getTimeline {
-    result: getTimeline(_size: 10) {
-      data {
-        author {
-          username
-        }
-        src
-        likeCount
-        comments {
-          data {
-            author {
-              username
-            }
-            text
-          }
-        }
-        caption
-      }
-    }
-  }
-`)
+GetTimeline()
 
-getTimeline()
-
-$: photoArr = getTimeline.data?.result.data || []
-$: console.dir(getTimeline.data?.result.data)
-$: console.log(getTimeline.error)
+$: photoArr = GetTimeline.data?.result.data || []
 </script>
 
 <svelte:head>
@@ -72,6 +46,7 @@ $: console.log(getTimeline.error)
     {:else}
       {#each photoArr as photo}
         <li>
+          <span>{photo.author.username}</span>
           <img src={photo.src} width="500px" alt="{photo.author.username}'s photo" />
           <span>{photo.likeCount || 0} likes</span>
           <div>
@@ -90,6 +65,6 @@ $: console.log(getTimeline.error)
     {/if}
   </ul>
   <div class="flex flex-col w-1/5">
-    <ProfileInfo {username} />
+    <ProfileInfo username={currentUser} />
   </div>
 </div>
