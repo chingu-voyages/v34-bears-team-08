@@ -12,5 +12,5 @@ export async function get({ query }) {
   const expiration = query.expiration || parseInt(Date.now() / 1000) + 60 * 10
   const signatureObj = await imagekit.getAuthenticationParameters(token, expiration)
   console.log(signatureObj)
-  return { status: 200, body: signatureObj }
+  return { body: signatureObj }
 }
