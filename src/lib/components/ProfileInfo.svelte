@@ -28,9 +28,7 @@ function unfollow() {
 //execDeleteFollow()
 }
 
-$: console.log(followers?.data[0])
 $: currentUserFollowsPage = followers?.data.find(({user}) => user.username === currentUser)
-$: console.log(currentUserFollowsPage, "oijinio")
 </script>
 
 {#if $GetCurrentUserInfo.data}

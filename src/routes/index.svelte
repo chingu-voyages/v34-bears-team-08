@@ -51,8 +51,8 @@ const getTimeline = queryOp(gql`
 
 getTimeline()
 
-$: photoArr = $getTimeline.data?.result.data || []
-$: console.dir(getTimeline)
+$: photoArr = getTimeline.data?.result.data || []
+$: console.dir(getTimeline.data?.result.data)
 $: console.log(getTimeline.error)
 </script>
 
@@ -72,15 +72,15 @@ $: console.log(getTimeline.error)
     {:else}
       {#each photoArr as photo}
         <li>
-          <img src={photo.src} width="500px" alt="{photo.username}'s photo" />
-          <span>{photo.likeCount} likes</span>
+          <img src={photo.src} width="500px" alt="{photo.author.username}'s photo" />
+          <span>{photo.likeCount || 0} likes</span>
           <div>
             <span>Comments</span>
             <ul>
-              {#each photo.comments as comment}
+              {#each photo.comments.data as comment}
                 <li>
                   <!--Should username be a link to the user account?-->
-                  <span>{comment.username} {comment.text}</span>
+                  <span>{comment.author.username} {comment.text}</span>
                 </li>
               {/each}
             </ul>
