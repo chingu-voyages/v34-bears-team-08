@@ -43,36 +43,54 @@ query {
   getProfilePhotos(username: "keithers98") {
     data {
       src
+      likeCount
+      caption
     }
   }
 }
 
-# get profile info
+# get profile info by usernmae
 query {
-  findUserByID(id: "312904030864015938") {
+  getUserByUsername(username: "fang") {
     headline
     fullName
     followingCount
     followerCount
     bio
+    username
+    profileImgSrc
+    _id
+    followers {
+      data {
+        user {
+          username
+          _id
+        }
+        _id
+      }
+    }
   }
 }
 
-#get user by username
-query {
-  getUserByUsername(username: "keithers98") {
-    _id
-  }
-}
 
 # get timeline
 
 query {
   getTimeline(_size: 10) {
     data {
+      author {
+        username
+      }
       src
       likeCount
-      comments
+      comments {
+        data {
+          author {
+            username
+          }
+          text
+        }
+      }
       caption
     }
   }
@@ -100,6 +118,25 @@ mutation {
     }
     follows {
       username
+    }
+  }
+}
+
+#get explore 
+query {
+  getExplore(_size: 10) {
+    data {
+      author {
+        username
+      }
+      src
+      caption
+      likeCount
+      liked {
+        data {
+          username
+        }
+      }
     }
   }
 }
