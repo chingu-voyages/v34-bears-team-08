@@ -1,23 +1,23 @@
 <script context="module">
-  export async function load({session}) {
-    // TODO: Enable redirect if logged in, later
-    // if (session?.token)
-    /**
+export async function load({ session }) {
+  // TODO: Enable redirect if logged in, later
+  // if (session?.token)
+  /**
      return {
        redirect: '/',
        status: 302
      }
     */
-    return {}
-  }
+  return {}
+}
 </script>
 
 <script>
-  import GitHub from '@svicons/fa-brands/github.svelte'
-  import { oAuthLogin } from '$lib/utils/magic'
-  import Footer from '$lib/components/Footer.svelte';
-  import Logo from '$components/Logo.svelte'
-  let error = false
+import GitHub from '@svicons/fa-brands/github.svelte'
+import { oAuthLogin } from '$lib/utils/magic'
+import Footer from '$lib/components/Footer.svelte'
+import Logo from '$components/Logo.svelte'
+let error = false
 </script>
 
 <svelte:head>
@@ -31,9 +31,9 @@
     <div class="flex flex-col w-3/5 border border-gray-primary space-y-4 py-6">
       <div class="flex flex-col items-center bg-white rounded">
         <h1 class="flex justify-center w-full">
-          <Logo class="text-6xl"/>
+          <Logo disabled class="text-6xl" />
         </h1>
-        
+
         {#if error} <p class="mb-4 text-xs text-red-primary">{error}</p> {/if}
       </div>
 
@@ -47,9 +47,7 @@
           Login with GitHub <GitHub class="pl-4 text-3xl" width="1.5em" color="white" />
         </button>
       </div>
-
-      
     </div>
   </div>
 </div>
-<Footer/>
+<Footer />
