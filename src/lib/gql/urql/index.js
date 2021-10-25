@@ -39,7 +39,7 @@ export const initClient = () =>
           Mutation: {
             // TODO: Implement createComment manual cache update
             createComment(result, _args, cache, _info) {
-              console.log(result)
+              console.log('Comment data: ', result)
               const query = GetTimeline.query // In this case, obtained from a func+op store
               // TODO: May need to use multiple updateQuery depending on where the comment is being posted by user. That might be in timeline, explore, profile photos, anywhere that is getting the photos and their respective comments.
               cache.updateQuery({ query }, (data) => {
