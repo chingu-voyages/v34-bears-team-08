@@ -10,7 +10,7 @@ const imagekit = new ImageKit({
 export async function get({ query }) {
   const token = query.token || uuidv4()
   const expiration = query.expiration || parseInt(Date.now() / 1000) + 60 * 10
-  const signatureObj = await imagekit.getAuthenticationParameters(token, expiration)
+  const signatureObj = imagekit.getAuthenticationParameters(token, expiration)
   console.log(signatureObj)
   return { body: signatureObj }
 }
