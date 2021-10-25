@@ -43,7 +43,6 @@ function deletePost(e) {
   <ul class="flex flex-wrap justify-between w-3/5 relative">
     {#each photoArr as photo, index}
       <li class="w-max relative">
-        <div class="w-full">
           <img src={photo.src} width="300px" alt="photo #{index + 1}" class="mt-5 z-0" />
           {#if currentUser === username}
           <button
@@ -54,7 +53,6 @@ function deletePost(e) {
             x
           </button>
           {/if}
-        </div>
       </li>
     {/each}
   </ul>

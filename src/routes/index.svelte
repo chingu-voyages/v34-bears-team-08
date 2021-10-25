@@ -1,6 +1,7 @@
 <script context="module">
 import { get } from 'svelte/store'
 import { auth } from '$lib/stores/auth'
+import { Heart, AngleRight, HeartBroken, AngleDown } from '@svicons/fa-solid'
 export function load({ fetch }) {
   const { token, userInfo } = get(auth)
   // we can use this for SSR
@@ -21,7 +22,7 @@ export function load({ fetch }) {
 
 <script>
 import ProfileInfo from '$lib/components/ProfileInfo.svelte'
-import {GetTimeline} from '$lib/gql/GetTimeline'
+import { GetTimeline } from '$lib/gql/GetTimeline'
 
 let currentUser = $auth.userInfo?.username
 
@@ -45,12 +46,34 @@ $: photoArr = GetTimeline.data?.result.data || []
       </div>
     {:else}
       {#each photoArr as photo}
-        <li>
-          <span>{photo.author.username}</span>
-          <img src={photo.src} width="500px" alt="{photo.author.username}'s photo" />
-          <span>{photo.likeCount || 0} likes</span>
-          <div>
-            <span>Comments</span>
+        <li class=" mb-4">
+          <div class="border-t border-l border-r border-gray-400 w-full py-3 px-2 rounded-t-sm">
+            <span>{photo.author.username}</span>
+          </div>
+          <img src={photo.src} width="700px" alt="{photo.author.username}'s photo" />
+          <div class="border-b border-l border-r border-gray-400 w-full p-2 flex flex-col rounded-b-sm">
+            <div class="inline-block">
+              <button>
+                <Heart
+                  class="w-4 mr-3 text-black-light"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                />
+              </button>
+            </div>
+            <span>{photo.likeCount || 0} likes</span>
+            <button class="inline-flex items-center">
+              View comments
+              <AngleRight
+                class="w-2 ml-1 pt-0.5 text-black-light"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              /></button
+            >
             <ul>
               {#each photo.comments.data as comment}
                 <li>
@@ -59,6 +82,15 @@ $: photoArr = GetTimeline.data?.result.data || []
                 </li>
               {/each}
             </ul>
+            <div class="display-block relative w-full">
+              <input
+                type="text"
+                name="comment"
+                class="w-full bg-gray-50 p-2 border border-gray-300 rounded-sm z-0"
+                placeholder="add a comment..."
+              />
+              <button class="z-10 display-block absolute top-2 right-2 text-blue-300 hover:text-blue-400">post</button>
+            </div>
           </div>
         </li>
       {/each}
