@@ -140,3 +140,17 @@ query {
     }
   }
 }
+
+#create a comment 
+mutation {
+  createComment(
+    data: {
+      author: { connect: "312950643766592066" }
+      photo: { connect: "312955337078473280" }
+      text: "Wow this is great!"
+      posted: "2021-10-25T00:57:44Z"
+    }
+  ) {
+    _id
+  }
+}

@@ -16,9 +16,11 @@ export const GetTimeline = queryOp(gql`
               username
             }
             text
+            _id
           }
         }
         caption
+        _id
       }
     }
   }
