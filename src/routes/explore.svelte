@@ -4,7 +4,12 @@ import { GetExplore } from '$lib/gql/GetExplore'
 GetExplore()
 
 $: photoArr = $GetExplore.data?.result.data || []
+$: console.dir($GetExplore.data?.result.data)
 </script>
+
+<svelte:head>
+  <title>Devvy - Explore</title>
+</svelte:head>
 
 <div class="w-full flex flex-row justify-center">
   <ul class="flex flex-wrap justify-center px-10 relative">
@@ -16,7 +21,7 @@ $: photoArr = $GetExplore.data?.result.data || []
           <button class="z-30 display-block absolute top-0 left-0 m-2">{photo.author.username}</button>
           <div class="flex w-full h-full flex-row justify-center items-center">
             <span class="z-30 mr-5">{photo.likeCount || 0} likes</span>
-            <span class="z-30">{photo.comments.length || 0} comments</span>
+            <span class="z-30">{photo.comments.data.length || 0} comments</span>
           </div>
         </div>
       </li>

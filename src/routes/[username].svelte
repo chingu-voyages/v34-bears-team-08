@@ -7,10 +7,12 @@ export function load({ page }) {
 
 <script>
 import ProfileInfo from '$lib/components/ProfileInfo.svelte'
+import TimelineFormat from '$lib/components/TimelineFormat.svelte'
 import { GetCurrentUserPhotos } from '$lib/gql/GetProfilePhotos'
 import { DeletePhoto } from '$lib/gql/DeletePhoto'
 import { DeleteComment } from '$lib/gql/DeleteComment'
 import { auth } from '$lib/stores/auth'
+import { ThLarge, ListUl } from '@svicons/fa-solid'
 export let username
 username = username.slice(1)
 let currentUser = $auth?.userInfo.username
@@ -39,7 +41,13 @@ async function callDeletePhoto(e) {
       const id = obj._id
       execDeleteComment({ id })
     })
+    // likes need to be deleted
   }
+}
+
+let direction = 'col'
+function toggleDisplay(e) {
+  direction = e.target.id || e.target.parentNode.id
 }
 </script>
 
@@ -47,20 +55,45 @@ async function callDeletePhoto(e) {
   <div class="flex flex-row justify-between w-3/5">
     <ProfileInfo {username} {currentUser} />
   </div>
-  <ul class="flex flex-wrap justify-start w-3/5 relative">
-    {#each photoArr as photo, index}
-      <li class="w-max relative">
-        <img src={photo.src} width="300px" alt="photo #{index + 1}" class="mt-4 z-0 mr-4" />
-        {#if currentUser === username}
-          <button
-            class="z-10 display-block absolute top-0 right-2 mt-4 ml-3 text-white text-lg pr-4 pb-4"
-            on:click={callDeletePhoto}
-            data-photo-id={photo._id}
-          >
-            x
-          </button>
-        {/if}
-      </li>
-    {/each}
-  </ul>
+  <div class="flex flex-row mb-3">
+    <button on:click={toggleDisplay} id="wrap">
+      <ThLarge
+        id="wrap"
+        class="w-4 mr-3 text-black-light"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      />
+    </button>
+    <button on:click={toggleDisplay} id="col">
+      <ListUl
+        id="wrap"
+        class="w-4 mr-3 text-black-light"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      />
+    </button>
+  </div>
+
+  {#if direction === 'col'}
+    <div class="flex flex-row justify-center w-3/5 relative">
+      <TimelineFormat {photoArr} />
+    </div>
+  {:else}<ul class="flex flex-wrap justify-start w-3/5 relative">
+      {#each photoArr as photo, index}
+        <li class="w-max relative">
+          <img src={photo.src} width="300px" alt="photo #{index + 1}" class="mt-4 z-0 mr-4" />
+          {#if currentUser === username}
+            <button
+              class="z-10 display-block absolute top-0 right-2 mt-4 ml-3 text-white text-lg pr-4 pb-4"
+              on:click={callDeletePhoto}
+              data-photo-id={photo._id}
+            >
+              x
+            </button>
+          {/if}
+        </li>
+      {/each}
+    </ul>{/if}
 </div>
