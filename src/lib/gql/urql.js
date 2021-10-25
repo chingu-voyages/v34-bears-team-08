@@ -15,6 +15,8 @@ import { cacheExchange } from '@urql/exchange-graphcache'
 import { get } from 'svelte/store'
 // import { devtoolsExchange } from '@urql/devtools' // ⚙ for dev only
 
+import { GetTimeline } from './GetTimeline'
+
 // Used to track if the client has been initialized, which will only happen when components are mounting, after all load functions have run.
 // If it is initialized, it'll be used as the client for `loadQueries()` to query with.
 let curClient = null
@@ -33,7 +35,26 @@ export const initClient = () =>
       dedupExchange,
       // TODO: Discuss persistence
       // ? Consider using offline exchange for persistence, w/ request policy exchange for clearing stale data.
-      cacheExchange({}),
+      cacheExchange({
+        updates: {
+          Mutation: {
+            // TODO: Implement createComment manual cache update
+            createComment(result, _args, cache, _info) {
+              const query = GetTimeline.query // In this case, obtained from a func+op store
+              // TODO: May need to use multiple updateQuery depending on where the comment is being posted by user. That might be in timeline, explore, profile photos, anywhere that is getting the photos and their respective comments.
+              cache.updateQuery({ query }, (data) => {
+                // data.result is named after the gql query's root op name, in this case aliased to result
+                data.result.data.comments.data.push(result.createComment)
+                return data
+              })
+            },
+          },
+        },
+        // Any Page types (usually for lists) in your schema should be nulled to silence warnings as they don't have an ID.
+        keys: {
+          UserPage: () => null,
+        },
+      }),
       // [async] auth-exchange: https://waa.ai/auth-exchange
       authExchange({
         addAuthToOperation: ({ authState, operation }) => {
