@@ -8,30 +8,37 @@ export function load({ page }) {
 <script>
 import ProfileInfo from '$lib/components/ProfileInfo.svelte'
 import { GetCurrentUserPhotos } from '$lib/gql/GetProfilePhotos'
-import { mutationOp } from '$lib/gql/urql'
-import { auth } from '$lib/stores/auth';
-import { gql } from '@urql/svelte'
+import { DeletePhoto } from '$lib/gql/DeletePhoto'
+import { DeleteComment } from '$lib/gql/DeleteComment'
+import { auth } from '$lib/stores/auth'
 export let username
 username = username.slice(1)
 let currentUser = $auth?.userInfo.username
 GetCurrentUserPhotos({ username })
-//get current user 
-//check who follows 
+//get current user
+//check who follows
 //dispplay follow or unfollow button
 $: photoArr = $GetCurrentUserPhotos.data?.result.data || []
 
-const deletePhoto = mutationOp(gql`
-  mutation deletePhoto($id: ID!) {
-    result: deletePhoto(id: $id) {
-      _id
-    }
-  }
-`)
+const execDeletePhoto = DeletePhoto()
+const execDeleteComment = DeleteComment()
 
-function deletePost(e) {
+async function callDeletePhoto(e) {
   let id = e.target.dataset.photoId
   if (confirm('Are you sure you want to delete this post?')) {
-    deletePhoto({id})
+    const {
+      data: {
+        result: {
+          comments: { data },
+        },
+      },
+    } = await execDeletePhoto({ id })
+    console.log(data)
+    if (data.length > 0) console.log(data.length)
+    data.forEach((obj) => {
+      const id = obj._id
+      execDeleteComment({ id })
+    })
   }
 }
 </script>
@@ -40,19 +47,19 @@ function deletePost(e) {
   <div class="flex flex-row justify-between w-3/5">
     <ProfileInfo {username} {currentUser} />
   </div>
-  <ul class="flex flex-wrap justify-between w-3/5 relative">
+  <ul class="flex flex-wrap justify-start w-3/5 relative">
     {#each photoArr as photo, index}
       <li class="w-max relative">
-          <img src={photo.src} width="300px" alt="photo #{index + 1}" class="mt-5 z-0" />
-          {#if currentUser === username}
+        <img src={photo.src} width="300px" alt="photo #{index + 1}" class="mt-4 z-0 mr-4" />
+        {#if currentUser === username}
           <button
-            class="z-10 display-block absolute top-0 right-0 mt-7 ml-3 text-white text-lg pr-4 pb-4"
-            on:click={deletePost}
+            class="z-10 display-block absolute top-0 right-2 mt-4 ml-3 text-white text-lg pr-4 pb-4"
+            on:click={callDeletePhoto}
             data-photo-id={photo._id}
           >
             x
           </button>
-          {/if}
+        {/if}
       </li>
     {/each}
   </ul>

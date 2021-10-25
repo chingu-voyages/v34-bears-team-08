@@ -28,7 +28,7 @@ import { Heart, AngleRight, HeartBroken, AngleDown, Pen, Times } from '@svicons/
 import { slide } from 'svelte/transition'
 import { quintOut } from 'svelte/easing'
 import { fade } from 'svelte/transition'
-import { DeleteComment } from '$lib/gql/DeleteComment';
+import { DeleteComment } from '$lib/gql/DeleteComment'
 let currentUser = $auth.userInfo?.username
 
 const execPostNewComment = PostNewComment()
@@ -61,11 +61,11 @@ function postComment(e) {
 
 const execDeleteComment = DeleteComment()
 
-function deleteComment(e){
+function deleteComment(e) {
   console.log(e.target.parentNode)
   const id = e.target.dataset.commentId || e.target.parentNode.dataset.commentId
   console.log(id)
-  execDeleteComment({id})
+  execDeleteComment({ id })
 }
 
 $: console.log(execDeleteComment.error)
@@ -90,11 +90,16 @@ $: photoArr = $GetTimeline.data?.result.data || []
       </div>
     {:else}
       {#each photoArr as photo}
-        <li class="mx-4 mr-4 max-w-photo">
+        <li class="mx-4 mb-4 max-w-photo">
           <div class="border-t border-l border-r border-gray-300 w-full py-3 px-2 rounded-t-sm">
             <span>{photo.author.username}</span>
           </div>
-          <img src={photo.src} width="700px" class="border-l border-r border-gray-200"alt="{photo.author.username}'s photo" />
+          <img
+            src={photo.src}
+            width="700px"
+            class="border-l border-r border-gray-200"
+            alt="{photo.author.username}'s photo"
+          />
           <div class="border-b border-l border-r border-gray-300 w-full max-w-full p-2 flex flex-col rounded-b-sm">
             <div class="inline-block">
               <button>
@@ -139,6 +144,9 @@ $: photoArr = $GetTimeline.data?.result.data || []
                 id="comments"
                 transition:slide={{ delay: 0, duration: 300, easing: quintOut }}
               >
+                {#if photo.comments.data.length === 0}
+                  <li>Be the first to comment!</li>
+                {/if}
                 {#each photo.comments.data as comment}
                   <li class="flex flex-row justify-between w-full px-2">
                     <!--Should username be a link to the user account?-->
@@ -162,6 +170,7 @@ $: photoArr = $GetTimeline.data?.result.data || []
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
+                            data-comment-id={comment._id}
                           /></button
                         >
                       </div>
