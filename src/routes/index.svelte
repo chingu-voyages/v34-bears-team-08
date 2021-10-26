@@ -30,7 +30,6 @@ let currentUser = $auth?.userInfo.username
 GetTimeline()
 
 $: photoArr = $GetTimeline.data?.result.data || []
-$: console.log(photoArr)
 </script>
 
 <svelte:head>

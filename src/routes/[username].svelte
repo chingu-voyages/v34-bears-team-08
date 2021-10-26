@@ -45,7 +45,7 @@ async function callDeletePhoto(e) {
   }
 }
 
-let direction = 'col'
+let direction = 'wrap'
 function toggleDisplay(e) {
   direction = e.target.id || e.target.parentNode.id
 }
