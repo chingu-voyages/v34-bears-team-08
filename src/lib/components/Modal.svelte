@@ -1,38 +1,50 @@
 <script>
     import ImageKit from 'imagekit-javascript';
     import {createEventDispatcher,onDestroy} from 'svelte'
-
-        const imagekit = new ImageKit({
-            publicKey : import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY,
-            urlEndpoint : import.meta.env.VITE_IMAGEKIT_URL_END_POINT,
-            authenticationEndpoint : import.meta.env.VITE_IMAGEKIT_AUTHENTICATION_END_POINT,
-            // Need to fix the  server endpoint issue, tested with express server hosted at 
-            // eg: http://localhost:5000/api/imagekit-auth method POST which returns the url 
-            // successfully
-        });
-        
-        const uploadPost = async () => {
-        uploading = true;
-        const result = await imagekit.upload({file:files[0],fileName:files[0].name || 'default.jpg',tags:['']})
-        //This function probably need to go in the module
-        console.log(result)
-        //Save the Post along with url to our database
-        setTimeout(() => {
-            uploading =false;
-            files = null;
-            caption = ''
-        }, 5000);
+    const dispatch = createEventDispatcher();
+    const close = () => dispatch('close');
+    
+    let modal;
+    let files = null;
+    let caption;
+    let uploading = false;
+    let uploadedImage;
+    let err;
+    const imagekit = new ImageKit({
+        publicKey : import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY,
+        urlEndpoint : import.meta.env.VITE_IMAGEKIT_URL_END_POINT,
+        authenticationEndpoint : import.meta.env.VITE_IMAGEKIT_AUTHENTICATION_END_POINT,
+    });
+    
+    
+     const uploadPost = () => {
+        const fileOptions = {
+            file:files[0],
+            fileName:files[0].name || 'default.jpg',
+            tags:['']
         }
+            uploading = true;
+            imagekit.upload(fileOptions,(error,result) => {
+            if(error){
+                err = `Something went wrong Please try again`
+                console.log(error)
+            }
+            else {
+                uploadedImage = result; //Object with the urls and the transformations 
+                // Save the url and maybe a transformation with a smaller image and a thumbnail to the db
+                console.log(result);
+                // query to create the post and save to the database
+                //     uploading =false;
+                //     files = null;
+                //     caption = ''
+                return result
+            }
+    })
 
-        const dispatch = createEventDispatcher();
-        const close = () => dispatch('close');
-
-        let modal;
-        let files = null;
-        let caption;
-        let uploading = false;
-
-        const handle_keydown = e => {
+}
+    
+    
+    const handle_keydown = e => {
         if (e.key === 'Escape') {
             close();
             return;
@@ -71,23 +83,26 @@
             <line x1=3 y1=3 x2=9 y2=9 />
             <line x1=9 y1=3 x2=3 y2=9 />
         </svg>
-      {#if !uploading}
+    {#if !uploading}
       <div class="modal-content w-full h-full">
         <h2 class="w-full text-center text-lg font-bold px-2 py-3 mb-2 border-b-2">
             Create new post
         </h2>
+        {#if err}
+            <p>{err}</p>
+        {/if}
         <form class="w-full flex flex-col justify-center items-center " on:submit|preventDefault={uploadPost}>
             
-            {#if files === null}
+           {#if files === null}
             <label for="fileUpload" class="cursor-pointer inline-block absolute top-1/2 font-medium rounded-xl px-5 py-2 bg-gray-100">
                 Select an Image for Upload
                 <input type="file" id="fileUpload" name="fileUpload"  class="my-5 hidden" bind:files/>   
             </label>
              
-            {/if}
-            {#if files !== null }
+           {/if}
+             {#if files !== null }
             <textarea  class="w-full focus:outline-none p-5" name="caption" id="caption" bind:value={caption} cols="3" rows="2" placeholder="Write a caption"></textarea>
-            {#if caption !== undefined}
+           {#if caption !== undefined}
             <button class="absolute bottom-0  mb-4 rounded-lg border-none px-7 py-2 bg-gray-100 font-bold" type="submit">Post</button>
             {/if}
             {/if}
@@ -95,7 +110,7 @@
     </div>
       {/if}
 
-      {#if uploading}
+         {#if uploading}
           <h4>Uploading post.. Please wait</h4>
       {/if}
     </div>
