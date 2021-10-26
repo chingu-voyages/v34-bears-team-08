@@ -53,6 +53,12 @@ export const initClient = () =>
         // Any Page types (usually for lists) in your schema should be nulled to silence warnings as they don't have an ID.
         keys: {
           UserPage: () => null,
+          PhotoPage: () => null,
+          FollowPage: () => null,
+          CommentPage: () => null,
+          QueryGetTimelinePage: () => null,
+          QueryGetProfilePhotosPage: () => null,
+          QueryGetExplorePage: () => null,
         },
       }),
       // [async] auth-exchange: https://waa.ai/auth-exchange
