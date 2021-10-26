@@ -6,8 +6,22 @@ export const GetCurrentUserPhotos = queryOp(
     query GetCurrentUserPhotos($username: String!) {
       result: getProfilePhotos(username: $username) {
         data {
-          _id
+          author {
+            username
+          }
           src
+          likeCount
+          comments {
+            data {
+              author {
+                username
+              }
+              text
+              _id
+            }
+          }
+          caption
+          _id
         }
       }
     }

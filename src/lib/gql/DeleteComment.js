@@ -1,5 +1,5 @@
-import { gql } from "@urql/svelte";
-import { mutationOp } from "./urql";
+import { gql } from '@urql/svelte'
+import { mutationOp } from './urql'
 
 export const DeleteComment = mutationOp(gql`
   mutation DeleteComment($id: ID!) {
@@ -8,3 +8,5 @@ export const DeleteComment = mutationOp(gql`
     }
   }
 `)
+
+

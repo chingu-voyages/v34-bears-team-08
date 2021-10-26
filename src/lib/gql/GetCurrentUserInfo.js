@@ -1,4 +1,4 @@
-import { queryOp } from './urql'
+import { queryOp } from '$lib/gql/urql'
 import { gql } from '@urql/svelte'
 
 export const GetCurrentUserInfo = queryOp(
