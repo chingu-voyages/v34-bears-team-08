@@ -7,6 +7,7 @@ export const GetTimeline = queryOp(gql`
       data {
         author {
           username
+          _id
         }
         src
         likeCount
@@ -14,6 +15,7 @@ export const GetTimeline = queryOp(gql`
           data {
             author {
               username
+              _id
             }
             text
             _id

@@ -19,6 +19,7 @@ export const GetCurrentUserInfo = queryOp(
               username
               _id
             }
+            _id
           }
         }
       }

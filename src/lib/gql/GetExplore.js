@@ -15,14 +15,18 @@ export const GetExplore = queryOp(gql`
           data {
             author {
               username
+              _id
             }
             text
+            _id
           }
         }
         liked {
           data {
             username
+            _id
           }
+          _id
         }
       }
     }

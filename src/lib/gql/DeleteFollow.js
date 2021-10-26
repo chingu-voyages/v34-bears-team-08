@@ -6,9 +6,11 @@ export const DeleteFollow = mutationOp(gql`
     deleteFollow(id: $followId) {
       user {
         username
+        _id
       }
       follows {
         username
+        _id
       }
     }
   }

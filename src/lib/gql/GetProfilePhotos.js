@@ -8,6 +8,7 @@ export const GetCurrentUserPhotos = queryOp(
         data {
           author {
             username
+            _id
           }
           src
           likeCount
@@ -15,6 +16,7 @@ export const GetCurrentUserPhotos = queryOp(
             data {
               author {
                 username
+                _id
               }
               text
               _id
