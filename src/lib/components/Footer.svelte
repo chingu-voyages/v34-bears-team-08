@@ -1,16 +1,6 @@
-<script>
-const footerLinks = [
-  ['/about', 'About'],
-  ['/blog', 'Blog'],
-  ['/privacy', 'Privacy'],
-  ['/terms', 'Terms'],
-  ['/profiles', 'Top Accounts'],
-]
-</script>
-
 <footer class="w-full mt-7 pt-5 bg-gray-100 h-36">
   <nav class="w-full flex justify-center items-center">
-    {#each footerLinks as [link, title]}
+    {#each [['/about', 'About'], ['/blog', 'Blog'], ['/privacy', 'Privacy'], ['/terms', 'Terms'], ['/profiles', 'Top Accounts']] as [link, title]}
       <a class="p-3" href={link}>{title}</a>
     {/each}
   </nav>
