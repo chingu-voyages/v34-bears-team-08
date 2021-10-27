@@ -5,8 +5,10 @@ export const GetExplore = queryOp(gql`
   query GetExplore {
     result: getExplore(_size: 10) {
       data {
+        _id
         author {
           username
+          _id
         }
         src
         caption
@@ -26,7 +28,6 @@ export const GetExplore = queryOp(gql`
             username
             _id
           }
-          _id
         }
       }
     }
