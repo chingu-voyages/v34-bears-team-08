@@ -60,9 +60,8 @@ function handleKeydown(e) {
   }
 }
 
-let prevFocused
 onMount(() => {
-  prevFocused = document.activeElement
+  const prevFocused = document.activeElement
   return () => prevFocused?.focus()
 })
 </script>
