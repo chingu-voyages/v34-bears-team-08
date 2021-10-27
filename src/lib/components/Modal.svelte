@@ -62,7 +62,7 @@ function handleKeydown(e) {
 
 onMount(() => {
   const prevFocused = document.activeElement
-  return () => prevFocused?.focus()
+  return () => prevFocused?.focus?.()
 })
 </script>
 
