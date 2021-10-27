@@ -91,7 +91,7 @@ export let photoArr
           <div class="inline-block">
             <button data-photo-id={photo._id} on:click={likePhoto}>
               <Heart
-                class="w-4 mr-3 text-black-light"
+                class="w-4 mr-3 text-black-light pointer-events-none"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -103,7 +103,7 @@ export let photoArr
           <button class="inline-flex items-center" on:click={toggleCommentDisplay} data-photo-index={index}>
             View comments {#if displayComments != index}
               <AngleRight
-                class="w-2 ml-1 pt-0.5 text-black-light"
+                class="w-2 ml-1 pt-0.5 text-black-light pointer-events-none"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -111,7 +111,7 @@ export let photoArr
               />
             {:else}
               <AngleDown
-                class="w-3 ml-1 pt-0.5 text-black-light"
+                class="w-3 ml-1 pt-0.5 text-black-light pointer-events-none"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -141,7 +141,7 @@ export let photoArr
                       <button data-comment-id={comment._id}>
                         <Pen
                           class="w-3 mr-3 text-gray-300 hover:text-gray-800"
-                          xmlns="http://www.w3.org/2000/svg"
+                          xmlns="http://www.w3.org/2000/svg pointer-events-none"
                           fill="none"
                           viewBox="0 0 24 24"
                         /></button
@@ -149,7 +149,7 @@ export let photoArr
                       <button data-comment-id={comment._id} on:click={deleteComment}>
                         <Times
                           class="w-3 mr-3 text-gray-300 hover:text-gray-800"
-                          xmlns="http://www.w3.org/2000/svg"
+                          xmlns="http://www.w3.org/2000/svg pointer-events-none"
                           fill="none"
                           viewBox="0 0 24 24"
                           data-comment-id={comment._id}
@@ -192,5 +192,8 @@ export let photoArr
 <style>
 .max-w-photo {
   max-width: 700px;
+}
+button > * {
+  pointer-events: none;
 }
 </style>

@@ -59,7 +59,7 @@ function toggleDisplay(e) {
     <button on:click={toggleDisplay} id="wrap">
       <ThLarge
         id="wrap"
-        class="w-4 mr-3 text-black-light"
+        class="w-4 mr-3 text-black-light pointer-events-none"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -68,7 +68,7 @@ function toggleDisplay(e) {
     <button on:click={toggleDisplay} id="col">
       <ListUl
         id="wrap"
-        class="w-4 mr-3 text-black-light"
+        class="w-4 mr-3 text-black-light pointer-events-none"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -97,3 +97,10 @@ function toggleDisplay(e) {
       {/each}
     </ul>{/if}
 </div>
+
+
+<style>
+button > * {
+  pointer-events: none;
+}
+</style>

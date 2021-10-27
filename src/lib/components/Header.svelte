@@ -26,7 +26,7 @@
         on:click="{() => showModal = true}"
       >
         <PlusCircle
-          class="w-6 mr-6 text-black-light"
+          class="w-6 mr-6 text-black-light pointer-events-none	"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -35,7 +35,7 @@
       </button>
           <a href="/" aria-label="Timeline">
             <Home
-              class="w-6 mr-6 text-black-light"
+              class="w-6 mr-6 text-black-light pointer-events-none	"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -44,7 +44,7 @@
           </a>
           <a href="/explore" area-label="explore">
             <Compass
-              class="w-5 mr-6 text-black-light"
+              class="w-5 mr-6 text-black-light pointer-events-none	"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -61,7 +61,7 @@
             }}
           >
             <SignOutAlt
-              class="w-6 mr-6 text-black-light"
+              class="w-6 mr-6 text-black-light pointer-events-none"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -74,7 +74,7 @@
             <div class="flex items-center">
               <a href="/{username}"
                 ><UserAlt
-                  class="w-5 mr-6 text-black-light"
+                  class="w-5 mr-6 text-black-light pointer-events-none"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"

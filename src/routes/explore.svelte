@@ -4,7 +4,6 @@ import { GetExplore } from '$lib/gql/GetExplore'
 GetExplore()
 
 $: photoArr = $GetExplore.data?.result.data || []
-$: console.dir($GetExplore)
 </script>
 
 <svelte:head>
