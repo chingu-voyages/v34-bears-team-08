@@ -1,9 +1,9 @@
 import { queryOp } from '$lib/gql/urql'
 import { gql } from '@urql/svelte'
 
-export const GetCurrentUserPhotos = queryOp(
+export const GetProfilePhotos = queryOp(
   gql`
-    query GetCurrentUserPhotos($username: String!) {
+    query GetProfilePhotos($username: String!) {
       result: getProfilePhotos(username: $username) {
         data {
           author {

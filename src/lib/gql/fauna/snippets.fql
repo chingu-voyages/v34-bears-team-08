@@ -1,0 +1,7 @@
+// Usually for cleanup
+
+// delete all from a collection
+Foreach(
+  Paginate(Match(Index('photo_author_by_user'), Ref(Collection('User'), '312744115794084416'))),
+  Lambda('ref', Delete(Var('ref')))
+)

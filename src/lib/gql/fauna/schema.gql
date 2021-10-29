@@ -28,7 +28,7 @@ type Photo {
   liked: [User] @relation
   likeCount: Int
   comments: [Comment] @relation
-  # TODO: likedByUser implementation - placeholder or queried boolean by id? Test boolean caching!
+  likedByUser: Boolean
 }
 
 type Comment {
