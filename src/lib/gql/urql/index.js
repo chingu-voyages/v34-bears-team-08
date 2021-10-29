@@ -14,8 +14,6 @@ import { get } from 'svelte/store'
 
 export * from './utils'
 
-import { GetTimeline } from '../GetTimeline'
-
 // Used to track if the client has been initialized, which will only happen when components are mounting, after all load functions have run.
 // If it is initialized, it'll be used as the client for `loadQueries()` to query with.
 let curClient = null
@@ -37,18 +35,18 @@ export const initClient = () =>
       cacheExchange({
         updates: {
           Mutation: {
-            // TODO: Implement createComment manual cache update
-            createComment(result, _args, cache, _info) {
-              console.log('Comment data: ', result)
-              const query = GetTimeline.query // In this case, obtained from a func+op store
-              // TODO: May need to use multiple updateQuery depending on where the comment is being posted by user. That might be in timeline, explore, profile photos, anywhere that is getting the photos and their respective comments.
-              cache.updateQuery({ query }, (data) => {
-                // data.result is named after the gql query's root op name, in this case aliased to result
-                data.result.data.comments.data.push(result.createComment)
-                return data
-              })
+            createComment({ result }, args, cache, _info) {
+              // TODO: Remove console.log
+              // console.log(args, cache, _info)
+              const entity = { __typename: 'Photo', _id: args.data.photo.connect } // the exact Photo entity we need
+              const comments = cache.resolve(cache.resolve(entity, 'comments'), 'data') // get comments from cache
+              comments.push(result)
+              cache.link(entity, 'comments', comments)
             },
           },
+        },
+        optimistic: {
+          // createComment: () => ({})
         },
         // Any Page types (usually for lists) in your schema should be nulled to silence warnings as they don't have an ID.
         keys: {

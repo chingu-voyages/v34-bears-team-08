@@ -8,6 +8,7 @@ import { PostNewComment } from '$lib/gql/PostNewComment'
 import { DeleteComment } from '$lib/gql/DeleteComment'
 import { auth } from '$lib/stores/auth'
 import { LikePhoto } from '$lib/gql/LikePhoto'
+import { sleep } from '$lib/utils'
 
 export let photoArr
 let currentUser = $auth.userInfo?.username
@@ -15,7 +16,6 @@ let currentUser = $auth.userInfo?.username
 const execPostNewComment = PostNewComment()
 
 let text = '',
-  newComment = {},
   displayComments,
   commentsEl
 
@@ -63,9 +63,8 @@ const execLikePhoto = LikePhoto()
           <span>{photo.likeCount || 0} likes</span>
           <button
             class="inline-flex items-center"
-            on:click={function toggleCommentDisplay() {
-              if (displayComments != index) displayComments = index
-              console.log(displayComments)
+            on:click={async function toggleCommentDisplay() {
+              displayComments = displayComments == index ? null : index
             }}
           >
             View comments
@@ -130,15 +129,6 @@ const execLikePhoto = LikePhoto()
                   {/if}
                 </li>
               {/each}
-
-              <!-- TODO Remove this, when caching is working. -->
-              {#if newComment.username && newComment.text}
-                <li class="inline-block" transition:fade={{ delay: 250, duration: 300 }}>
-                  <!--Should username be a link to the user account?-->
-                  <span class="text-gray-400">{newComment.username}</span>
-                  <span>{newComment.text}</span>
-                </li>
-              {/if}
             </ul>
           {/if}
 
@@ -152,21 +142,19 @@ const execLikePhoto = LikePhoto()
             />
             <button
               on:click={async function postComment() {
-                const posted = new Date().toISOString()
-                const author = $auth?.userInfo._id
+                if (!text) return
 
-                if (text && posted && photo && author) {
-                  await execPostNewComment({ text, posted, photo: photo._id, author })
-                }
-                newComment = { username: currentUser, text: text, index }
-                displayComments = true
-                setTimeout(() => {
-                  let height = commentsEl.scrollHeight + 100
-                  commentsEl.scrollTo({
-                    top: height,
-                    behavior: 'smooth',
-                  })
-                }, 250)
+                await execPostNewComment({
+                  text,
+                  posted: new Date().toISOString(),
+                  photo: photo._id,
+                  author: $auth?.userInfo._id,
+                })
+
+                displayComments = index
+                await sleep(250)
+                let height = commentsEl.scrollHeight + 100
+                commentsEl.scrollTo({ top: height, behavior: 'smooth' })
 
                 text = ''
               }}
