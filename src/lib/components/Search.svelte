@@ -5,7 +5,7 @@ import { quintOut } from 'svelte/easing'
 import { SearchForUser } from '$lib/gql/SearchForUser'
 
 let loading = false
-let username = ""
+let username = ''
 
 async function searchQuery(username) {
   loading = true
@@ -19,11 +19,15 @@ $: console.log($SearchForUser.data?.result)
 <div class="flex flex-col p-3">
   <input
     type="text"
-    class="border h-10 self-center justify-self-center"
+    class="border w-full self-center justify-self-center outline-none"
     placeholder="find your buddies.."
     bind:value={username}
   />
-  <div transition:slide={{ delay: 0, duration: 300, easing: quintOut }}>
-    {#if loading}<Loader />{:else if SearchForUser.data?.result}{SearchForUser.data?.result}{/if}
-  </div>
+    {#if loading}<Loader />{:else if SearchForUser.data?.result.data}
+      <div class="z-10 border bg-white">
+        {#each SearchForUser.data?.result.data as user}
+          <a href="/{user.username}" class="text-black-light hover:text-blue-700">{user.username}</a>
+        {/each}
+      </div>
+    {/if}
 </div>

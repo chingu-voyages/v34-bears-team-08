@@ -6,7 +6,7 @@ export const SearchForUser = queryOp(gql`
     result: searchUser(username: $username) {
       data {
         _id
-        email
+        username
       }
     }
   }
