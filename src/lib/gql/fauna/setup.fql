@@ -169,10 +169,22 @@ Update(Function('like_photo'), {
             // unlike
             If(Exists(Var('likedMatch')), Delete(Select('ref', Get(Var('likedMatch')))), null)
           ),
-          // Update likeCount on photo
-          Update(Var('photoRef'), {
-            data: { likeCount: Count(Match(Index('photo_liked_by_photo'), Var('photoRef'))) },
-          })
+          Let(
+            {
+              // Update likeCount on photo
+              photoDoc: Update(Var('photoRef'), {
+                data: { likeCount: Count(Match(Index('photo_liked_by_photo'), Var('photoRef'))) },
+              }),
+            },
+            // return likedByUser field
+            Merge(Var('photoDoc'), {
+              data: Merge(Select('data', Var('photoDoc')), {
+                likedByUser: Exists(
+                  Match(Index('photo_liked_by_photo_and_user'), [Var('photoRef'), CurrentIdentity()])
+                ),
+              }),
+            })
+          )
         )
       )
     )
