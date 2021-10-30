@@ -1,9 +1,9 @@
 import { queryOp } from '$lib/gql/urql'
 import { gql } from '@urql/svelte'
 
-export const GetCurrentUserInfo = queryOp(
+export const GetUserInfo = queryOp(
   gql`
-    query GetCurrentUserInfo($username: String!) {
+    query GetUserInfo($username: String!) {
       result: getUserByUsername(username: $username) {
         headline
         fullName
@@ -13,15 +13,7 @@ export const GetCurrentUserInfo = queryOp(
         username
         profileImgSrc
         _id
-        followers {
-          data {
-            user {
-              username
-              _id
-            }
-            _id
-          }
-        }
+        followedByUser
       }
     }
   `

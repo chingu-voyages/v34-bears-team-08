@@ -9,7 +9,7 @@ import {
   createClient,
 } from '@urql/svelte'
 import { cacheExchange } from '@urql/exchange-graphcache'
-import schema from './generated-introspection.json'
+// import schema from './generated-introspection.json'
 import { get } from 'svelte/store'
 // import { devtoolsExchange } from '@urql/devtools' // ⚙ for dev only
 
@@ -36,7 +36,7 @@ export const initClient = () =>
       // TODO: Discuss persistence
       // ? Consider using offline exchange for persistence, w/ request policy exchange for clearing stale data.
       cacheExchange({
-        schema,
+        // schema,
         updates: {
           Mutation: {
             createComment({ result }, args, cache, _info) {

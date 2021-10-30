@@ -139,7 +139,24 @@ Update(Function('get_timeline'), {
 })
 
 Update(Function('get_user_by_username'), {
-  body: Query(Lambda(['username'], Get(Match(Index('unique_User_username'), Var('username'))))),
+  body: Query(
+    Lambda(
+      ['username'],
+      Let(
+        { userDoc: Get(Match(Index('unique_User_username'), Var('username'))) },
+        Merge(Var('userDoc'), {
+          data: Merge(Select('data', Var('userDoc')), {
+            followedByUser: Exists(
+              Intersection(
+                Match(Index('following_by_user'), CurrentIdentity()),
+                Match(Index('followers_by_user'), Select('ref', Var('userDoc')))
+              )
+            ),
+          }),
+        })
+      )
+    )
+  ),
 })
 
 Update(Function('like_photo'), {
@@ -223,13 +240,21 @@ Update(Function('follow_user'), {
             // unfollow
             If(Exists(Var('followMatch')), Delete(Select('ref', Get(Var('followMatch')))), null)
           ),
-          // Update followerCount and followingCount on both user and who they're following
-          Do(
-            Update(CurrentIdentity(), {
-              data: { followingCount: Count(Var('followingMatch')) },
-            }),
-            Update(Var('userRef'), {
-              data: { followerCount: Count(Var('followersMatch')) },
+          // Update followerCount and followingCount on both user and who they're following, and refresh w/ new match + count
+          Update(CurrentIdentity(), {
+            data: { followingCount: Count(Match(Index('following_by_user'), CurrentIdentity())) },
+          }),
+          // Return who to un/follow doc
+          Let(
+            {
+              userDoc: Update(Var('userRef'), {
+                data: { followerCount: Count(Match(Index('followers_by_user'), Var('userRef'))) },
+              }),
+            },
+            Merge(Var('userDoc'), {
+              data: Merge(Select('data', Var('userDoc')), {
+                followedByUser: Select('value', Var('input')),
+              }),
             })
           )
         )
