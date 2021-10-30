@@ -67,6 +67,7 @@ export const initClient = () =>
           QueryGetTimelinePage: () => null,
           QueryGetProfilePhotosPage: () => null,
           QueryGetExplorePage: () => null,
+          QuerySearchUserPage: () => null,
         },
       }),
       // [async] auth-exchange: https://waa.ai/auth-exchange
