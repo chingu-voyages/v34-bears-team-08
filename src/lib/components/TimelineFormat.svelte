@@ -1,5 +1,5 @@
 <script>
-import { AngleRight, AngleDown, Pen, Times } from '@svicons/fa-solid'
+import { AngleRight, AngleDown, Times } from '@svicons/fa-solid'
 import { Heart, HeartFill } from '@svicons/bootstrap'
 import { slide } from 'svelte/transition'
 import { quintOut } from 'svelte/easing'
@@ -126,14 +126,6 @@ const execLikePhoto = LikePhoto()
                   </div>
                   {#if comment.author.username === currentUser}
                     <div class="flex flex-row">
-                      <button>
-                        <Pen
-                          class="w-3 mr-3 text-gray-300 hover:text-gray-800"
-                          xmlns="http://www.w3.org/2000/svg pointer-events-none"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        /></button
-                      >
                       <button
                         on:click={async function deleteComment() {
                           await execDeleteComment({ id: comment._id, photoID: photo._id })
