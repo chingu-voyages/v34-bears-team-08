@@ -1,12 +1,13 @@
 <script>
 import { createEventDispatcher, onMount } from 'svelte'
 import ImageKit from 'imagekit-javascript'
+import { useDialog } from 'sashui'
 
 const dispatch = createEventDispatcher()
 const close = () => dispatch('close')
+const dialog = useDialog()
 
-let modal,
-  files = null,
+let files = null,
   caption,
   uploading = false,
   uploadedImage,
@@ -40,35 +41,10 @@ function uploadPost() {
     }
   })
 }
-
-function handleKeydown(e) {
-  if (e.key == 'Escape') return close()
-
-  if (e.key == 'Tab') {
-    // trap focus
-    const nodes = modal.querySelectorAll('*')
-    const tabbable = Array.from(nodes).filter((n) => n.tabIndex >= 0)
-
-    let index = tabbable.indexOf(document.activeElement)
-    if (index === -1 && e.shiftKey) index = 0
-
-    index += tabbable.length + (e.shiftKey ? -1 : 1)
-    index %= tabbable.length
-
-    tabbable[index].focus()
-    e.preventDefault()
-  }
-}
-
-onMount(() => {
-  const prevFocused = document.activeElement
-  return () => prevFocused?.focus?.()
-})
 </script>
 
-<svelte:window on:keydown={handleKeydown} />
-<div class="modal-bg" on:click={close} />
-<div class="modal" role="dialog" aria-modal="true" bind:this={modal}>
+<div class="modal-bg" use:dialog.overlay />
+<div class="modal" use:dialog on:close>
   <svg class="modal-close" on:click={close} viewBox="0 0 12 12">
     <circle cx="6" cy="6" r="6" />
     <line x1="3" y1="3" x2="9" y2="9" />
