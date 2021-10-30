@@ -7,12 +7,12 @@ import { SearchForUser } from '$lib/gql/SearchForUser'
 let loading = false
 let username = ''
 
-async function searchQuery(username) {
+async function searchQuery() {
   loading = true
   await SearchForUser({ username })
   loading = false
 }
-$: searchQuery(username)
+$: username && searchQuery()
 $: console.log($SearchForUser.data?.result)
 </script>
 
@@ -23,11 +23,11 @@ $: console.log($SearchForUser.data?.result)
     placeholder="find your buddies.."
     bind:value={username}
   />
-    {#if loading}<Loader />{:else if SearchForUser.data?.result.data}
-      <div class="z-10 border bg-white">
-        {#each SearchForUser.data?.result.data as user}
-          <a href="/{user.username}" class="text-black-light hover:text-blue-700">{user.username}</a>
-        {/each}
-      </div>
-    {/if}
+  {#if loading}<Loader />{:else if SearchForUser.data?.result.data}
+    <div class="z-10 border bg-white">
+      {#each SearchForUser.data?.result.data as user}
+        <a href="/{user.username}" class="text-black-light hover:text-blue-700">{user.username}</a>
+      {/each}
+    </div>
+  {/if}
 </div>
