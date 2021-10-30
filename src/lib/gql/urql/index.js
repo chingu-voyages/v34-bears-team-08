@@ -9,6 +9,7 @@ import {
   createClient,
 } from '@urql/svelte'
 import { cacheExchange } from '@urql/exchange-graphcache'
+import schema from './generated-introspection.json'
 import { get } from 'svelte/store'
 // import { devtoolsExchange } from '@urql/devtools' // ⚙ for dev only
 
@@ -35,6 +36,7 @@ export const initClient = () =>
       // TODO: Discuss persistence
       // ? Consider using offline exchange for persistence, w/ request policy exchange for clearing stale data.
       cacheExchange({
+        schema,
         updates: {
           Mutation: {
             createComment({ result }, args, cache, _info) {
@@ -54,19 +56,13 @@ export const initClient = () =>
               )
               cache.link(commentsLink, 'data', comments)
             },
-            // likePhoto({ result }, { input: { photoID, value } = {} }, cache, _info) {
-
-            //   const entity = { __typename: 'Photo', _id: photoID }, // the exact Photo entity we need
-
-            //   // cache.updateQuery( GetTimeline, (data)=>({}))
-            //   //   comments = cache.resolve(commentsLink, 'data') // get comments from cache
-            //   // comments.push(result)
-            // },
           },
         },
         optimistic: {
           likePhoto: ({ input: { photoID, value } = {} }, cache) => ({
-            likeCount: cache.resolve({ __typename: 'Photo', _id: photoID }),
+            _id: photoID,
+            __typename: 'Photo',
+            likeCount: cache.resolve({ __typename: 'Photo', _id: photoID }, 'likeCount') + (value ? 1 : -1),
             likedByUser: value,
           }),
         },

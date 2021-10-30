@@ -1,0 +1,1533 @@
+{
+  "__schema": {
+    "queryType": {
+      "name": "Query"
+    },
+    "mutationType": {
+      "name": "Mutation"
+    },
+    "subscriptionType": null,
+    "types": [
+      {
+        "kind": "OBJECT",
+        "name": "Comment",
+        "fields": [
+          {
+            "name": "_id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "_ts",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "author",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "photo",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Photo",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "posted",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "text",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "CommentPage",
+        "fields": [
+          {
+            "name": "after",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "before",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "data",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Comment",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Follow",
+        "fields": [
+          {
+            "name": "_id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "_ts",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "follows",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "user",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FollowPage",
+        "fields": [
+          {
+            "name": "after",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "before",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "data",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Follow",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "LoginUserPayload",
+        "fields": [
+          {
+            "name": "exp",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "token",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "userInfo",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Mutation",
+        "fields": [
+          {
+            "name": "createComment",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Comment",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "data",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "createFollow",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Follow",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "data",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "createPhoto",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Photo",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "data",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "createUser",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "data",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "deleteComment",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Comment",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "deleteFollow",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Follow",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "deletePhoto",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Photo",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "deleteUser",
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "followUser",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "likePhoto",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Photo",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "loginUser",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "LoginUserPayload",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "logoutUser",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": [
+              {
+                "name": "input",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "partialUpdateComment",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Comment",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "data",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "partialUpdateFollow",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Follow",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "data",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "partialUpdatePhoto",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Photo",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "data",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "partialUpdateUser",
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "data",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "updateComment",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Comment",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "data",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "updateFollow",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Follow",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "data",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "updatePhoto",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Photo",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "data",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "updateUser",
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "data",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Photo",
+        "fields": [
+          {
+            "name": "_id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "_ts",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "author",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "caption",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "comments",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "CommentPage",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "_cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "_size",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "likeCount",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "liked",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "UserPage",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "_cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "_size",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "likedByUser",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "posted",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "src",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "PhotoItem",
+        "fields": [
+          {
+            "name": "likeCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "photo",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Photo",
+                "ofType": null
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "PhotoPage",
+        "fields": [
+          {
+            "name": "after",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "before",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "data",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Photo",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Query",
+        "fields": [
+          {
+            "name": "findCommentByID",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Comment",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "findFollowByID",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Follow",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "findPhotoByID",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Photo",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "findUserByID",
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "getTimeline",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "QueryGetTimelinePage",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "_cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "_size",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "username",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "getUserByUsername",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "username",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "searchUser",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "QuerySearchUserPage",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "_cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "_size",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "username",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "QueryGetTimelinePage",
+        "fields": [
+          {
+            "name": "after",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "before",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "data",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Photo",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "QuerySearchUserPage",
+        "fields": [
+          {
+            "name": "after",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "before",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "data",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "User",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TimelineItem",
+        "fields": [
+          {
+            "name": "likeCount",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "photo",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Photo",
+                "ofType": null
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "User",
+        "fields": [
+          {
+            "name": "_id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "_ts",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "bio",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "created",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "email",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "followerCount",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "followers",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "FollowPage",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "_cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "_size",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "following",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "FollowPage",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "_cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "_size",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "followingCount",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "fullName",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "headline",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "likes",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PhotoPage",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "_cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "_size",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "onboard",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "photos",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "PhotoPage",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "_cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              },
+              {
+                "name": "_size",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Any"
+                }
+              }
+            ]
+          },
+          {
+            "name": "profileImgSrc",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "username",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "UserPage",
+        "fields": [
+          {
+            "name": "after",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "before",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
+            "name": "data",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "User",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Any"
+      }
+    ],
+    "directives": []
+  }
+}
