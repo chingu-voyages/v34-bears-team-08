@@ -13,6 +13,10 @@ type User {
   headline: String
   photos: [Photo] @relation(name: "user_photos")
   profileImgSrc: String
+  """
+  dynamic, only available through manually defined queries/mutations
+  """
+  followedByUser: Boolean
 }
 
 type Follow {
@@ -26,8 +30,11 @@ type Photo {
   posted: Time!
   caption: String
   liked: [User] @relation
-  likeCount: Int
   comments: [Comment] @relation
+  likeCount: Int
+  """
+  dynamic
+  """
   likedByUser: Boolean
 }
 
