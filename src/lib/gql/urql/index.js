@@ -14,6 +14,7 @@ import { get } from 'svelte/store'
 
 export * from './utils'
 import { DeleteComment } from '../DeleteComment'
+import { GetTimeline } from '../GetTimeline'
 
 // Used to track if the client has been initialized, which will only happen when components are mounting, after all load functions have run.
 // If it is initialized, it'll be used as the client for `loadQueries()` to query with.
@@ -53,10 +54,21 @@ export const initClient = () =>
               )
               cache.link(commentsLink, 'data', comments)
             },
+            // likePhoto({ result }, { input: { photoID, value } = {} }, cache, _info) {
+
+            //   const entity = { __typename: 'Photo', _id: photoID }, // the exact Photo entity we need
+
+            //   // cache.updateQuery( GetTimeline, (data)=>({}))
+            //   //   comments = cache.resolve(commentsLink, 'data') // get comments from cache
+            //   // comments.push(result)
+            // },
           },
         },
         optimistic: {
-          // createComment: () => ({})
+          likePhoto: ({ input: { photoID, value } = {} }, cache) => ({
+            likeCount: cache.resolve({ __typename: 'Photo', _id: photoID }),
+            likedByUser: value,
+          }),
         },
         // Any Page types (usually for lists) in your schema should be nulled to silence warnings as they don't have an ID.
         keys: {
