@@ -1,13 +1,14 @@
 <script>
-  import { auth, isAuthenticated, logout } from '$lib/stores/auth';
-  import Modal from '$components/Modal.svelte';
-  import {Home, Compass, SignOutAlt, UserAlt, PlusCircle} from '@svicons/fa-solid'
-  import Logo from '$components/Logo.svelte'
+import { auth, isAuthenticated, logout } from '$lib/stores/auth'
+import Modal from '$components/Modal.svelte'
+import { Home, Compass, SignOutAlt, UserAlt, PlusCircle } from '@svicons/fa-solid'
+import Logo from '$components/Logo.svelte'
+import Search from '$components/Search.svelte'
 
-  let username = $auth.userInfo?.username,
+let username = $auth.userInfo?.username,
   disableLogout = false
-  console.log($isAuthenticated)
-  let showModal = false;
+console.log($isAuthenticated)
+let showModal = false
 </script>
 
 <header class="px-4 h-16 bg-white border-b border-gray-primary mb-8">
@@ -18,24 +19,21 @@
           <Logo />
         </h1>
       </div>
+        <Search />
       <div class="text-gray-700 text-center flex items-center align-items">
         {#if $isAuthenticated}
-        <button
-        type="button"
-        title="Add Post"
-        on:click="{() => showModal = true}"
-      >
-        <PlusCircle
-          class="w-6 mr-6 text-black-light pointer-events-none	"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        />
-      </button>
+          <button type="button" title="Add Post" on:click={() => (showModal = true)}>
+            <PlusCircle
+              class="w-6 mr-6 text-black-light pointer-events-none"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            />
+          </button>
           <a href="/" aria-label="Timeline">
             <Home
-              class="w-6 mr-6 text-black-light pointer-events-none	"
+              class="w-6 mr-6 text-black-light pointer-events-none"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -89,8 +87,6 @@
   </div>
 </header>
 
-
 {#if showModal}
-<Modal on:close="{() => showModal = false}"   />
+  <Modal on:close={() => (showModal = false)} />
 {/if}
-

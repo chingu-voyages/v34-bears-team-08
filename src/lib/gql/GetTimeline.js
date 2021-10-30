@@ -23,6 +23,11 @@ export const GetTimeline = queryOp(gql`
         }
         caption
         _id
+        liked {
+          data {
+            username
+          }
+        }
       }
     }
   }

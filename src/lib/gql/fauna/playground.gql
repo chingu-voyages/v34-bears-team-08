@@ -10,11 +10,10 @@ mutation {
       author: { connect: "312744115794084416" }
       src: "https://picsum.photos/200"
       posted: "2011-10-05T14:48:00.000Z"
+      caption: "anything"
     }
   ) {
-    author {
-      email
-    }
+    _id
   }
 }
 # get all photos from user oldest to newest

@@ -3,7 +3,6 @@ import { AngleRight, AngleDown, Pen, Times } from '@svicons/fa-solid'
 import { Heart, HeartFill } from '@svicons/bootstrap'
 import { slide } from 'svelte/transition'
 import { quintOut } from 'svelte/easing'
-import { fade } from 'svelte/transition'
 import { PostNewComment } from '$lib/gql/PostNewComment'
 import { DeleteComment } from '$lib/gql/DeleteComment'
 import { auth } from '$lib/stores/auth'
@@ -11,6 +10,14 @@ import { LikePhoto } from '$lib/gql/LikePhoto'
 import { sleep } from '$lib/utils'
 
 export let photoArr
+
+let likedPhotos =[]
+
+$: photoArr.forEach((photo, index)=>{
+let liked = photo.liked.data.find((like) => like.username === currentUser)
+if(liked) likedPhotos.push(index)
+});
+
 let currentUser = $auth.userInfo?.username
 
 const execPostNewComment = PostNewComment()
@@ -22,6 +29,8 @@ let text = '',
 const execDeleteComment = DeleteComment()
 
 const execLikePhoto = LikePhoto()
+
+
 </script>
 
 <ul class="flex flex-col">
@@ -46,19 +55,31 @@ const execLikePhoto = LikePhoto()
         />
         <div class="border-b border-l border-r border-gray-300 w-full max-w-full p-2 flex flex-col rounded-b-sm">
           <div class="inline-block">
-            <button
-              on:click={async () => {
-                await execLikePhoto({ id: photo._id })
-                console.log(LikePhoto.data)
-              }}
-            >
-              <Heart
-                class="w-4 mr-3 text-black-light pointer-events-none"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              />
-            </button>
+            {#if likedPhotos.includes(index)}<button
+                on:click={async () => {
+                  await execLikePhoto({ id: photo._id, value: false })
+                }}
+              >
+                <HeartFill
+                  class="w-4 mr-3 text-red-500 pointer-events-none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                />
+              </button>{:else}
+              <button
+                on:click={async () => {
+                  await execLikePhoto({ id: photo._id, value: true })
+                }}
+              >
+                <Heart
+                  class="w-4 mr-3 text-black-light pointer-events-none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                />
+              </button>
+            {/if}
           </div>
           <span>{photo.likeCount || 0} likes</span>
           <button
@@ -170,8 +191,5 @@ const execLikePhoto = LikePhoto()
 <style>
 .max-w-photo {
   max-width: 700px;
-}
-button > * {
-  pointer-events: none;
 }
 </style>

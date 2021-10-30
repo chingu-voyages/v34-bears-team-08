@@ -8,7 +8,7 @@ export const LikePhoto = mutationOp(gql`
         username
         _id
       }
+      _id
     }
-    _id
   }
 `)
