@@ -13,6 +13,7 @@ import { get } from 'svelte/store'
 // import { devtoolsExchange } from '@urql/devtools' // ⚙ for dev only
 
 export * from './utils'
+import { DeleteComment } from '../DeleteComment'
 
 // Used to track if the client has been initialized, which will only happen when components are mounting, after all load functions have run.
 // If it is initialized, it'll be used as the client for `loadQueries()` to query with.
@@ -36,12 +37,21 @@ export const initClient = () =>
         updates: {
           Mutation: {
             createComment({ result }, args, cache, _info) {
-              // TODO: Remove console.log
-              // console.log(args, cache, _info)
-              const entity = { __typename: 'Photo', _id: args.data.photo.connect } // the exact Photo entity we need
-              const comments = cache.resolve(cache.resolve(entity, 'comments'), 'data') // get comments from cache
+              const entity = { __typename: 'Photo', _id: args.data.photo.connect }, // the exact Photo entity we need
+                commentsLink = cache.resolve(entity, 'comments'),
+                comments = cache.resolve(commentsLink, 'data') // get comments from cache
               comments.push(result)
-              cache.link(entity, 'comments', comments)
+              cache.link(commentsLink, 'data', comments)
+            },
+            deleteComment(_result, args, cache, _info) {
+              const entity = { __typename: 'Photo', _id: DeleteComment.variables.photoID }, // the exact Photo entity we need
+                commentsLink = cache.resolve(entity, 'comments'),
+                comments = cache.resolve(commentsLink, 'data') // get comments from cache
+              comments.splice(
+                comments.findIndex((comment) => comment == 'Comment:' + args.id),
+                1
+              )
+              cache.link(commentsLink, 'data', comments)
             },
           },
         },

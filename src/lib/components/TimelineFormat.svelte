@@ -115,7 +115,7 @@ const execLikePhoto = LikePhoto()
                       >
                       <button
                         on:click={async function deleteComment() {
-                          await execDeleteComment({ id: comment._id })
+                          await execDeleteComment({ id: comment._id, photoID: photo._id })
                         }}
                       >
                         <Times
