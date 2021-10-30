@@ -107,7 +107,19 @@ Update(Function('get_timeline'), {
             ),
             Paginate(Var('match'), { size: Var('size'), before: Var('before') })
           ),
-          Lambda('docRef', Get(Var('docRef')))
+          Lambda(
+            'docRef',
+            Let(
+              { photoDoc: Get(Var('docRef')) },
+              Merge(Var('photoDoc'), {
+                data: Merge(Select('data', Var('photoDoc')), {
+                  likedByUser: Exists(
+                    Match(Index('photo_liked_by_photo_and_user'), [Var('docRef'), CurrentIdentity()])
+                  ),
+                }),
+              })
+            )
+          )
         )
       )
     )
@@ -131,7 +143,19 @@ Update(Function('get_explore'), {
             ),
             Paginate(Var('match'), { size: Var('size'), before: Var('before') })
           ),
-          Lambda('docRef', Get(Var('docRef')))
+          Lambda(
+            'docRef',
+            Let(
+              { photoDoc: Get(Var('docRef')) },
+              Merge(Var('photoDoc'), {
+                data: Merge(Select('data', Var('photoDoc')), {
+                  likedByUser: Exists(
+                    Match(Index('photo_liked_by_photo_and_user'), [Var('docRef'), CurrentIdentity()])
+                  ),
+                }),
+              })
+            )
+          )
         )
       )
     )
@@ -160,7 +184,19 @@ Update(Function('get_profile_photos'), {
             ),
             Paginate(Var('match'), { size: Var('size'), before: Var('before') })
           ),
-          Lambda('docRef', Get(Var('docRef')))
+          Lambda(
+            'docRef',
+            Let(
+              { photoDoc: Get(Var('docRef')) },
+              Merge(Var('photoDoc'), {
+                data: Merge(Select('data', Var('photoDoc')), {
+                  likedByUser: Exists(
+                    Match(Index('photo_liked_by_photo_and_user'), [Var('docRef'), CurrentIdentity()])
+                  ),
+                }),
+              })
+            )
+          )
         )
       )
     )
@@ -347,5 +383,9 @@ Example({
 })
 // Either way, you may need to merge the result to create the desired obj
 Merge(Var('photoDoc'), {
-  data: Merge(Select('data', Var('photoDoc')), { likedByCurrentUser: Var('userLiked') }),
+  data: Merge(Select('data', Var('photoDoc')), {
+    likedByUser: Exists(
+      Match(Index('photo_liked_by_photo_and_user'), [Ref(Collection('photo'), Var('photoID')), CurrentIdentity()])
+    ),
+  }),
 })
