@@ -1,7 +1,7 @@
 <script context="module">
 export function load({ page }) {
-  let username = page.path
-  return { props: { username: username } }
+  // let username = page.params.username
+  return { props: {} }
 }
 </script>
 
@@ -13,10 +13,12 @@ import { DeletePhoto } from '$lib/gql/DeletePhoto'
 import { DeleteComment } from '$lib/gql/DeleteComment'
 import { auth } from '$lib/stores/auth'
 import { ThLarge, ListUl } from '@svicons/fa-solid'
-export let username
-username = username.slice(1)
+import { page } from '$app/stores'
+
+$: ({ username } = $page.params)
+$: GetProfilePhotos.variables = { username }
+GetProfilePhotos()
 let currentUser = $auth?.userInfo.username
-GetProfilePhotos({ username })
 //get current user
 //check who follows
 //dispplay follow or unfollow button
@@ -24,7 +26,6 @@ $: photoArr = $GetProfilePhotos.data?.result.data || []
 
 const execDeletePhoto = DeletePhoto()
 const execDeleteComment = DeleteComment()
-
 async function callDeletePhoto(e) {
   let id = e.target.dataset.photoId
   if (confirm('Are you sure you want to delete this post?')) {
@@ -50,7 +51,9 @@ let direction = 'wrap'
 
 <div class="flex flex-col items-center h-screen mt-10">
   <div class="flex flex-row justify-between w-3/5">
-    <ProfileInfo {username} {currentUser} />
+    {#key username}
+      <ProfileInfo {username} {currentUser} />
+    {/key}
   </div>
   <div class="flex flex-row mb-3">
     <button on:click={() => (direction = 'wrap')}>
@@ -96,7 +99,6 @@ let direction = 'wrap'
     </ul>
   {/if}
 </div>
-
 
 <style>
 button > * {
