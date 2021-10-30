@@ -9,6 +9,11 @@ Running queries from Fauna FQL files: Regex replace comments: //.+ (Create Query
 Query/CTRL+Enter)
 */
 
+/* UDF guidelines:
+- GraphQL query Lambda resolvers must ALWAYS accept an array, even if only a single arg. This creates distinction 
+  between GraphQL Lambdas and normal Lambdas. This makes sense GraphQL query variables are declared in an ordered (array) style. 
+*/
+
 // Auth
 
 // Login with only email, for User collection/type
@@ -165,7 +170,7 @@ Update(Function('get_profile_photos'), {
 Update(Function('like_photo'), {
   body: Query(
     Lambda(
-      'input',
+      ['input'],
       Let(
         {
           photoRef: Ref(Collection('Photo'), Select('photoID', Var('input'))),
@@ -202,7 +207,7 @@ Update(Function('like_photo'), {
 Update(Function('follow_user'), {
   body: Query(
     Lambda(
-      'input',
+      ['input'],
       Let(
         {
           userRef: Ref(Collection('User'), Select('userID', Var('input'))),
@@ -246,44 +251,10 @@ Update(Function('follow_user'), {
   ),
 })
 
-// ! EXPERIMENTAL
-
-// Methods for getting likedByCurrentUser on a photo
-// Method 1: Individual query for getting if a user liked a post. Returns true/false
-Update(Function('get_liked_by_current_user'), {
-  body: Query(
-    Lambda(
-      'photoID',
-      Exists(
-        Match(Index('photo_liked_by_photo_and_user'), [Ref(Collection('photo'), Var('photoID')), CurrentIdentity()])
-      )
-    )
-  ),
-})
-
-// Method 2: Append to fetches for photos
-// Con: You'll have to update for every query involving returning photo(s). Perhaps a modular UDF could help here.
-//      Includes needing to return it for `like_photo` func, allowing it to optimistically update.
-// Note: add likedByCurrentUser: Boolean to Photo type field as a placeholder
-Example({
-  data: {
-    likedByCurrentUser: Exists(
-      // in some cases, this is likedMatch
-      Match(Index('photo_liked_by_photo_and_user'), [Ref(Collection('photo'), Var('photoID')), CurrentIdentity()]),
-      // in other cases, it's a photo/doc ref
-      Match(Index('photo_liked_by_photo_and_user'), [Var('photoRef'), CurrentIdentity()])
-    ),
-  },
-})
-// Either way, you may need to merge the result to create the desired obj
-Merge(Var('photoDoc'), {
-  data: Merge(Select('data', Var('photoDoc')), { likedByCurrentUser: Var('userLiked') }),
-})
-
 // Search for usernames
 // Exact contains using Ngrams
 CreateIndex({
-  name: 'user_search_by_username',
+  name: 'User_search_by_username',
   // we actually want to sort to get the shortest word that matches first
   source: [
     {
@@ -322,14 +293,59 @@ CreateIndex({
   terms: [{ binding: 'searchTerms' }],
 })
 
-// TODO: Add searchUser to schema
-Update(
-  Function('search_user', {
-    body: Query(
-      Lambda(
-        'username',
-        Map(Paginate(Match(Index('user_search_by_username'), Var('username'))), Lambda('ref', Get(Var('ref'))))
+Update(Function('search_user'), {
+  body: Query(
+    Lambda(
+      ['username', 'size', 'after', 'before'],
+      Let(
+        { match: Match(Index('User_search_by_username'), Var('username')) },
+        Map(
+          If(
+            Equals(Var('before'), null),
+            If(
+              Equals(Var('after'), null),
+              Paginate(Var('match'), { size: Var('size') }),
+              Paginate(Var('match'), { size: Var('size'), after: Var('after') })
+            ),
+            Paginate(Var('match'), { size: Var('size'), before: Var('before') })
+          ),
+          Lambda('docRef', Get(Var('docRef')))
+        )
       )
+    )
+  ),
+})
+
+// ! EXPERIMENTAL
+
+// Methods for getting likedByCurrentUser on a photo
+// Method 1: Individual query for getting if a user liked a post. Returns true/false
+Update(Function('get_liked_by_current_user'), {
+  body: Query(
+    Lambda(
+      ['photoID'],
+      Exists(
+        Match(Index('photo_liked_by_photo_and_user'), [Ref(Collection('photo'), Var('photoID')), CurrentIdentity()])
+      )
+    )
+  ),
+})
+
+// Method 2: Append to fetches for photos
+// Con: You'll have to update for every query involving returning photo(s). Perhaps a modular UDF could help here.
+//      Includes needing to return it for `like_photo` func, allowing it to optimistically update.
+// Note: add likedByCurrentUser: Boolean to Photo type field as a placeholder
+Example({
+  data: {
+    likedByCurrentUser: Exists(
+      // in some cases, this is likedMatch
+      Match(Index('photo_liked_by_photo_and_user'), [Ref(Collection('photo'), Var('photoID')), CurrentIdentity()]),
+      // in other cases, it's a photo/doc ref
+      Match(Index('photo_liked_by_photo_and_user'), [Var('photoRef'), CurrentIdentity()])
     ),
-  })
-)
+  },
+})
+// Either way, you may need to merge the result to create the desired obj
+Merge(Var('photoDoc'), {
+  data: Merge(Select('data', Var('photoDoc')), { likedByCurrentUser: Var('userLiked') }),
+})
