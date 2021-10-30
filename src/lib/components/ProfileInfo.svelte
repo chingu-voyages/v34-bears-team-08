@@ -13,7 +13,6 @@ $: ({ headline, fullName, followingCount, followerCount, bio, username, profileI
   $GetUserInfo.data?.result || {})
 
 const execFollowUser = FollowUser()
-$: console.log($FollowUser.data)
 </script>
 
 {#if $GetUserInfo.data}
