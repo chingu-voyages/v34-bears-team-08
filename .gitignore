@@ -7,3 +7,4 @@ node_modules
 .env.local
 .graphqlconfig
 .faunarc
+codegen.yml
