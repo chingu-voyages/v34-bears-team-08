@@ -84,55 +84,31 @@ CreateIndex({
 Update(Function('get_timeline'), {
   body: Query(
     Lambda(
-      ['size', 'after', 'before'],
+      // yep, with GraphQL paginate: true on resolver, all values defined in schema will be first and any of the paginate
+      // variables are after.
+      ['username', 'size', 'after', 'before'],
       Let(
         {
-          match: Reverse(
-            Join(
-              // Potential optimization incurs significantly more calls and will not be applied here as it handles an edge case.
-              // Paginate could be used on these matches to prevent resulting Join set from being too large (100k) if following too many users w/ too many photos.
-              Match(Index('_following_by_user'), CurrentIdentity()),
-              Index('photo_author_by_user')
+          match: If(
+            Equals(Var('username'), null),
+            // Timeline
+            Reverse(
+              Join(
+                // Potential optimization incurs significantly more calls and will not be applied here as it handles an edge case.
+                // Paginate could be used on these matches to prevent resulting Join set from being too large (100k) if following too many users w/ too many photos.
+                Match(Index('_following_by_user'), CurrentIdentity()),
+                Index('photo_author_by_user')
+              )
+            ),
+            If(
+              Equals(Var('username'), ''),
+              // Explore
+              Reverse(Documents(Collection('Photo'))),
+              // Profile Photos
+              Reverse(Join(Match(Index('unique_User_username'), Var('username')), Index('user_photos_by_user')))
             )
           ),
         },
-        // Return page based on supplied pagination args
-        Map(
-          If(
-            Equals(Var('before'), null),
-            If(
-              Equals(Var('after'), null),
-              Paginate(Var('match'), { size: Var('size') }),
-              Paginate(Var('match'), { size: Var('size'), after: Var('after') })
-            ),
-            Paginate(Var('match'), { size: Var('size'), before: Var('before') })
-          ),
-          Lambda(
-            'docRef',
-            Let(
-              { photoDoc: Get(Var('docRef')) },
-              Merge(Var('photoDoc'), {
-                data: Merge(Select('data', Var('photoDoc')), {
-                  likedByUser: Exists(
-                    Match(Index('photo_liked_by_photo_and_user'), [Var('docRef'), CurrentIdentity()])
-                  ),
-                }),
-              })
-            )
-          )
-        )
-      )
-    )
-  ),
-})
-
-// Basically same UDF as get_timeline, but with a match on the entire Photo collection, reversed.
-Update(Function('get_explore'), {
-  body: Query(
-    Lambda(
-      ['size', 'after', 'before'],
-      Let(
-        { match: Reverse(Documents(Collection('Photo'))) },
         Map(
           If(
             Equals(Var('before'), null),
@@ -164,43 +140,6 @@ Update(Function('get_explore'), {
 
 Update(Function('get_user_by_username'), {
   body: Query(Lambda(['username'], Get(Match(Index('unique_User_username'), Var('username'))))),
-})
-
-Update(Function('get_profile_photos'), {
-  body: Query(
-    Lambda(
-      // yep, with GraphQL paginate: true on resolver, all values defined in schema will be first and any of the paginate
-      // variables are after.
-      ['username', 'size', 'after', 'before'],
-      Let(
-        { match: Reverse(Join(Match(Index('unique_User_username'), Var('username')), Index('user_photos_by_user'))) },
-        Map(
-          If(
-            Equals(Var('before'), null),
-            If(
-              Equals(Var('after'), null),
-              Paginate(Var('match'), { size: Var('size') }),
-              Paginate(Var('match'), { size: Var('size'), after: Var('after') })
-            ),
-            Paginate(Var('match'), { size: Var('size'), before: Var('before') })
-          ),
-          Lambda(
-            'docRef',
-            Let(
-              { photoDoc: Get(Var('docRef')) },
-              Merge(Var('photoDoc'), {
-                data: Merge(Select('data', Var('photoDoc')), {
-                  likedByUser: Exists(
-                    Match(Index('photo_liked_by_photo_and_user'), [Var('docRef'), CurrentIdentity()])
-                  ),
-                }),
-              })
-            )
-          )
-        )
-      )
-    )
-  ),
 })
 
 Update(Function('like_photo'), {
@@ -350,42 +289,4 @@ Update(Function('search_user'), {
       )
     )
   ),
-})
-
-// ! EXPERIMENTAL
-
-// Methods for getting likedByCurrentUser on a photo
-// Method 1: Individual query for getting if a user liked a post. Returns true/false
-Update(Function('get_liked_by_current_user'), {
-  body: Query(
-    Lambda(
-      ['photoID'],
-      Exists(
-        Match(Index('photo_liked_by_photo_and_user'), [Ref(Collection('photo'), Var('photoID')), CurrentIdentity()])
-      )
-    )
-  ),
-})
-
-// Method 2: Append to fetches for photos
-// Con: You'll have to update for every query involving returning photo(s). Perhaps a modular UDF could help here.
-//      Includes needing to return it for `like_photo` func, allowing it to optimistically update.
-// Note: add likedByCurrentUser: Boolean to Photo type field as a placeholder
-Example({
-  data: {
-    likedByCurrentUser: Exists(
-      // in some cases, this is likedMatch
-      Match(Index('photo_liked_by_photo_and_user'), [Ref(Collection('photo'), Var('photoID')), CurrentIdentity()]),
-      // in other cases, it's a photo/doc ref
-      Match(Index('photo_liked_by_photo_and_user'), [Var('photoRef'), CurrentIdentity()])
-    ),
-  },
-})
-// Either way, you may need to merge the result to create the desired obj
-Merge(Var('photoDoc'), {
-  data: Merge(Select('data', Var('photoDoc')), {
-    likedByUser: Exists(
-      Match(Index('photo_liked_by_photo_and_user'), [Ref(Collection('photo'), Var('photoID')), CurrentIdentity()])
-    ),
-  }),
 })

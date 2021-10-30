@@ -39,9 +39,10 @@ type Comment {
 }
 
 type Query {
-  getTimeline: [Photo]! @resolver(name: "get_timeline", paginated: true)
-  getExplore: [Photo]! @resolver(name: "get_explore", paginated: true)
-  getProfilePhotos(username: String!): [Photo]! @resolver(name: "get_profile_photos", paginated: true)
+  """
+  `username`: Defaults to timeline. empty str = explore, otherwise accesses profile photos.
+  """
+  getTimeline(username: String): [Photo]! @resolver(name: "get_timeline", paginated: true)
   getUserByUsername(username: String!): User! @resolver(name: "get_user_by_username")
   searchUser(username: String!): [User]! @resolver(name: "search_user", paginated: true)
 }

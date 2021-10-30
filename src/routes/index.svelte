@@ -27,7 +27,7 @@ import ProfileInfo from '$lib/components/ProfileInfo.svelte'
 
 let currentUser = $auth?.userInfo.username
 
-GetTimeline()
+GetTimeline({})
 
 $: photoArr = $GetTimeline.data?.result.data || []
 </script>
@@ -36,10 +36,9 @@ $: photoArr = $GetTimeline.data?.result.data || []
   <title>Devvy - Timeline</title>
 </svelte:head>
 
-
 <div class="flex flex-row w-full justify-center">
-  <TimelineFormat {photoArr}/>
-    <div class="flex flex-col w-1/5">
-        <ProfileInfo username={currentUser} />
-    </div>
+  <TimelineFormat {photoArr} />
+  <div class="flex flex-col w-1/5">
+    <ProfileInfo username={currentUser} />
+  </div>
 </div>

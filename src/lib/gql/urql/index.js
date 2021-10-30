@@ -65,8 +65,6 @@ export const initClient = () =>
           FollowPage: () => null,
           CommentPage: () => null,
           QueryGetTimelinePage: () => null,
-          QueryGetProfilePhotosPage: () => null,
-          QueryGetExplorePage: () => null,
           QuerySearchUserPage: () => null,
         },
       }),

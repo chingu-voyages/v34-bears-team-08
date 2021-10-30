@@ -8,7 +8,7 @@ export function load({ page }) {
 <script>
 import ProfileInfo from '$lib/components/ProfileInfo.svelte'
 import TimelineFormat from '$lib/components/TimelineFormat.svelte'
-import { GetProfilePhotos } from '$lib/gql/GetProfilePhotos'
+import { GetTimeline } from '$lib/gql/GetTimeline'
 import { DeletePhoto } from '$lib/gql/DeletePhoto'
 import { DeleteComment } from '$lib/gql/DeleteComment'
 import { auth } from '$lib/stores/auth'
@@ -16,13 +16,13 @@ import { ThLarge, ListUl } from '@svicons/fa-solid'
 import { page } from '$app/stores'
 
 $: ({ username } = $page.params)
-$: GetProfilePhotos.variables = { username }
-GetProfilePhotos()
+$: GetTimeline.variables = { username }
+GetTimeline()
 let currentUser = $auth?.userInfo.username
 //get current user
 //check who follows
 //dispplay follow or unfollow button
-$: photoArr = $GetProfilePhotos.data?.result.data || []
+$: photoArr = $GetTimeline.data?.result.data || []
 
 const execDeletePhoto = DeletePhoto()
 const execDeleteComment = DeleteComment()

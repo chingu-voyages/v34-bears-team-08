@@ -1,9 +1,9 @@
 <script>
-import { GetExplore } from '$lib/gql/GetExplore'
+import { GetTimeline } from '$lib/gql/GetTimeline'
 
-GetExplore()
+GetTimeline({ username: '' })
 
-$: photoArr = $GetExplore.data?.result.data || []
+$: photoArr = $GetTimeline.data?.result.data || []
 </script>
 
 <svelte:head>
