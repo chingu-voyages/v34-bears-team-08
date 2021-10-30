@@ -22,6 +22,9 @@ const config = {
       postcss: true,
     }),
   ],
+  experimental: {
+    prebundleSvelteLibraries: true,
+  },
 }
 
 export default config
