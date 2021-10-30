@@ -29,6 +29,7 @@ export const GetExplore = queryOp(gql`
             _id
           }
         }
+        likedByUser
       }
     }
   }

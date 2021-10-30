@@ -24,6 +24,7 @@ export const GetProfilePhotos = queryOp(
           }
           caption
           _id
+          likedByUser
         }
       }
     }

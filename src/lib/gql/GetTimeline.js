@@ -28,6 +28,7 @@ export const GetTimeline = queryOp(gql`
             username
           }
         }
+        likedByUser
       }
     }
   }
