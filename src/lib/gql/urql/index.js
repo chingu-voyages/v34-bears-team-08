@@ -16,6 +16,7 @@ import { get } from 'svelte/store'
 export * from './utils'
 import { DeleteComment } from '../DeleteComment'
 import { GetTimeline } from '../GetTimeline'
+import { GetUserInfo } from '../GetUserInfo'
 
 // Used to track if the client has been initialized, which will only happen when components are mounting, after all load functions have run.
 // If it is initialized, it'll be used as the client for `loadQueries()` to query with.
@@ -55,6 +56,18 @@ export const initClient = () =>
                 1
               )
               cache.link(commentsLink, 'data', comments)
+            },
+            // update followingCount for logged in user, if it's already in cache
+            followUser(_result, { input: { value } }, cache, _info) {
+              cache.updateQuery(
+                { query: GetUserInfo.query, variables: { username: get(auth).userInfo?.username } },
+                (data) => {
+                  if (!data) return data
+                  data.result.followingCount ||= 0
+                  data.result.followingCount += value ? 1 : -1
+                  return data
+                }
+              )
             },
           },
         },
