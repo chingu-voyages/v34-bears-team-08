@@ -16,7 +16,7 @@ const execFollowUser = FollowUser()
 </script>
 
 {#if $GetUserInfo.data}
-  <img src={profileImgSrc || 'https://picsum.photos/200'} class="mr-3" alt="profile avatar" width="200" />
+  <img src={profileImgSrc || 'https://picsum.photos/200'} class="mr-3 rounded-full" alt="profile avatar" width="200" />
   <div class="flex flex-col w-3/4 ">
     <h2 class="p-1">{fullName || username}</h2>
     <div class="p-1">{followingCount || 0} following / {followerCount || 0} followers</div>

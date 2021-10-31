@@ -13,12 +13,7 @@ $: username && searchQuery()
 </script>
 
 <div class="my-auto">
-  <input
-    type="text"
-    class="border w-40 outline-none py-1 px-2"
-    placeholder="find your buddies.."
-    bind:value={username}
-  />
+  <input type="text" class="border w-40 outline-none py-1 px-2" placeholder="Find your buddies" bind:value={username} />
 
   {#if $SearchForUser.fetching}
     <!-- <Loader class="absolute" /> -->
