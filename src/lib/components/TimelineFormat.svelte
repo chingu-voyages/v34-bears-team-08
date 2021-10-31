@@ -82,13 +82,12 @@ const execLikePhoto = LikePhoto()
         </button>
 
         {#if displayComments === index}
-          <ul
-            class="flex flex-col max-w-full overflow-y-scroll max-h-28"
-            bind:this={commentsEl}
-            transition:slide={{ delay: 0, duration: 300, easing: quintOut }}
-          >
+          <ul class="flex flex-col max-w-full overflow-y-scroll max-h-28" bind:this={commentsEl}>
             {#each photo.comments.data as comment}
-              <li class="flex flex-row justify-between w-full px-2">
+              <li
+                class="flex flex-row justify-between w-full px-2"
+                transition:slide={{ duration: 300, easing: quintOut }}
+              >
                 <!--Should username be a link to the user account?-->
                 <div class="inline-block">
                   <span class="text-gray-400">{comment.author.username}</span>
