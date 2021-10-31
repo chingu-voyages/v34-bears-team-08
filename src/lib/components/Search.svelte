@@ -4,30 +4,35 @@ import { slide } from 'svelte/transition'
 import { quintOut } from 'svelte/easing'
 import { SearchForUser } from '$lib/gql/SearchForUser'
 
-let loading = false
 let username = ''
 
 async function searchQuery() {
-  loading = true
   await SearchForUser({ username })
-  loading = false
 }
 $: username && searchQuery()
-$: console.log($SearchForUser.data?.result)
 </script>
 
 <div class="flex flex-col p-3">
   <input
     type="text"
-    class="border w-full self-center justify-self-center outline-none"
+    class="border w-full self-center justify-self-center outline-none py-1 px-2"
     placeholder="find your buddies.."
     bind:value={username}
   />
-  {#if loading}<Loader />{:else if $SearchForUser.data?.result.data}
-    <div class="z-10 border bg-white">
-      {#each $SearchForUser.data?.result.data as user}
-        <a href="/{user.username}" class="text-black-light hover:text-blue-700">{user.username}</a>
+  {#if $SearchForUser.fetching}
+    <Loader />
+  {/if}
+  {#if username}
+    <nav class="z-10 border bg-white mt-2 p-1 h-40">
+      {#each $SearchForUser.data?.result.data || [] as user}
+        <a
+          href="/{user.username}"
+          class="text-black-light hover:text-blue-700 block"
+          on:click={() => (username = '')}
+          transition:slide
+          >{user.username}
+        </a>
       {/each}
-    </div>
+    </nav>
   {/if}
 </div>
