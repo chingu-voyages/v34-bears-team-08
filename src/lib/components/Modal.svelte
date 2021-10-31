@@ -1,7 +1,8 @@
 <script>
-import { createEventDispatcher, onMount } from 'svelte'
+import { createEventDispatcher } from 'svelte'
 import ImageKit from 'imagekit-javascript'
 import { useDialog } from 'sashui'
+import { fade, fly } from 'svelte/transition'
 
 const dispatch = createEventDispatcher()
 const close = () => dispatch('close')
@@ -43,8 +44,8 @@ function uploadPost() {
 }
 </script>
 
-<div class="modal-bg" use:dialog.overlay />
-<div class="modal" use:dialog on:close>
+<div class="modal-bg" use:dialog.overlay transition:fade={{ duration: 500 }} />
+<div class="modal" use:dialog on:close transition:fly={{ y: -15, duration: 250 }}>
   <svg class="modal-close" on:click={close} viewBox="0 0 12 12">
     <circle cx="6" cy="6" r="6" />
     <line x1="3" y1="3" x2="9" y2="9" />
