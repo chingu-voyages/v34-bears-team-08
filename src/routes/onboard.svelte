@@ -1,26 +1,26 @@
 <!-- ? Do we want a load func to redirect if already onboarded? -->
 <script>
-  import { auth, dbLogout, verify } from '$lib/stores/auth'
-  import { UpdateOnboard } from '$lib/gql/UpdateOnboard'
-  import { goto } from '$app/navigation'
+import { auth, dbLogout, verify } from '$lib/stores/auth'
+import { UpdateOnboard } from '$lib/gql/UpdateOnboard'
+import { goto } from '$app/navigation'
 
-  const execUpdateOnboard = UpdateOnboard()
+const execUpdateOnboard = UpdateOnboard()
 
-  let userInput = { username: '', fullName: '', bio: '', headline: '' }
-  async function submitHandler() {
-    const { username, fullName, bio, headline } = userInput
-    await execUpdateOnboard({ username, fullName, bio, headline, id: $auth.userInfo?._id })
-    // ? Do we want to deal with errors? $UpdateOnboard.error
-    await verify()
-    dbLogout()
-    goto('/')
-  }
+let userInput = { username: '', fullName: '', bio: '', headline: '' }
+async function submitHandler() {
+  const { username, fullName, bio, headline } = userInput
+  await execUpdateOnboard({ username, fullName, bio, headline, id: $auth.userInfo?._id })
+  // ? Do we want to deal with errors? $UpdateOnboard.error
+  await verify()
+  dbLogout()
+  goto('/')
+}
 
-  const baseInputClass =
-    'text-gray-700 light appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#3D7BAF] focus:border-[#3D7BAF] sm:text-sm'
+const baseInputClass =
+  'text-gray-700 light appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#3D7BAF] focus:border-[#3D7BAF] sm:text-sm'
 </script>
 
-<div class="flex flex-row w-full justify-center h-screen items-center ">
+<div class="flex flex-row w-full justify-center min-h-screen items-center ">
   <form on:submit|preventDefault={submitHandler} class="flex flex-col p-20 text-white rounded-md">
     <h2 class="text-3xl">Welcome to Devvy!</h2>
     <p class="mb-4 text-gray-300 text-sm self-center">Enter some basic info to get started.</p>
@@ -55,10 +55,10 @@
 </div>
 
 <style>
-  form {
-    background: linear-gradient(360deg, #2c5364, #284b5b, #234452, #1f3c49, #1b3540, #172e37, #13272f, #0f2027);
-  }
-  input::placeholder {
-    font-style: italic;
-  }
+form {
+  background: linear-gradient(360deg, #2c5364, #284b5b, #234452, #1f3c49, #1b3540, #172e37, #13272f, #0f2027);
+}
+input::placeholder {
+  font-style: italic;
+}
 </style>
