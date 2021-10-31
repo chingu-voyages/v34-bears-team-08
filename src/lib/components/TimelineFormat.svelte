@@ -133,7 +133,26 @@ const execLikePhoto = LikePhoto()
             </ul>
           {/if}
 
-          <div class="display-block relative w-full">
+          <form
+            class="display-block relative w-full"
+            on:submit|preventDefault={async function postComment() {
+              if (!text) return
+
+              await execPostNewComment({
+                text,
+                posted: new Date().toISOString(),
+                photo: photo._id,
+                author: $auth?.userInfo._id,
+              })
+
+              displayComments = index
+              await sleep(250)
+              let height = commentsEl.scrollHeight + 100
+              commentsEl.scrollTo({ top: height, behavior: 'smooth' })
+
+              text = ''
+            }}
+          >
             <input
               type="text"
               name="comment"
@@ -141,27 +160,10 @@ const execLikePhoto = LikePhoto()
               placeholder="add a comment..."
               bind:value={text}
             />
-            <button
-              on:click={async function postComment() {
-                if (!text) return
-
-                await execPostNewComment({
-                  text,
-                  posted: new Date().toISOString(),
-                  photo: photo._id,
-                  author: $auth?.userInfo._id,
-                })
-
-                displayComments = index
-                await sleep(250)
-                let height = commentsEl.scrollHeight + 100
-                commentsEl.scrollTo({ top: height, behavior: 'smooth' })
-
-                text = ''
-              }}
-              class="z-10 display-block absolute top-2 right-2 text-blue-300 hover:text-blue-400">post</button
+            <button type="submit" class="z-10 display-block absolute top-2 right-2 text-blue-300 hover:text-blue-400"
+              >post</button
             >
-          </div>
+          </form>
         </div>
       </li>
     {/each}
