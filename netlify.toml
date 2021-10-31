@@ -3,6 +3,6 @@ node_bundler = "esbuild"
 [build.environment]
 NODE_VERSION = "17"
 [dev]
-command = "pnpm run dev"
+command = "pnpm preview"
 port = 8888
 targetPort = 3000
