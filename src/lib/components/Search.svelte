@@ -1,6 +1,7 @@
 <script>
 import Loader from '$components/Loader.svelte'
-import { fly, slide } from 'svelte/transition'
+import { fly } from 'svelte/transition'
+import { flip } from 'svelte/animate'
 import { quintOut } from 'svelte/easing'
 import { SearchForUser } from '$lib/gql/SearchForUser'
 
@@ -10,6 +11,8 @@ async function searchQuery() {
   await SearchForUser({ username })
 }
 $: username && searchQuery()
+let results = []
+$: if (!$SearchForUser.fetching) results = $SearchForUser.data?.result.data || []
 </script>
 
 <div class="my-auto">
@@ -24,14 +27,14 @@ $: username && searchQuery()
       in:fly={{ duration: 200, y: -15 }}
       out:fly={{ duration: 150, y: -15 }}
     >
-      <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-        <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-          {#each $SearchForUser.data?.result.data || [] as user}
+      <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-y-auto">
+        <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 content-start h-80">
+          {#each results as user (user._id)}
             <a
               href="/{user.username}"
               class="-m-3 p-3 block rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
               on:click={() => (username = '')}
-              transition:slide={{ easing: quintOut }}
+              animate:flip={{ easing: quintOut }}
             >
               <p class="text-base font-medium text-gray-900">
                 {user.username}
