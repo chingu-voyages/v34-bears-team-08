@@ -8,7 +8,6 @@ import { DeleteComment } from '$lib/gql/DeleteComment'
 import { auth } from '$lib/stores/auth'
 import { LikePhoto } from '$lib/gql/LikePhoto'
 import { sleep } from '$lib/utils'
-
 export let photoArr
 
 let currentUser = $auth.userInfo?.username
@@ -37,7 +36,7 @@ const execLikePhoto = LikePhoto()
         alt="{photo.author.username}'s photo"
       />
       <div
-        class="border-b border-l border-r border-gray-300 w-full max-w-full p-2 flex flex-col rounded-b-sm space-y-2 pt-4 px-4"
+        class="border-b border-l border-r border-gray-300 w-full max-w-full p-2 flex flex-col rounded-b-sm pt-4 px-4"
       >
         <div class="flex items-center">
           <button
@@ -56,7 +55,7 @@ const execLikePhoto = LikePhoto()
           <span>{photo.likeCount || 0} likes</span>
         </div>
         <button
-          class="inline-flex items-center"
+          class="inline-flex items-center my-2"
           on:click={function toggleCommentDisplay() {
             displayComments = displayComments == index ? null : index
           }}
@@ -82,8 +81,8 @@ const execLikePhoto = LikePhoto()
         </button>
 
         {#if displayComments === index}
-          <ul class="flex flex-col max-w-full overflow-y-scroll max-h-28" bind:this={commentsEl}>
-            {#each photo.comments.data as comment}
+          <ul class="flex flex-col max-w-full overflow-y-auto max-h-28" bind:this={commentsEl}>
+            {#each photo.comments.data as comment (comment._id)}
               <li
                 class="flex flex-row justify-between w-full px-2"
                 transition:slide={{ duration: 300, easing: quintOut }}
@@ -117,7 +116,7 @@ const execLikePhoto = LikePhoto()
         {/if}
 
         <form
-          class="-ml-2 display-block relative w-full"
+          class="-ml-2 my-2 display-block relative w-full"
           on:submit|preventDefault={async function postComment() {
             if (!text) return
 
