@@ -19,7 +19,8 @@ let showModal = false
           <Logo />
         </h1>
       </div>
-        <Search />
+      <div class="absolute">beta</div>
+      <Search />
       <div class="text-gray-700 text-center flex items-center align-items">
         {#if $isAuthenticated}
           <button type="button" title="Add Post" on:click={() => (showModal = true)}>
