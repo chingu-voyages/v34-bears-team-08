@@ -1,8 +1,8 @@
 <script>
 import { createEventDispatcher } from 'svelte'
-import ImageKit from 'imagekit-javascript'
 import { useDialog } from 'sashui'
 import { fade, fly } from 'svelte/transition'
+import { imagekit } from '$lib/utils/imagekit'
 
 const dispatch = createEventDispatcher()
 const close = () => dispatch('close')
@@ -13,11 +13,6 @@ let files = null,
   uploading = false,
   uploadedImage,
   err
-const imagekit = new ImageKit({
-  publicKey: import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY,
-  urlEndpoint: import.meta.env.VITE_IMAGEKIT_URL_END_POINT,
-  authenticationEndpoint: import.meta.env.VITE_IMAGEKIT_AUTHENTICATION_END_POINT,
-})
 
 function uploadPost() {
   const fileOptions = {
