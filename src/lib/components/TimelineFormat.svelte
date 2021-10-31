@@ -128,7 +128,7 @@ const execLikePhoto = LikePhoto()
             })
 
             displayComments = index
-            await sleep(250)
+            await sleep(400)
             let height = commentsEl.scrollHeight + 100
             commentsEl.scrollTo({ top: height, behavior: 'smooth' })
 
