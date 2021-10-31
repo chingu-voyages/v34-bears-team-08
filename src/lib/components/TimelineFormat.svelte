@@ -35,8 +35,8 @@ const execLikePhoto = LikePhoto()
   {:else}
     {#each photoArr as photo, index}
       <li class="mx-4 mb-4 max-w-photo">
-        <div class="border-t border-l border-r border-gray-300 w-full py-3 px-2 rounded-t-sm">
-          <span>{photo.author.username}</span>
+        <div class="border-t border-l border-r border-gray-300 w-full py-3 px-4 rounded-t-sm">
+          <span class="font-semibold">{photo.author.username}</span>
         </div>
         <img
           src={photo.src}
@@ -44,32 +44,25 @@ const execLikePhoto = LikePhoto()
           class="border-l border-r border-gray-200"
           alt="{photo.author.username}'s photo"
         />
-        <div class="border-b border-l border-r border-gray-300 w-full max-w-full p-2 flex flex-col rounded-b-sm">
-          <div class="inline-block">
+        <div
+          class="border-b border-l border-r border-gray-300 w-full max-w-full p-2 flex flex-col rounded-b-sm space-y-2 pt-4 px-4"
+        >
+          <div class="flex items-center">
             <button
+              class="w-4 h-4 mr-2"
               on:click={async () => {
                 await execLikePhoto({ id: photo._id, value: !photo.likedByUser })
                 console.log('Executed like photo', LikePhoto.data)
               }}
             >
               {#if photo.likedByUser}
-                <HeartFill
-                  class="w-4 mr-3 text-red-500 pointer-events-none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                />
+                <HeartFill class="text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" />
               {:else}
-                <Heart
-                  class="w-4 mr-3 text-black-light pointer-events-none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                />
+                <Heart class="text-black-light" xmlns="http://www.w3.org/2000/svg" fill="none" />
               {/if}
             </button>
+            <span>{photo.likeCount || 0} likes</span>
           </div>
-          <span>{photo.likeCount || 0} likes</span>
           <button
             class="inline-flex items-center"
             on:click={async function toggleCommentDisplay() {
@@ -134,7 +127,7 @@ const execLikePhoto = LikePhoto()
           {/if}
 
           <form
-            class="display-block relative w-full"
+            class="-ml-2 display-block relative w-full"
             on:submit|preventDefault={async function postComment() {
               if (!text) return
 
@@ -156,12 +149,12 @@ const execLikePhoto = LikePhoto()
             <input
               type="text"
               name="comment"
-              class="w-full bg-gray-50 p-2 border border-gray-300 rounded-sm z-0"
-              placeholder="add a comment..."
+              class="w-full p-2 outline-none rounded-md z-0"
+              placeholder="Add a comment..."
               bind:value={text}
             />
             <button type="submit" class="z-10 display-block absolute top-2 right-2 text-blue-300 hover:text-blue-400"
-              >post</button
+              >Post</button
             >
           </form>
         </div>
