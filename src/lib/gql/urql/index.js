@@ -59,12 +59,14 @@ export const initClient = () =>
           },
         },
         optimistic: {
-          likePhoto: ({ input: { photoID, value } = {} }, cache) => ({
-            _id: photoID,
-            __typename: 'Photo',
-            likeCount: cache.resolve({ __typename: 'Photo', _id: photoID }, 'likeCount') + (value ? 1 : -1),
-            likedByUser: value,
-          }),
+          likePhoto({ input: { photoID, value } = {} }, cache) {
+            const photo = cache.readQuery(GetTimeline).result.data.find(({ _id }) => _id == photoID)
+            return {
+              ...photo,
+              likeCount: photo.likeCount + (value ? 1 : -1),
+              likedByUser: value,
+            }
+          },
         },
         // Any Page types (usually for lists) in your schema should be nulled to silence warnings as they don't have an ID.
         keys: {
