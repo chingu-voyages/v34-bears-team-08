@@ -23,9 +23,9 @@ $: console.log($SearchForUser.data?.result)
     placeholder="find your buddies.."
     bind:value={username}
   />
-  {#if loading}<Loader />{:else if SearchForUser.data?.result.data}
+  {#if loading}<Loader />{:else if $SearchForUser.data?.result.data}
     <div class="z-10 border bg-white">
-      {#each SearchForUser.data?.result.data as user}
+      {#each $SearchForUser.data?.result.data as user}
         <a href="/{user.username}" class="text-black-light hover:text-blue-700">{user.username}</a>
       {/each}
     </div>
