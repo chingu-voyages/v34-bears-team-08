@@ -12,7 +12,7 @@ async function searchQuery() {
 $: username && searchQuery()
 </script>
 
-<div class="flex flex-col p-3">
+<div class="my-auto">
   <input
     type="text"
     class="border w-full self-center justify-self-center outline-none py-1 px-2"
