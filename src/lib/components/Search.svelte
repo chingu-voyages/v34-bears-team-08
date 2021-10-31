@@ -36,7 +36,7 @@ $: username && searchQuery()
               href="/{user.username}"
               class="-m-3 p-3 block rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
               on:click={() => (username = '')}
-              transition:slide
+              transition:slide={{ easing: quintOut }}
             >
               <p class="text-base font-medium text-gray-900">
                 {user.username}
