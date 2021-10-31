@@ -38,7 +38,7 @@ $: photoArr = $GetTimeline.data?.result.data || []
 
 <div class="flex flex-row w-full justify-center">
   <TimelineFormat {photoArr} />
-  <div class="flex flex-col w-1/5">
+  <div class="ml-4 lg:flex flex-col w-1/5 hidden">
     <ProfileInfo username={currentUser} />
   </div>
 </div>
