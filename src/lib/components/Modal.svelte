@@ -100,7 +100,7 @@ function uploadPost() {
   top: 50%;
   width: calc(100vw - 6em);
   width: 26em;
-  height: calc(100vh - 12em);
+  height: 20rem;
   overflow: none;
   transform: translate(-50%, -50%);
   border-radius: 1em;
