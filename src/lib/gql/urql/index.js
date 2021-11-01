@@ -62,9 +62,10 @@ export const initClient = () =>
               cache.updateQuery(
                 { query: GetUserInfo.query, variables: { username: get(auth).userInfo?.username } },
                 (data) => {
-                  if (!data) return data
-                  data.result.followingCount ||= 0
-                  data.result.followingCount += value ? 1 : -1
+                  if (data) {
+                    data.result.followingCount ||= 0
+                    data.result.followingCount += value ? 1 : -1
+                  }
                   return data
                 }
               )
@@ -176,10 +177,9 @@ export async function loadQueries(fetch, ...queryOperationStores) {
   // TODO: We may consider public clients for usage with public routes. That will end up being a different function for SSR.
   if (!get(auth)?.token) return
 
-  let loadClient
-
-  if (!curClient) {
-    const ssr = ssrExchange({ isClient: false })
+  const loadClient = curClient
+  const ssr = ssrExchange({ isClient: false })
+  if (!loadClient) {
     loadClient = createClient({
       url: 'https://graphql.fauna.com/graphql',
       fetchOptions: () => {
@@ -191,14 +191,17 @@ export async function loadQueries(fetch, ...queryOperationStores) {
       fetch,
       exchanges: [ssr, fetchExchange],
     })
-  } else loadClient = curClient
+  }
 
   try {
-    await Promise.all(queryOperationStores.map((opStore) => loadClient.query(opStore.query).toPromise()))
+    await Promise.all(
+      queryOperationStores.map((opStore) => loadClient.query(opStore.query, opStore.variables).toPromise())
+    )
   } catch (error) {
     return {}
   }
 
   // TODO: We need to observe what comes out of extractData() when there's nothing inside. Likely a falsey value.
-  return ssr.extractData()
+  debugger
+  return curClient ? {} : ssr.extractData()
 }
