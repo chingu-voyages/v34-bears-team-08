@@ -6,18 +6,18 @@ import Loader from './Loader.svelte'
 import { GetUserInfo } from '$lib/gql/GetUserInfo'
 import { FollowUser } from '$lib/gql/FollowUser'
 import { auth } from '$lib/stores/auth'
+import { operationStore, query } from '@urql/svelte'
 
 export let username
 let currentUser = $auth?.userInfo.username
-
-GetUserInfo({ username })
+const UserInfo = query(operationStore(GetUserInfo.query, { username }))
 $: ({ headline, fullName, followingCount, followerCount, bio, username, profileImgSrc, followedByUser, _id } =
-  $GetUserInfo.data?.result || {})
+  $UserInfo.data?.result || {})
 
 const execFollowUser = FollowUser()
 </script>
 
-{#if $GetUserInfo.data}
+{#if $UserInfo.data}
   <img src={profileImgSrc || 'https://picsum.photos/200'} class="mr-3 rounded-full" alt="profile avatar" width="200" />
   <div class="flex flex-col w-3/4">
     <h2 class="p-1 text-4xl overflow-ellipsis overflow-hidden">{fullName || username}</h2>

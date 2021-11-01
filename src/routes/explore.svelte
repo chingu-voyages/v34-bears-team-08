@@ -10,9 +10,11 @@ export async function load({ fetch }) {
 </script>
 
 <script>
-GetTimeline({ username: '' })
+import { operationStore, query } from '@urql/svelte'
 
-$: photoArr = $GetTimeline.data?.result.data || []
+const Timeline = query(operationStore(GetTimeline.query, { username: '' }))
+
+$: photoArr = $Timeline.data?.result.data || []
 </script>
 
 <svelte:head>
