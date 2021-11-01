@@ -23,6 +23,8 @@ const config = {
     }),
   ],
   experimental: {
+    // Enable prebundling Svelte component deps (esp. icons).
+    // See: https://github.com/sveltejs/vite-plugin-svelte/blob/main/docs/config.md#prebundlesveltelibraries
     prebundleSvelteLibraries: true,
   },
 }
