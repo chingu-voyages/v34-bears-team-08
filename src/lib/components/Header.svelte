@@ -7,7 +7,6 @@ import Search from '$components/Search.svelte'
 
 let username = $auth.userInfo?.username,
   disableLogout = false
-console.log($isAuthenticated)
 let showModal = false
 </script>
 
