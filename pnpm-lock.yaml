@@ -21,7 +21,7 @@ specifiers:
   magic-sdk: ^5.1.0
   postcss: ^8.3.8
   postcss-load-config: ^3.1.0
-  sashui: 0.0.6
+  sashui: ^0.0.9
   svelte: 3.44.0
   svelte-preprocess: ^4.9.5
   tailwindcss: ^2.2.16
@@ -48,7 +48,7 @@ devDependencies:
   magic-sdk: 5.1.0
   postcss: 8.3.9
   postcss-load-config: 3.1.0
-  sashui: 0.0.6_svelte@3.44.0
+  sashui: 0.0.9_svelte@3.44.0
   svelte: 3.44.0
   svelte-preprocess: 4.9.8_e3813fcf78af0b36080242163d1e1b04
   tailwindcss: 2.2.16_96f83969316717847b3edf58a3f353f3
@@ -3468,8 +3468,8 @@ packages:
       rimraf: 2.7.1
     dev: true
 
-  /sashui/0.0.6_svelte@3.44.0:
-    resolution: {integrity: sha512-jr0BAoKlrxNRiJ7sXv3E0JAz2XweLTwwpZZQXcU8eEN3oOn9xSHK+p0zD3SRHgOe2yurDm3ADNSVrOKOKiJNcQ==}
+  /sashui/0.0.9_svelte@3.44.0:
+    resolution: {integrity: sha512-PuvjNpBzmnL+r5iOF/vdWH8hjwrG5guLMyaEMQdT9vOoaD+/pkjZ4mRpHVcS4pHN9JgyDsh4yNPV6DQVn7QYgQ==}
     peerDependencies:
       svelte: ^3.34.0
     dependencies:

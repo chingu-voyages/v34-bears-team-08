@@ -41,7 +41,7 @@ $: photoArr = $Timeline.data?.result.data || []
 
 <div class="flex flex-row w-full justify-center">
   <TimelineFormat {photoArr} />
-  <div class="ml-4 lg:flex flex-col w-1/5 hidden">
+  <div class="ml-28 lg:flex flex-col hidden">
     <ProfileInfo username={$auth.userInfo?.username} />
   </div>
 </div>
