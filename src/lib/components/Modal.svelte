@@ -3,15 +3,17 @@ import { createEventDispatcher } from 'svelte'
 import { useDialog } from 'sashui'
 import { fade, fly } from 'svelte/transition'
 import { imagekit } from '$lib/utils/imagekit'
+import { CreatePhoto } from '$lib/gql/CreatePhoto'
+import { auth } from '$lib/stores/auth'
 
 const dispatch = createEventDispatcher()
 const close = () => dispatch('close')
 const dialog = useDialog()
+const execCreatePhoto = CreatePhoto()
 
 let files = null,
   caption,
   uploading = false,
-  uploadedImage,
   err
 
 function uploadPost() {
@@ -21,19 +23,17 @@ function uploadPost() {
     tags: [''],
   }
   uploading = true
-  imagekit.upload(fileOptions, (error, result) => {
+  imagekit.upload(fileOptions, async (error, result) => {
     if (error) {
       err = `Something went wrong Please try again`
       console.log(error)
     } else {
-      uploadedImage = result //Object with the urls and the transformations
-      // Save the url and maybe a transformation with a smaller image and a thumbnail to the db
-      console.log(result)
-      // query to create the post and save to the database
-      //     uploading =false;
-      //     files = null;
-      //     caption = ''
-      return result
+      // result has TS support! Use VSCode intellisense to get the image types
+      // Save the url and maybe a transformation with a smaller image and a thumbnail to the db query to create the post
+      await execCreatePhoto({ id: $auth.userInfo?._id, src: result.url, posted: new Date().toISOString(), caption })
+      uploading = false
+      files = null
+      caption = ''
     }
   })
 }
@@ -59,7 +59,7 @@ function uploadPost() {
             class="cursor-pointer inline-block absolute top-1/2 font-medium rounded-xl px-5 py-2 bg-gray-100"
           >
             Select an Image for Upload
-            <input type="file" id="fileUpload" name="fileUpload" class="my-5 hidden" bind:files />
+            <input type="file" id="fileUpload" name="fileUpload" class="my-5 hidden" accept="image/*" bind:files />
           </label>
         {:else}
           <textarea
@@ -100,7 +100,7 @@ function uploadPost() {
   top: 50%;
   width: calc(100vw - 6em);
   width: 26em;
-  height: calc(100vh - 12em);
+  height: 20rem;
   overflow: none;
   transform: translate(-50%, -50%);
   border-radius: 1em;

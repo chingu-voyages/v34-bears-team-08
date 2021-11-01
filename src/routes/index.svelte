@@ -25,8 +25,6 @@ import { GetTimeline } from '$lib/gql/GetTimeline'
 import TimelineFormat from '$lib/components/TimelineFormat.svelte'
 import ProfileInfo from '$lib/components/ProfileInfo.svelte'
 
-let currentUser = $auth?.userInfo.username
-
 GetTimeline({})
 
 $: photoArr = $GetTimeline.data?.result.data || []
@@ -38,7 +36,7 @@ $: photoArr = $GetTimeline.data?.result.data || []
 
 <div class="flex flex-row w-full justify-center">
   <TimelineFormat {photoArr} />
-  <div class="flex flex-col w-1/5">
-    <ProfileInfo username={currentUser} />
+  <div class="ml-4 lg:flex flex-col w-1/5 hidden">
+    <ProfileInfo username={$auth.userInfo?.username} />
   </div>
 </div>

@@ -1,6 +1,15 @@
-<script>
+<script context="module">
 import { GetTimeline } from '$lib/gql/GetTimeline'
+import { loadQueries } from '$lib/gql/urql'
 
+export async function load({ fetch }) {
+  GetTimeline.variables = { username: '' }
+  await loadQueries({ fetch }, GetTimeline)
+  return {}
+}
+</script>
+
+<script>
 GetTimeline({ username: '' })
 
 $: photoArr = $GetTimeline.data?.result.data || []

@@ -1,37 +1,32 @@
 import { auth, isAuthenticated, verify, logout } from '$lib/stores/auth'
 import { authExchange } from '@urql/exchange-auth'
-import {
-  initClient as urqlInit,
-  dedupExchange,
-  makeOperation,
-  fetchExchange,
-  ssrExchange,
-  createClient,
-} from '@urql/svelte'
+import { dedupExchange, makeOperation, fetchExchange, ssrExchange, createClient, setClient } from '@urql/svelte'
 import { cacheExchange } from '@urql/exchange-graphcache'
 // import schema from './generated-introspection.json'
 import { get } from 'svelte/store'
 // import { devtoolsExchange } from '@urql/devtools' // ⚙ for dev only
+import { browser } from '$app/env'
+import { onMount } from 'svelte'
 
 export * from './utils'
 import { DeleteComment } from '../DeleteComment'
 import { GetTimeline } from '../GetTimeline'
+import { GetUserInfo } from '../GetUserInfo'
 
 // Used to track if the client has been initialized, which will only happen when components are mounting, after all load functions have run.
 // If it is initialized, it'll be used as the client for `loadQueries()` to query with.
 let curClient = null
 export const getCurClient = () => curClient
+const ssrData = {}
+/** indicates whether it's safe to run client queries in load func */
+let serializedLoad = true
 
-const clientSsr = ssrExchange({ isClient: true })
-// TODO: See other TODO about extractData. We need this to make sure that we're not calling restoreData after initial restore
-export const restoreData = (data) => data && clientSsr.restoreData(data)
-
-/** Fauna & Magic Link preconfigured urql client */
-export const initClient = () =>
-  (curClient = urqlInit({
+const getClient = (ssrExchange, fetch) =>
+  createClient({
     url: 'https://graphql.fauna.com/graphql',
+    fetch,
     exchanges: [
-      // devtoolsExchange, // ⚙ for dev only
+      //devtoolsExchange, // ⚙ for dev only
       dedupExchange,
       // TODO: Discuss persistence
       // ? Consider using offline exchange for persistence, w/ request policy exchange for clearing stale data.
@@ -55,6 +50,19 @@ export const initClient = () =>
                 1
               )
               cache.link(commentsLink, 'data', comments)
+            },
+            // update followingCount for logged in user, if it's already in cache
+            followUser(_result, { input: { value } }, cache, _info) {
+              cache.updateQuery(
+                { query: GetUserInfo.query, variables: { username: get(auth).userInfo?.username } },
+                (data) => {
+                  if (data) {
+                    data.result.followingCount ||= 0
+                    data.result.followingCount += value ? 1 : -1
+                  }
+                  return data
+                }
+              )
             },
           },
         },
@@ -152,40 +160,49 @@ export const initClient = () =>
           return null
         },
       }),
+      ssrExchange,
       fetchExchange,
     ],
-  }))
+  })
 
-/** Meant to be used for load function. Uses a minimal client specifically for load function, carrying over data obtained from SSR.
+const clientSsr = ssrExchange({ isClient: true })
+/** Fauna & Magic Link preconfigured urql client */
+export const initClient = () => {
+  setClient((curClient = getClient(clientSsr)))
+  // restore data
+  serializedLoad && browser && clientSsr.restoreData(ssrData)
+  onMount(() => {
+    serializedLoad = false
+  })
+  return curClient
+}
+
+/** For loading urql queries, carrying over data obtained from SSR.
  * Returns extracted data if SSR, and pre-queries using current client if not.
+ *
+ * * NOTE: THIS SSR FUNC IS TESTED FULLY WORKING FOR LOAD FUNC. But in Kit dev, any HMR update will cause cache to be buggy!
+ * * Only the dev server launch is accurate!
+ * ! Disabled, enable only if specifically working on loading code, to prevent excess API reqs. CSR-only also causes excess reqs.
+ * TODO: Test SSR network reqs in prod!
+ * @param {object} opts
+ * @param {?Boolean} opts.dev Enables testing in dev. Disabled by default to prevent excess reqs on HMR updates. Only tests accuratly on initial dev server launch!
+ * @param {function (RequestInfo, RequestInit): Promise<Response>} opts.fetch Kit load func provided fetch
  */
-export async function loadQueries(fetch, ...queryOperationStores) {
-  // TODO: We may consider public clients for usage with public routes. That will end up being a different function for SSR.
-  if (!get(auth)?.token) return
+export async function loadQueries({ fetch, dev }, ...queryOperationStores) {
+  if (!dev && import.meta.env.DEV) return
+  // TODO: We may consider public clients for usage with public routes. That should be adjusted in the auth exchange for SSR.
+  const ssr = ssrExchange({ isClient: false })
 
-  let loadClient
-
-  if (!curClient) {
-    const ssr = ssrExchange({ isClient: false })
-    loadClient = createClient({
-      url: 'https://graphql.fauna.com/graphql',
-      fetchOptions: () => {
-        const token = get(auth)?.token
-        return {
-          headers: { authorization: token ? `Bearer ${token}` : '' },
-        }
-      },
-      fetch,
-      exchanges: [ssr, fetchExchange],
-    })
-  } else loadClient = curClient
+  if (serializedLoad) var loadClient = getClient(ssr, fetch)
+  else var loadClient = curClient
 
   try {
-    await Promise.all(queryOperationStores.map((opStore) => loadClient.query(opStore.query).toPromise()))
+    await Promise.all(
+      queryOperationStores.map((opStore) => loadClient.query(opStore.query, opStore.variables).toPromise())
+    )
   } catch (error) {
     return {}
   }
 
-  // TODO: We need to observe what comes out of extractData() when there's nothing inside. Likely a falsey value.
-  return ssr.extractData()
+  return serializedLoad && Object.assign(ssrData, ssr.extractData())
 }
