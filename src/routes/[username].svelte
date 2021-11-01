@@ -57,12 +57,12 @@ let direction = 'wrap'
 </script>
 
 <div class="flex flex-col items-center min-h-screen mt-10">
-  <div class="flex flex-row justify-between w-3/5">
+  <div class="flex flex-row justify-between w-3/5 max-w-screen-lg">
     {#key username}
       <ProfileInfo {username} />
     {/key}
   </div>
-  <div class="flex flex-row mb-3">
+  <div class="flex flex-row m-8">
     <button on:click={() => (direction = 'wrap')}>
       <ThLarge
         id="wrap"
@@ -88,10 +88,12 @@ let direction = 'wrap'
       <TimelineFormat {photoArr} />
     </div>
   {:else}
-    <ul class="flex flex-wrap justify-start w-3/5 relative">
+    <ul
+      class="grid gap-10 justify-center sm:grid-cols-[repeat(2,300px)] sm:justify-around lg:grid-cols-[repeat(3,300px)] lg:justify-between w-full max-w-screen-lg relative"
+    >
       {#each photoArr as photo, index}
         <li class="w-max relative">
-          <img src={photo.src} width="300px" alt="photo #{index + 1}" class="mt-4 z-0 mr-4" />
+          <img src={photo.src} width="300px" alt="photo #{index + 1}" class="z-0" />
           {#if currentUser === username}
             <button
               class="z-10 display-block absolute top-0 right-2 mt-4 ml-3 text-white text-lg pr-4 pb-4"
