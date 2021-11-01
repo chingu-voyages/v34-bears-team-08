@@ -31,7 +31,7 @@ let showModal = false
               stroke="currentColor"
             />
           </button>
-          <a href="/" aria-label="Timeline">
+          <a sveltekit:prefetch href="/" aria-label="Timeline">
             <Home
               class="w-6 text-black-light pointer-events-none"
               xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,7 @@ let showModal = false
               stroke="currentColor"
             />
           </a>
-          <a href="/explore" area-label="explore">
+          <a sveltekit:prefetch href="/explore" area-label="explore">
             <Compass
               class="w-5 text-black-light pointer-events-none	"
               xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +70,7 @@ let showModal = false
           {#if $isAuthenticated}
             <!--The <User/> icon is a placeholder for where the user img will go-->
             <div class="flex items-center">
-              <a href="/{username}"
+              <a sveltekit:prefetch href="/{username}"
                 ><UserAlt
                   class="w-5 text-black-light pointer-events-none"
                   xmlns="http://www.w3.org/2000/svg"
