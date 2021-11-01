@@ -23,4 +23,4 @@ npm run build
 
 > You can preview the built app with `npm run preview`, regardless of whether you installed an adapter. This should _not_ be used to serve your app in production.
 
-[Live Preview](https://v34-bears-team-08.netlify.app)
+[Live Preview](https://devvy.netlify.app)
