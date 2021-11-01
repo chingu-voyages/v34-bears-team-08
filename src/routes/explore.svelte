@@ -19,7 +19,7 @@ $: photoArr = $Timeline.data?.result.data || []
   <title>Devvy - Explore</title>
 </svelte:head>
 
-<div class="w-full flex flex-row justify-center">
+<div class="w-full flex flex-row justify-center mt-36">
   <ul class="flex flex-wrap justify-center px-10 relative">
     {#each photoArr as photo}
       <li class="w-max relative z-0 mr-5 mt-5">

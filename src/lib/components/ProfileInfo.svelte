@@ -21,8 +21,10 @@ const execFollowUser = FollowUser()
   <img src={profileImgSrc || 'https://picsum.photos/200'} class="mr-3 rounded-full" alt="profile avatar" width="200" />
   <div class="flex flex-col w-3/4">
     <h2 class="my-1 text-4xl overflow-ellipsis overflow-hidden">{fullName || username}</h2>
-    <div class="text-sm mt-1 -mb-2">{followingCount || 0} following</div>
-    <div class="text-sm mb-1">{followerCount || 0} followers</div>
+    <div class="flex items-center ">
+    <span class="text-sm inline-block mr-2">{followingCount || 0} following</span>
+    <span class="text-sm inline-block">{followerCount || 0} followers</span>
+    </div>
     {#if headline}<h3 class="my-1">{headline}</h3>{/if}
     <p class="my-1">{bio}</p>
     {#if currentUser != username && followedByUser}
