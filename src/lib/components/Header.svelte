@@ -21,7 +21,7 @@ let showModal = false
       </div>
       <div class="absolute">beta</div>
       <Search />
-      <div class="text-gray-700 text-center flex items-center align-items space-x-4">
+      <div class="text-gray-700 text-center flex items-center align-items space-x-5">
         {#if $isAuthenticated}
           <button title="Add Post" on:click={() => (showModal = true)}>
             <PlusCircle
