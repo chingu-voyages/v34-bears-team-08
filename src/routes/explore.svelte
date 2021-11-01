@@ -1,6 +1,6 @@
 <script context="module">
 import { GetTimeline } from '$lib/gql/GetTimeline'
-import { loadQueries } from '$lib/gql/urql'
+import { loadQueries, queryOp } from '$lib/gql/urql'
 
 export async function load({ fetch }) {
   GetTimeline.variables = { username: '' }
@@ -10,9 +10,7 @@ export async function load({ fetch }) {
 </script>
 
 <script>
-import { operationStore, query } from '@urql/svelte'
-
-const Timeline = query(operationStore(GetTimeline.query, { username: '' }))
+const Timeline = queryOp(GetTimeline.query, { username: '' })()
 
 $: photoArr = $Timeline.data?.result.data || []
 </script>

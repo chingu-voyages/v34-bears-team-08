@@ -1,7 +1,7 @@
 <script context="module">
 import { get } from 'svelte/store'
 import { auth } from '$lib/stores/auth'
-import { loadQueries } from '$lib/gql/urql'
+import { loadQueries, queryOp } from '$lib/gql/urql'
 import { GetTimeline } from '$lib/gql/GetTimeline'
 import { GetUserInfo } from '$lib/gql/GetUserInfo'
 
@@ -29,9 +29,8 @@ export async function load({ fetch }) {
 <script>
 import TimelineFormat from '$lib/components/TimelineFormat.svelte'
 import ProfileInfo from '$lib/components/ProfileInfo.svelte'
-import { operationStore, query } from '@urql/svelte'
 
-const Timeline = query(operationStore(GetTimeline.query, {}))
+const Timeline = queryOp(GetTimeline.query, {})()
 
 $: photoArr = $Timeline.data?.result.data || []
 </script>

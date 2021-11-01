@@ -1,5 +1,5 @@
 <script context="module">
-import { loadQueries } from '$lib/gql/urql'
+import { loadQueries, queryOp } from '$lib/gql/urql'
 import { GetTimeline } from '$lib/gql/GetTimeline'
 import { GetUserInfo } from '$lib/gql/GetUserInfo'
 
@@ -20,12 +20,11 @@ import { DeleteComment } from '$lib/gql/DeleteComment'
 import { auth } from '$lib/stores/auth'
 import { ThLarge, ListUl } from '@svicons/fa-solid'
 import { page } from '$app/stores'
-import { operationStore, query } from '@urql/svelte'
 
 $: ({ username } = $page.params)
-const Timeline = operationStore(GetTimeline.query)
+const Timeline = queryOp(GetTimeline.query)
 $: Timeline.variables = { username }
-query(Timeline)
+Timeline()
 let currentUser = $auth?.userInfo.username
 //get current user
 //check who follows
