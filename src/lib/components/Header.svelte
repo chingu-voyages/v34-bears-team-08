@@ -21,11 +21,11 @@ let showModal = false
       </div>
       <div class="absolute">beta</div>
       <Search />
-      <div class="text-gray-700 text-center flex items-center align-items">
+      <div class="text-gray-700 text-center flex items-center align-items space-x-4">
         {#if $isAuthenticated}
-          <button type="button" title="Add Post" on:click={() => (showModal = true)}>
+          <button title="Add Post" on:click={() => (showModal = true)}>
             <PlusCircle
-              class="w-6 mr-6 text-black-light pointer-events-none"
+              class="w-6 text-black-light pointer-events-none"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -34,7 +34,7 @@ let showModal = false
           </button>
           <a href="/" aria-label="Timeline">
             <Home
-              class="w-6 mr-6 text-black-light pointer-events-none"
+              class="w-6 text-black-light pointer-events-none"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -43,7 +43,7 @@ let showModal = false
           </a>
           <a href="/explore" area-label="explore">
             <Compass
-              class="w-5 mr-6 text-black-light pointer-events-none	"
+              class="w-5 text-black-light pointer-events-none	"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -60,7 +60,7 @@ let showModal = false
             }}
           >
             <SignOutAlt
-              class="w-6 mr-6 text-black-light pointer-events-none"
+              class="w-6 text-black-light pointer-events-none"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -73,7 +73,7 @@ let showModal = false
             <div class="flex items-center">
               <a href="/{username}"
                 ><UserAlt
-                  class="w-5 mr-6 text-black-light pointer-events-none"
+                  class="w-5 text-black-light pointer-events-none"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
