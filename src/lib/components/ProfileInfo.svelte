@@ -6,11 +6,11 @@ import Loader from './Loader.svelte'
 import { GetUserInfo } from '$lib/gql/GetUserInfo'
 import { FollowUser } from '$lib/gql/FollowUser'
 import { auth } from '$lib/stores/auth'
-import { operationStore, query } from '@urql/svelte'
+import { queryOp } from '$lib/gql/urql'
 
 export let username
 let currentUser = $auth?.userInfo.username
-const UserInfo = query(operationStore(GetUserInfo.query, { username }))
+const UserInfo = queryOp(GetUserInfo.query, { username })()
 $: ({ headline, fullName, followingCount, followerCount, bio, username, profileImgSrc, followedByUser, _id } =
   $UserInfo.data?.result || {})
 
