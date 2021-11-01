@@ -7,9 +7,9 @@ const imagekit = new ImageKit({
   urlEndpoint: import.meta.env.VITE_IMAGEKIT_URL_END_POINT,
 })
 
-export async function get({ query }) {
-  const token = query.token || uuidv4()
-  const expiration = query.expiration || parseInt(Date.now() / 1000) + 60 * 10
-  const signatureObj = await imagekit.getAuthenticationParameters(token, expiration)
-  return { body: signatureObj }
-}
+export const get = async ({ query }) => ({
+  body: imagekit.getAuthenticationParameters(
+    query.token || uuidv4(),
+    query.expiration || parseInt(Date.now() / 1000) + 60 * 10
+  ),
+})
