@@ -31,6 +31,7 @@ $: if (!$SearchForUser.fetching) results = $SearchForUser.data?.result.data || [
         <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 content-start h-80">
           {#each results as user (user._id)}
             <a
+              sveltekit:prefetch
               href="/{user.username}"
               class="-m-3 p-3 block rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
               on:click={() => (username = '')}

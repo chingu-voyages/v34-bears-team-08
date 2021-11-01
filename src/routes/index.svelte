@@ -1,8 +1,11 @@
 <script context="module">
 import { get } from 'svelte/store'
 import { auth } from '$lib/stores/auth'
+import { loadQueries } from '$lib/gql/urql'
+import { GetTimeline } from '$lib/gql/GetTimeline'
+import { GetUserInfo } from '$lib/gql/GetUserInfo'
 
-export function load({ fetch }) {
+export async function load({ fetch }) {
   const { token, userInfo } = get(auth)
   // we can use this for SSR
   if (!token) {
@@ -16,18 +19,21 @@ export function load({ fetch }) {
       status: 302,
     }
   }
+  GetTimeline.variables = {}
+  GetUserInfo.variables = { username: userInfo?.username }
+  await loadQueries({ fetch }, GetTimeline, GetUserInfo)
   return {}
 }
 </script>
 
 <script>
-import { GetTimeline } from '$lib/gql/GetTimeline'
 import TimelineFormat from '$lib/components/TimelineFormat.svelte'
 import ProfileInfo from '$lib/components/ProfileInfo.svelte'
+import { operationStore, query } from '@urql/svelte'
 
-GetTimeline({})
+const Timeline = query(operationStore(GetTimeline.query, {}))
 
-$: photoArr = $GetTimeline.data?.result.data || []
+$: photoArr = $Timeline.data?.result.data || []
 </script>
 
 <svelte:head>
