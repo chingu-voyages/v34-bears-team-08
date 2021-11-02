@@ -72,7 +72,7 @@ let direction = 'wrap'
   </div>
 
   {#if direction === 'col'}
-    <div class="flex flex-row justify-center w-3/5 relative">
+    <div class="flex flex-row justify-center w-full relative">
       <TimelineFormat {photoArr} />
     </div>
   {:else}

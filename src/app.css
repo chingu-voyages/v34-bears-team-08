@@ -10,7 +10,8 @@ h5,
 h6 {
   @apply text-whiteA-whiteA12;
 }
-input {
+input,
+textarea {
   @apply bg-whiteA-whiteA5;
 }
 img {
