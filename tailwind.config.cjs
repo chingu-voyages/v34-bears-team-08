@@ -8,11 +8,12 @@ const config = {
     }),
     extend: {
       colors: {
-        white: '#ffffff',
+        white: '#fff',
         blue: {
           medium: '#005c98',
         },
         black: {
+          0: '#000',
           light: '#262626',
           faded: '#00000059',
         },
@@ -30,12 +31,6 @@ const config = {
   },
 
   plugins: [],
-  variants: {
-    extend: {
-      transform: ['hover', 'focus'],
-      scale: ['active', 'group-hover'],
-    },
-  },
 }
 
 module.exports = config
