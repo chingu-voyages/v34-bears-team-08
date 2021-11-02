@@ -26,18 +26,11 @@ const execLikePhoto = LikePhoto()
 <ul class="flex flex-col">
   {#each photoArr as photo, index}
     <li class="mx-4 mb-4 max-w-[700px]">
-      <div class="border-t border-l border-r border-gray-300 w-full py-3 px-4 rounded-t-sm">
+      <div class="w-full py-3 px-4 rounded-t-sm">
         <span class="font-semibold">{photo.author.username}</span>
       </div>
-      <img
-        src={photo.src}
-        width="700px"
-        class="border-l border-r border-gray-200"
-        alt="{photo.author.username}'s photo"
-      />
-      <div
-        class="border-b border-l border-r border-gray-300 w-full max-w-full p-2 flex flex-col rounded-b-sm pt-4 px-4"
-      >
+      <img src={photo.src} width="700px" class="rounded-md" alt="{photo.author.username}'s photo" />
+      <div class="w-full max-w-full p-2 flex flex-col rounded-b-sm pt-4 px-4">
         <div class="flex items-center">
           <button
             class="w-4 h-4 mr-2"
@@ -49,7 +42,7 @@ const execLikePhoto = LikePhoto()
             {#if photo.likedByUser}
               <HeartFill class="text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" />
             {:else}
-              <Heart class="text-black-light" xmlns="http://www.w3.org/2000/svg" fill="none" />
+              <Heart xmlns="http://www.w3.org/2000/svg" fill="none" />
             {/if}
           </button>
           <span>{photo.likeCount || 0} likes</span>
@@ -63,7 +56,7 @@ const execLikePhoto = LikePhoto()
           View comments
           {#if displayComments != index}
             <AngleRight
-              class="w-2 ml-1 pt-0.5 text-black-light pointer-events-none"
+              class="w-2 ml-1 pt-0.5"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -71,7 +64,7 @@ const execLikePhoto = LikePhoto()
             />
           {:else}
             <AngleDown
-              class="w-3 ml-1 pt-0.5 text-black-light pointer-events-none"
+              class="w-3 ml-1 pt-0.5"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -118,7 +111,7 @@ const execLikePhoto = LikePhoto()
         <form
           class="-ml-2 my-2 display-block relative w-full"
           on:submit|preventDefault={async function postComment() {
-            if (!text) return
+            if (!text || PostNewComment.fetching) return
 
             await execPostNewComment({
               text,
@@ -126,23 +119,21 @@ const execLikePhoto = LikePhoto()
               photo: photo._id,
               author: $auth?.userInfo._id,
             })
-
+            text = ''
             displayComments = index
             await sleep(400)
             let height = commentsEl.scrollHeight + 100
             commentsEl.scrollTo({ top: height, behavior: 'smooth' })
-
-            text = ''
           }}
         >
           <input
             type="text"
             name="comment"
-            class="w-full p-2 outline-none rounded-md z-0"
+            class="w-full p-2 outline-none rounded-md z-0 border-l-4 border-amber-amber8 "
             placeholder="Add a comment..."
             bind:value={text}
           />
-          <button type="submit" class="z-0 display-block absolute top-2 right-2 text-blueA-blueA7 hover:text-blue-400"
+          <button type="submit" class="z-0 display-block absolute top-2 right-2 text-amber-amber8 hover:text-blue-400"
             >Post</button
           >
         </form>
