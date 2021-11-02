@@ -16,7 +16,8 @@ const execPostNewComment = PostNewComment()
 
 let text = '',
   displayComments,
-  commentsEl
+  commentsEl,
+  postReady = true
 
 const execDeleteComment = DeleteComment()
 
@@ -111,8 +112,8 @@ const execLikePhoto = LikePhoto()
         <form
           class="-ml-2 my-2 display-block relative w-full"
           on:submit|preventDefault={async function postComment() {
-            if (!text || PostNewComment.fetching) return
-
+            if (!text || !postReady) return
+            postReady = false // debounce queries
             await execPostNewComment({
               text,
               posted: new Date().toISOString(),
@@ -120,6 +121,7 @@ const execLikePhoto = LikePhoto()
               author: $auth?.userInfo._id,
             })
             text = ''
+            postReady = true
             displayComments = index
             await sleep(400)
             let height = commentsEl.scrollHeight + 100
