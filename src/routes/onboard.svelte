@@ -20,7 +20,7 @@ const baseInputClass =
   'text-gray-700 light appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#3D7BAF] focus:border-[#3D7BAF] sm:text-sm'
 </script>
 
-<div class="flex flex-row w-full justify-center min-h-screen items-center mt-36">
+<main class="flex flex-row w-full justify-center min-h-screen items-center mt-36">
   <form on:submit|preventDefault={submitHandler} class="flex flex-col p-20 text-white rounded-md">
     <h2 class="text-3xl">Welcome to Devvy!</h2>
     <p class="mb-4 text-gray-300 text-sm self-center">Enter some basic info to get started.</p>
@@ -52,7 +52,7 @@ const baseInputClass =
     >
     <p class="mt-3 self-center text-gray-400 italic">Thanks for signing up!</p>
   </form>
-</div>
+</main>
 
 <style>
 form {

@@ -1,6 +1,6 @@
 <script>
 import Loader from '$components/Loader.svelte'
-import { fly } from 'svelte/transition'
+import { fly, fade } from 'svelte/transition'
 import { flip } from 'svelte/animate'
 import { quintOut } from 'svelte/easing'
 import { SearchForUser } from '$lib/gql/SearchForUser'
@@ -19,7 +19,8 @@ let results = []
 $: if (!$SearchForUser.fetching) results = $SearchForUser.data?.result.data || []
 </script>
 
-<div class="my-auto">
+<!-- TODO: Discuss if we want search for mobile and how we'd do it (maybe double stack the header with another of different color, sort of like a second header) -->
+<div class="my-auto hidden sm:block">
   <input
     type="text"
     class="border w-40 outline-none py-1 px-2"
@@ -42,8 +43,9 @@ $: if (!$SearchForUser.fetching) results = $SearchForUser.data?.result.data || [
           e.preventDefault()
           const href = get(Menu.selected).href
           username = ''
-          prefetch(href)
-          await sleep(300)
+          const prom = prefetch(href)
+          await sleep(300) // wait for animations to end before allowing navigating to next page, or `stop` error from unsubscribes will happen
+          await prom
           goto(href)
           break
       }
@@ -60,19 +62,20 @@ $: if (!$SearchForUser.fetching) results = $SearchForUser.data?.result.data || [
       in:fly={{ duration: 200, y: -15 }}
       out:fly={{ duration: 150, y: -15 }}
     >
-      <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-y-auto">
-        <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 content-start h-80">
+      <div class="rounded-lg shadow-lg ring-1 ring-white ring-opacity-10 overflow-y-auto">
+        <div class="relative grid gap-6 bg-black-off px-5 py-6 sm:gap-8 sm:p-8 content-start h-80">
           {#each results as user (user._id)}
             <div animate:flip={{ easing: quintOut }}>
               <Menu.Item let:active>
                 <a
                   sveltekit:prefetch
                   href="/{user.username}"
-                  class:bg-gray-50={active}
+                  class:bg-whiteA-whiteA6={active}
                   class="-m-3 p-3 block rounded-md transition ease-in-out duration-150"
+                  transition:fade={{ duration: 250 }}
                   on:click={() => (username = '')}
                 >
-                  <p class="text-base font-medium text-gray-900">
+                  <p class="text-base font-medium">
                     {user.username}
                   </p>
                 </a>

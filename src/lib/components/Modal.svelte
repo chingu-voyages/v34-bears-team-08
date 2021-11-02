@@ -45,7 +45,7 @@ function uploadPost() {
   transition:fade={{ duration: 500 }}
 />
 <div
-  class="flex flex-col items-center content-center bg-white modal z-30 drop-shadow-md fixed left-1/2 top-1/2 w-[26rem] h-80 translate-x-[-50%] translate-y-[-50%] transform-gpu rounded-2xl"
+  class="flex flex-col items-center content-center bg-black-off modal z-30 drop-shadow-md fixed left-1/2 top-1/2 w-[26rem] h-80 translate-x-[-50%] translate-y-[-50%] transform-gpu rounded-2xl"
   use:dialog
   on:close
   transition:fly={{ y: -15, duration: 250 }}
@@ -69,7 +69,7 @@ function uploadPost() {
         {#if !files}
           <label
             for="fileUpload"
-            class="cursor-pointer inline-block absolute top-1/2 font-medium rounded-xl px-5 py-2 bg-gray-100"
+            class="cursor-pointer inline-block absolute top-1/2 font-medium rounded-xl px-5 py-2 bg-whiteA-whiteA5"
           >
             Select an Image for Upload
             <input type="file" id="fileUpload" name="fileUpload" class="my-5 hidden" accept="image/*" bind:files />
@@ -85,8 +85,9 @@ function uploadPost() {
             placeholder="Write a caption"
           />
           {#if caption}
-            <button class="absolute bottom-0  mb-4 rounded-lg border-none px-7 py-2 bg-gray-100 font-bold" type="submit"
-              >Post</button
+            <button
+              class="absolute bottom-0  mb-4 rounded-lg border-none px-7 py-2 bg-whiteA-whiteA5 font-bold"
+              type="submit">Post</button
             >
           {/if}
         {/if}
