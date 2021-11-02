@@ -19,7 +19,7 @@ let results = []
 $: if (!$SearchForUser.fetching) results = $SearchForUser.data?.result.data || []
 </script>
 
-<!-- TODO: Discuss if we want search for mobile and how we'd do it (maybe double stack the header with another of different color, sort of like a second header) -->
+<!-- TODO: Discuss if we want search for mobile and how we'd do it (maybe double stack the header with another of different color, sort of like a second header, or like the reference, sticky menu at bottom of screen) -->
 <div class="my-auto hidden sm:block">
   <input
     type="text"
