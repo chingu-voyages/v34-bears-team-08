@@ -39,7 +39,11 @@ function uploadPost() {
 }
 </script>
 
-<div class="modal-bg z-10" use:dialog.overlay transition:fade={{ duration: 500 }} />
+<div
+  class="fixed top-0 left-0 right-0 bottom-0 bg-blackA-blackA10 z-10"
+  use:dialog.overlay
+  transition:fade={{ duration: 500 }}
+/>
 <div
   class="flex flex-col items-center content-center bg-white modal z-30 drop-shadow-md fixed left-1/2 top-1/2 w-[26rem] h-80 translate-x-[-50%] translate-y-[-50%] transform-gpu rounded-2xl"
   use:dialog
@@ -94,11 +98,6 @@ function uploadPost() {
 </div>
 
 <style>
-.modal-bg {
-  background: #4448;
-  @apply fixed top-0 left-0 right-0 bottom-0;
-}
-
 .line {
   stroke: #fff;
   stroke-width: 2;

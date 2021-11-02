@@ -24,6 +24,7 @@ const config = {
         red: {
           primary: '#ed4956',
         },
+        ...require('@radix-ui/colors'),
       },
     },
   },
