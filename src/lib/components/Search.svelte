@@ -1,5 +1,5 @@
 <script>
-import Loader from '$components/Loader.svelte'
+// import Loader from '$components/Loader.svelte'
 import { fly, fade } from 'svelte/transition'
 import { flip } from 'svelte/animate'
 import { quintOut } from 'svelte/easing'
@@ -55,9 +55,10 @@ $: if (!$SearchForUser.fetching) results = $SearchForUser.data?.result.data || [
     }}
   />
 
-  {#if $SearchForUser.fetching}
-    <!-- <Loader class="absolute" /> -->
-  {/if}
+  <!-- TODO: Might want to think about how the loading is visually represented, probably a small loader next to or inside the search bar? 
+    {#if $SearchForUser.fetching}
+    <Loader class="absolute" />
+  {/if} -->
   {#if username}
     <nav
       use:Menu={{ autofocus: false }}
