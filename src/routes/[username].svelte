@@ -64,22 +64,10 @@ let direction = 'wrap'
   </div>
   <div class="flex flex-row m-8">
     <button on:click={() => (direction = 'wrap')}>
-      <ThLarge
-        id="wrap"
-        class="w-4 mr-3 text-black-light pointer-events-none"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-      />
+      <ThLarge id="wrap" class="w-4 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" />
     </button>
     <button on:click={() => (direction = 'col')}>
-      <ListUl
-        id="wrap"
-        class="w-4 mr-3 text-black-light pointer-events-none"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-      />
+      <ListUl id="wrap" class="w-4 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" />
     </button>
   </div>
 
