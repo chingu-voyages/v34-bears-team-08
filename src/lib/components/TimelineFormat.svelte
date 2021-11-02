@@ -25,7 +25,7 @@ const execLikePhoto = LikePhoto()
 
 <ul class="flex flex-col">
   {#each photoArr as photo, index}
-    <li class="mx-4 mb-4 max-w-photo">
+    <li class="mx-4 mb-4 max-w-[700px]">
       <div class="border-t border-l border-r border-gray-300 w-full py-3 px-4 rounded-t-sm">
         <span class="font-semibold">{photo.author.username}</span>
       </div>
@@ -142,7 +142,7 @@ const execLikePhoto = LikePhoto()
             placeholder="Add a comment..."
             bind:value={text}
           />
-          <button type="submit" class="z-10 display-block absolute top-2 right-2 text-blue-300 hover:text-blue-400"
+          <button type="submit" class="z-0 display-block absolute top-2 right-2 text-blueA-blueA7 hover:text-blue-400"
             >Post</button
           >
         </form>
@@ -157,9 +157,3 @@ const execLikePhoto = LikePhoto()
     </div>
   {/each}
 </ul>
-
-<style>
-.max-w-photo {
-  max-width: 700px;
-}
-</style>
