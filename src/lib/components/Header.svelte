@@ -10,7 +10,7 @@ let username = $auth.userInfo?.username,
 let showModal = false
 </script>
 
-<header class="px-4 h-16 bg-white border-b border-gray-primary mb-8 w-full fixed top-0">
+<header class="px-4 h-16 bg-white border-b border-gray-primary mb-8 w-full fixed z-10 top-0">
   <div class="container mx-auto max-w-screen-lg h-full">
     <div class="flex justify-between h-full">
       <div class="text-gray-700 text-center flex items-center align-items">
