@@ -1,6 +1,7 @@
 /* Write your global styles here, in PostCSS syntax */
 #svelte {
   min-height: 100vh;
+  /* @apply text-whiteA-whiteA12; */
 }
 
 @tailwind base;
