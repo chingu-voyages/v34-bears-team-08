@@ -15,7 +15,7 @@ const config = {
         black: {
           0: '#000',
           light: '#262626',
-          faded: '#00000059',
+          off: '#1a1b20',
         },
         gray: {
           base: '#616161',
