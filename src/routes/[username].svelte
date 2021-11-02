@@ -56,7 +56,7 @@ async function callDeletePhoto(e) {
 let direction = 'wrap'
 </script>
 
-<div class="flex flex-col items-center min-h-screen mt-36">
+<main class="flex flex-col items-center min-h-screen mt-36">
   <div class="flex flex-row justify-between w-3/5 max-w-screen-lg">
     {#key username}
       <ProfileInfo {username} />
@@ -96,7 +96,7 @@ let direction = 'wrap'
           <img src={photo.src} width="300px" alt="photo #{index + 1}" class="z-0" />
           {#if currentUser === username}
             <button
-              class="z-10 display-block absolute top-0 right-2 mt-4 ml-3 text-white text-lg pr-4 pb-4"
+              class="z-0 display-block absolute top-0 right-2 mt-4 ml-3 text-white text-lg pr-4 pb-4"
               on:click={callDeletePhoto}
               data-photo-id={photo._id}
             >
@@ -107,10 +107,4 @@ let direction = 'wrap'
       {/each}
     </ul>
   {/if}
-</div>
-
-<style>
-button > * {
-  pointer-events: none;
-}
-</style>
+</main>
