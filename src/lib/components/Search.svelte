@@ -41,12 +41,10 @@ $: if (!$SearchForUser.fetching) results = $SearchForUser.data?.result.data || [
           break
         case 'Enter':
           e.preventDefault()
-          const href = get(Menu.selected).href
+          const { href } = get(Menu.selected)
+          await prefetch(href)
+          await goto(href)
           username = ''
-          const prom = prefetch(href)
-          await sleep(300) // wait for animations to end before allowing navigating to next page, or `stop` error from unsubscribes will happen
-          await prom
-          goto(href)
           break
         case 'Tab':
           if (username != '') e.preventDefault()
