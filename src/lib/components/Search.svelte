@@ -48,6 +48,9 @@ $: if (!$SearchForUser.fetching) results = $SearchForUser.data?.result.data || [
           await prom
           goto(href)
           break
+        case 'Tab':
+          if (username != '') e.preventDefault()
+          break
       }
     }}
   />
