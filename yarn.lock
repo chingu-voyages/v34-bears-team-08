@@ -3325,6 +3325,11 @@
     "mkdirp" "^0.5.1"
     "rimraf" "^2.5.2"
 
+"sashui@^0.0.9":
+  "integrity" "sha512-PuvjNpBzmnL+r5iOF/vdWH8hjwrG5guLMyaEMQdT9vOoaD+/pkjZ4mRpHVcS4pHN9JgyDsh4yNPV6DQVn7QYgQ=="
+  "resolved" "https://registry.npmjs.org/sashui/-/sashui-0.0.9.tgz"
+  "version" "0.0.9"
+
 "scrypt-js@^3.0.0":
   "integrity" "sha512-cdwTTnqPu0Hyvf5in5asVdZocVDTNRmR7XEcJuIzMjJeSHybHl7vpB66AzwTaIg6CLSbtjcxc8fqcySfnTkccA=="
   "resolved" "https://registry.npmjs.org/scrypt-js/-/scrypt-js-3.0.1.tgz"
@@ -3564,10 +3569,10 @@
     "sorcery" "^0.10.0"
     "strip-indent" "^3.0.0"
 
-"svelte@^3.0.0", "svelte@^3.23.0", "svelte@^3.34.0", "svelte@^3.42.6", "svelte@^3.43.0", "svelte@>=3.19.0":
-  "integrity" "sha512-nvPIaKx4HLzYlSdquISZpgG1Kqr2VAWQjZOt3Iwm3UhbqmA0LnSx4k1YpRMEhjQYW3ZCqQoK8Egto9tv4YewMA=="
-  "resolved" "https://registry.npmjs.org/svelte/-/svelte-3.43.1.tgz"
-  "version" "3.43.1"
+"svelte@^3.0.0", "svelte@^3.23.0", "svelte@^3.34.0", "svelte@^3.43.0", "svelte@>=3.19.0", "svelte@3.44.0":
+  "integrity" "sha512-zWACSJBSncGiDvFfYOMFGNV5zDLOlyhftmO5yOZ0lEtQMptpElaRtl39MWz1+lYCpwUq4F3Q2lTzI9TrTL+eMA=="
+  "resolved" "https://registry.npmjs.org/svelte/-/svelte-3.44.0.tgz"
+  "version" "3.44.0"
 
 "svgo@^2.3.0":
   "integrity" "sha512-aDLsGkre4fTDCWvolyW+fs8ZJFABpzLXbtdK1y71CKnHzAnpDxKXPj2mNKj+pyOXUCzFHzuxRJ94XOFygOWV3w=="
