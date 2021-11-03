@@ -75,18 +75,20 @@ const getClient = (ssrExchange, fetch) =>
         },
         optimistic: {
           // NOTE: Must define all nested types, __typename info is lost by data passed in as variables, unless you get them in query (not ideal).
+          // Since we always get _id, no need to define but know that it is required
           likePhoto: (
             _vars,
             _cache,
             {
               variables: {
                 value,
-                photo: { comments, ...photo },
+                photo: { comments, author, ...photo },
               },
             }
           ) => ({
             ...photo,
             __typename: 'Photo',
+            author: { ...author, __typename: 'User' },
             comments: {
               data: comments.data.map((data) => ({ ...data, __typename: 'Comment' })),
               __typename: 'CommentPage',
