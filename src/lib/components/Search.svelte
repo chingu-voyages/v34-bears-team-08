@@ -5,10 +5,10 @@ import { flip } from 'svelte/animate'
 import { quintOut } from 'svelte/easing'
 import { SearchForUser } from '$lib/gql/SearchForUser'
 import { useMenu } from 'sashui'
-import { get } from 'svelte/store'
 import { goto, prefetch } from '$app/navigation'
 import { sleep } from '$lib/utils'
-const Menu = useMenu(true)
+const Menu = useMenu(true),
+  { selected } = Menu
 let username = ''
 $SearchForUser.fetching = false
 async function searchQuery() {
@@ -30,18 +30,18 @@ $: if (!$SearchForUser.fetching) results = $SearchForUser.data?.result.data || [
       switch (e.key) {
         case 'ArrowDown':
           e.preventDefault()
-          Menu.nextItem()
+          Menu?.nextItem()
           break
         case 'ArrowUp':
           e.preventDefault()
-          Menu.prevItem()
+          Menu?.prevItem()
           break
         case 'Escape':
           username = ''
           break
         case 'Enter':
           e.preventDefault()
-          const { href } = get(Menu.selected)
+          const href = $selected?.href
           await prefetch(href)
           await goto(href)
           username = ''
@@ -75,7 +75,10 @@ $: if (!$SearchForUser.fetching) results = $SearchForUser.data?.result.data || [
                   class:bg-whiteA-whiteA6={active}
                   class="-m-3 p-3 block rounded-md transition ease-in-out duration-150"
                   transition:fade={{ duration: 250 }}
-                  on:click={() => (username = '')}
+                  on:click={async () => {
+                    await sleep(250)
+                    username = ''
+                  }}
                 >
                   <p class="text-base font-medium">
                     {user.username}

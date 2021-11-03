@@ -10,7 +10,6 @@ import { onMount } from 'svelte'
 
 export * from './utils'
 import { DeleteComment } from '../DeleteComment'
-import { GetTimeline } from '../GetTimeline'
 import { GetUserInfo } from '../GetUserInfo'
 
 // Used to track if the client has been initialized, which will only happen when components are mounting, after all load functions have run.
@@ -79,6 +78,11 @@ const getClient = (ssrExchange, fetch) =>
             ...photo,
             likeCount: photo.likeCount + (value ? 1 : -1),
             likedByUser: value,
+          }),
+          followUser: (_vars, _cache, { variables: { value, user } }) => ({
+            ...user,
+            followerCount: user.followerCount + (value != false ? 1 : -1),
+            followedByUser: value != false ? true : value,
           }),
         },
         // Any Page types (usually for lists) in your schema should be nulled to silence warnings as they don't have an ID.

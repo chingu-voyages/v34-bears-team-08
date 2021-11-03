@@ -22,20 +22,23 @@ const execFollowUser = FollowUser()
   <div class="flex flex-col w-3/4">
     <h2 class="my-1 text-4xl overflow-ellipsis overflow-hidden">{fullName || username}</h2>
     <div class="flex items-center ">
-    <span class="text-sm inline-block mr-2">{followingCount || 0} following</span>
-    <span class="text-sm inline-block">{followerCount || 0} followers</span>
+      <span class="text-sm inline-block mr-2">{followingCount || 0} following</span>
+      <span class="text-sm inline-block">{followerCount || 0} followers</span>
     </div>
     {#if headline}<h3 class="my-1">{headline}</h3>{/if}
     <p class="my-1">{bio}</p>
     {#if currentUser != username && followedByUser}
       <button
         class="bg-blue-400 rounded-md py-1 px-2 w-min text-white"
-        on:click={() => execFollowUser({ id: _id, value: false })}
+        on:click={() => execFollowUser({ id: _id, value: false, user: $UserInfo.data?.result })}
       >
         Unfollow
       </button>
     {:else if currentUser != username}
-      <button class="bg-blue-400 rounded-md py-1 px-2 w-min text-white" on:click={() => execFollowUser({ id: _id })}>
+      <button
+        class="bg-blue-400 rounded-md py-1 px-2 w-min text-white"
+        on:click={() => execFollowUser({ id: _id, user: $UserInfo.data?.result })}
+      >
         Follow
       </button>
     {/if}
