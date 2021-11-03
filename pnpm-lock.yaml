@@ -22,7 +22,7 @@ specifiers:
   magic-sdk: ^5.1.0
   postcss: ^8.3.8
   postcss-load-config: ^3.1.0
-  sashui: ^0.0.9
+  sashui: ^0.1.0
   svelte: 3.44.0
   svelte-preprocess: ^4.9.5
   tailwindcss: ^2.2.16
@@ -34,7 +34,7 @@ devDependencies:
   '@magic-sdk/admin': 1.3.1
   '@radix-ui/colors': 0.1.7
   '@sveltejs/adapter-netlify': 1.0.0-next.34
-  '@sveltejs/kit': 1.0.0-next.192_svelte@3.44.0
+  '@sveltejs/kit': 1.0.0-next.193_svelte@3.44.0
   '@svicons/bootstrap': 0.1.3
   '@svicons/fa-brands': 0.1.3
   '@svicons/fa-solid': 0.1.3
@@ -50,7 +50,7 @@ devDependencies:
   magic-sdk: 5.1.0
   postcss: 8.3.9
   postcss-load-config: 3.1.0
-  sashui: 0.0.9_svelte@3.44.0
+  sashui: 0.1.0_svelte@3.44.0
   svelte: 3.44.0
   svelte-preprocess: 4.9.8_e3813fcf78af0b36080242163d1e1b04
   tailwindcss: 2.2.16_96f83969316717847b3edf58a3f353f3
@@ -504,8 +504,8 @@ packages:
       esbuild: 0.13.4
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.192_svelte@3.44.0:
-    resolution: {integrity: sha512-8LyPeEwxzMFMMr05I27j77qgvBdw92eVCH+W8+nW8kA7dkfA1e38GZXEb3qshd0Jez2Cng8MAzVMoETzGaQcng==}
+  /@sveltejs/kit/1.0.0-next.193_svelte@3.44.0:
+    resolution: {integrity: sha512-JRe7ZTZONNL2t+uFUkrT6HDWajD/Dp0lDMiB4FODZAtQLx94PKit0I699/dHrQR0qpzE3gYipqtxInTWasFpBg==}
     engines: {node: '>=14.13'}
     hasBin: true
     peerDependencies:
@@ -3474,8 +3474,8 @@ packages:
       rimraf: 2.7.1
     dev: true
 
-  /sashui/0.0.9_svelte@3.44.0:
-    resolution: {integrity: sha512-PuvjNpBzmnL+r5iOF/vdWH8hjwrG5guLMyaEMQdT9vOoaD+/pkjZ4mRpHVcS4pHN9JgyDsh4yNPV6DQVn7QYgQ==}
+  /sashui/0.1.0_svelte@3.44.0:
+    resolution: {integrity: sha512-rqqK7LF0CLodX2CGdIIJwYDwKRH+4pvgQnc/9VDpTM5d6zyjIB82Z57bZTxqJOurLPa18+R/4y3knmhgVRJ4+g==}
     peerDependencies:
       svelte: ^3.34.0
     dependencies:

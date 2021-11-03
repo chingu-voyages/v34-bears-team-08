@@ -29,7 +29,7 @@
     "magic-sdk": "^5.1.0",
     "postcss": "^8.3.8",
     "postcss-load-config": "^3.1.0",
-    "sashui": "^0.0.9",
+    "sashui": "^0.1.0",
     "svelte": "3.44.0",
     "svelte-preprocess": "^4.9.5",
     "tailwindcss": "^2.2.16",
