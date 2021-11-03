@@ -8,13 +8,14 @@ const config = {
     }),
     extend: {
       colors: {
-        white: '#ffffff',
+        white: '#fff',
         blue: {
           medium: '#005c98',
         },
         black: {
+          0: '#000',
           light: '#262626',
-          faded: '#00000059',
+          off: '#1a1b20',
         },
         gray: {
           base: '#616161',
@@ -24,17 +25,12 @@ const config = {
         red: {
           primary: '#ed4956',
         },
+        ...require('@radix-ui/colors'),
       },
     },
   },
 
   plugins: [],
-  variants: {
-    extend: {
-      transform: ['hover', 'focus'],
-      scale: ['active', 'group-hover'],
-    },
-  },
 }
 
 module.exports = config

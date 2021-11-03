@@ -10,7 +10,7 @@ let username = $auth.userInfo?.username,
 let showModal = false
 </script>
 
-<header class="px-4 h-16 bg-white border-b border-gray-primary mb-8">
+<header class="px-4 h-16 bg-blackA-blackA11 mb-8 w-full fixed z-10 top-0">
   <div class="container mx-auto max-w-screen-lg h-full">
     <div class="flex justify-between h-full">
       <div class="text-gray-700 text-center flex items-center align-items">
@@ -22,27 +22,27 @@ let showModal = false
       <Search />
       <div class="text-gray-700 text-center flex items-center align-items space-x-5">
         {#if $isAuthenticated}
-          <button title="Add Post" on:click={() => (showModal = true)}>
+          <button class="rounded-full bg-whiteA-whiteA5 p-2" title="Add Post" on:click={() => (showModal = true)}>
             <PlusCircle
-              class="w-6 text-black-light pointer-events-none"
+              class="w-6 text-gray-gray11 pointer-events-none"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
             />
           </button>
-          <a sveltekit:prefetch href="/" aria-label="Timeline">
+          <a class="rounded-full bg-whiteA-whiteA5 p-2" sveltekit:prefetch href="/" aria-label="Timeline">
             <Home
-              class="w-6 text-black-light pointer-events-none"
+              class="w-6 text-gray-gray11 pointer-events-none"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
             />
           </a>
-          <a sveltekit:prefetch href="/explore" area-label="explore">
+          <a class="rounded-full bg-whiteA-whiteA5 p-2" sveltekit:prefetch href="/explore" area-label="explore">
             <Compass
-              class="w-5 text-black-light pointer-events-none	"
+              class="w-5 text-gray-gray11 pointer-events-none	"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -51,6 +51,7 @@ let showModal = false
           </a>
           <button
             type="button"
+            class="rounded-full bg-whiteA-whiteA5 p-2"
             title="Sign Out"
             disabled={disableLogout}
             on:click={() => {
@@ -59,7 +60,7 @@ let showModal = false
             }}
           >
             <SignOutAlt
-              class="w-6 text-black-light pointer-events-none"
+              class="ml-1 -mr-1 w-6 text-gray-gray11 pointer-events-none"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -68,28 +69,26 @@ let showModal = false
           </button>
           <!--This conditional will be replaced with some user data containing a user image (avatar)-->
           {#if $isAuthenticated}
-            <div class="flex items-center">
-              <a sveltekit:prefetch class="h-6" href="/{username}">
-                <!-- TODO remove this line when profile photo upload func implemented -->
-                <img class="inline-block h-6 w-6 rounded-full" src="https://picsum.photos/24" alt="" />
-                {#if $auth.userInfo?.profileImgSrc}
-                  <img
-                    class="inline-block h-6 w-6 rounded-full"
-                    src={$auth.userInfo?.profileImgSrc}
-                    alt="profile avatar"
-                  />
-                  <!-- {:else} -->
-                  <!-- placeholder -->
-                  <span class="inline-block h-6 w-6 rounded-full overflow-hidden bg-gray-300">
-                    <svg class="h-full w-full text-gray-800" fill="currentColor" viewBox="0 0 24 24">
-                      <path
-                        d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"
-                      />
-                    </svg>
-                  </span>
-                {/if}
-              </a>
-            </div>
+            <a sveltekit:prefetch class="rounded-full bg-whiteA-whiteA5 p-2" href="/{username}">
+              <!-- TODO remove this line when profile photo upload func implemented -->
+              <img class="h-6 w-6 rounded-full" src="https://picsum.photos/24" alt="" />
+              {#if $auth.userInfo?.profileImgSrc}
+                <img
+                  class="inline-block h-6 w-6 rounded-full"
+                  src={$auth.userInfo?.profileImgSrc}
+                  alt="profile avatar"
+                />
+                <!-- {:else} -->
+                <!-- placeholder -->
+                <span class="inline-block h-6 w-6 rounded-full overflow-hidden bg-gray-300">
+                  <svg class="h-full w-full text-gray-800" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"
+                    />
+                  </svg>
+                </span>
+              {/if}
+            </a>
           {/if}
         {/if}
       </div>

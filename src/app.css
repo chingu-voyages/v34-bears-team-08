@@ -1,6 +1,24 @@
 /* Write your global styles here, in PostCSS syntax */
-#svelte {
+body {
   min-height: 100vh;
+  @apply text-whiteA-whiteA12 bg-black-off;
+}
+h1,
+h2,
+h3,
+h5,
+h6 {
+  @apply text-whiteA-whiteA12;
+}
+input,
+textarea {
+  @apply bg-whiteA-whiteA5;
+}
+img {
+  @apply rounded-md;
+}
+#svelte {
+  @apply min-h-screen grid;
 }
 
 @tailwind base;

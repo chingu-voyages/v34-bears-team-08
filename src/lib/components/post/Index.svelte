@@ -29,19 +29,10 @@
     }
 </script>
 
-
-<div class="rounded col-span-4 border bg-white border-gray-primary mb-12">
-    <Header username={content.username} />
-    <Image src={content.imageSrc} caption={content.caption} />
-    <Actions
-      docId={content.docId}
-      totalLikes={content.likes.length}
-      likedPhoto={content.userLikedPhoto}
-    />
-    <Footer caption={content.caption} username={content.username} />
-    <Comments
-      docId={content.docId}
-      comments={content.comments}
-      posted={content.dateCreated}
-    />
-  </div>
+<div class="rounded col-span-4 border bg-black-off border-gray-primary mb-12">
+  <Header username={content.username} />
+  <Image src={content.imageSrc} caption={content.caption} />
+  <Actions docId={content.docId} totalLikes={content.likes.length} likedPhoto={content.userLikedPhoto} />
+  <Footer caption={content.caption} username={content.username} />
+  <Comments docId={content.docId} comments={content.comments} posted={content.dateCreated} />
+</div>

@@ -39,12 +39,25 @@ function uploadPost() {
 }
 </script>
 
-<div class="modal-bg" use:dialog.overlay transition:fade={{ duration: 500 }} />
-<div class="modal" use:dialog on:close transition:fly={{ y: -15, duration: 250 }}>
-  <svg class="modal-close" on:click={close} viewBox="0 0 12 12">
+<div
+  class="fixed top-0 left-0 right-0 bottom-0 bg-blackA-blackA10 z-10"
+  use:dialog.overlay
+  transition:fade={{ duration: 500 }}
+/>
+<div
+  class="flex flex-col items-center content-center bg-black-off modal z-30 drop-shadow-md fixed left-1/2 top-1/2 w-[26rem] h-80 translate-x-[-50%] translate-y-[-50%] transform-gpu rounded-2xl"
+  use:dialog
+  on:close
+  transition:fly={{ y: -15, duration: 250 }}
+>
+  <svg
+    class="modal-close absolute -top-3 -right-3 w-6 h-6 cursor-pointer fill-[#000] transition-transform duration-300 hover:scale-125"
+    on:click={close}
+    viewBox="0 0 12 12"
+  >
     <circle cx="6" cy="6" r="6" />
-    <line x1="3" y1="3" x2="9" y2="9" />
-    <line x1="9" y1="3" x2="3" y2="9" />
+    <line class="line" x1="3" y1="3" x2="9" y2="9" />
+    <line class="line" x1="9" y1="3" x2="3" y2="9" />
   </svg>
   {#if !uploading}
     <div class="modal-content w-full h-full">
@@ -56,7 +69,7 @@ function uploadPost() {
         {#if !files}
           <label
             for="fileUpload"
-            class="cursor-pointer inline-block absolute top-1/2 font-medium rounded-xl px-5 py-2 bg-gray-100"
+            class="cursor-pointer inline-block absolute top-1/2 font-medium rounded-xl px-5 py-2 bg-whiteA-whiteA5"
           >
             Select an Image for Upload
             <input type="file" id="fileUpload" name="fileUpload" class="my-5 hidden" accept="image/*" bind:files />
@@ -72,8 +85,9 @@ function uploadPost() {
             placeholder="Write a caption"
           />
           {#if caption}
-            <button class="absolute bottom-0  mb-4 rounded-lg border-none px-7 py-2 bg-gray-100 font-bold" type="submit"
-              >Post</button
+            <button
+              class="absolute bottom-0  mb-4 rounded-lg border-none px-7 py-2 bg-whiteA-whiteA5 font-bold"
+              type="submit">Post</button
             >
           {/if}
         {/if}
@@ -85,50 +99,7 @@ function uploadPost() {
 </div>
 
 <style>
-.modal-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #4448;
-}
-
-.modal {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  width: calc(100vw - 6em);
-  width: 26em;
-  height: 20rem;
-  overflow: none;
-  transform: translate(-50%, -50%);
-  border-radius: 1em;
-  background: white;
-  filter: drop-shadow(5px 5px 5px #555);
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-close {
-  position: absolute;
-  top: -12px;
-  right: -12px;
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-  fill: #000;
-  transition: transform 0.3s;
-}
-
-.modal-close:hover {
-  transform: scale(2);
-}
-
-.modal-close line {
+.line {
   stroke: #fff;
   stroke-width: 2;
 }

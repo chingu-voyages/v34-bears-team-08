@@ -29,7 +29,7 @@ let error = false
       <img class="max-h-full" src="/images/iphone.png" alt="iPhone with app on screen" />
     </div>
     <div class="flex flex-col w-3/5 border border-gray-primary space-y-4 py-6">
-      <div class="flex flex-col items-center bg-white rounded">
+      <div class="flex flex-col items-center bg-black-off rounded">
         <h1 class="flex justify-center w-full">
           <Logo disabled class="text-6xl" />
         </h1>
@@ -37,9 +37,9 @@ let error = false
         {#if error} <p class="mb-4 text-xs text-red-primary">{error}</p> {/if}
       </div>
 
-      <div class="flex flex-col items-center bg-white rounded">
+      <div class="flex flex-col items-center bg-black-off rounded">
         <button
-          class="bg-black-light text-white flex flex-row text-black p-3 rounded-md hover:scale-100"
+          class="bg-black-light text-white flex flex-row p-3 rounded-md hover:scale-100"
           on:click={async () => {
             await oAuthLogin('github')
           }}

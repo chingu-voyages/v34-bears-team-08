@@ -1,6 +1,6 @@
 <script>
-import Loader from '$components/Loader.svelte'
-import { fly } from 'svelte/transition'
+// import Loader from '$components/Loader.svelte'
+import { fly, fade } from 'svelte/transition'
 import { flip } from 'svelte/animate'
 import { quintOut } from 'svelte/easing'
 import { SearchForUser } from '$lib/gql/SearchForUser'
@@ -19,7 +19,8 @@ let results = []
 $: if (!$SearchForUser.fetching) results = $SearchForUser.data?.result.data || []
 </script>
 
-<div class="my-auto">
+<!-- TODO: Discuss if we want search for mobile and how we'd do it (maybe double stack the header with another of different color, sort of like a second header, or like the reference, sticky menu at bottom of screen) -->
+<div class="my-auto hidden sm:block">
   <input
     type="text"
     class="border w-40 outline-none py-1 px-2"
@@ -40,19 +41,22 @@ $: if (!$SearchForUser.fetching) results = $SearchForUser.data?.result.data || [
           break
         case 'Enter':
           e.preventDefault()
-          const href = get(Menu.selected).href
+          const { href } = get(Menu.selected)
+          await prefetch(href)
+          await goto(href)
           username = ''
-          prefetch(href)
-          await sleep(300)
-          goto(href)
+          break
+        case 'Tab':
+          if (username != '') e.preventDefault()
           break
       }
     }}
   />
 
-  {#if $SearchForUser.fetching}
-    <!-- <Loader class="absolute" /> -->
-  {/if}
+  <!-- TODO: Might want to think about how the loading is visually represented, probably a small loader next to or inside the search bar? 
+    {#if $SearchForUser.fetching}
+    <Loader class="absolute" />
+  {/if} -->
   {#if username}
     <nav
       use:Menu={{ autofocus: false }}
@@ -60,19 +64,20 @@ $: if (!$SearchForUser.fetching) results = $SearchForUser.data?.result.data || [
       in:fly={{ duration: 200, y: -15 }}
       out:fly={{ duration: 150, y: -15 }}
     >
-      <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-y-auto">
-        <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 content-start h-80">
+      <div class="rounded-lg shadow-lg ring-1 ring-white ring-opacity-10 overflow-y-auto">
+        <div class="relative grid gap-6 bg-black-off px-5 py-6 sm:gap-8 sm:p-8 content-start h-80">
           {#each results as user (user._id)}
             <div animate:flip={{ easing: quintOut }}>
               <Menu.Item let:active>
                 <a
                   sveltekit:prefetch
                   href="/{user.username}"
-                  class:bg-gray-50={active}
+                  class:bg-whiteA-whiteA6={active}
                   class="-m-3 p-3 block rounded-md transition ease-in-out duration-150"
+                  transition:fade={{ duration: 250 }}
                   on:click={() => (username = '')}
                 >
-                  <p class="text-base font-medium text-gray-900">
+                  <p class="text-base font-medium">
                     {user.username}
                   </p>
                 </a>
