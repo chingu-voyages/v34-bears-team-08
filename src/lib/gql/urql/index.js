@@ -76,11 +76,13 @@ const getClient = (ssrExchange, fetch) =>
         optimistic: {
           likePhoto: (_vars, _cache, { variables: { value, photo } }) => ({
             ...photo,
+            __typename: 'Photo',
             likeCount: photo.likeCount + (value ? 1 : -1),
             likedByUser: value,
           }),
           followUser: (_vars, _cache, { variables: { value, user } }) => ({
             ...user,
+            __typename: 'User',
             followerCount: user.followerCount + (value != false ? 1 : -1),
             followedByUser: value != false ? true : value,
           }),
