@@ -51,8 +51,8 @@ const getClient = (ssrExchange, fetch) =>
               )
               cache.link(commentsLink, 'data', comments)
             },
-            // update followingCount for logged in user, if it's already in cache
             followUser(_result, { input: { value } }, cache, _info) {
+              // update followingCount for logged in user, if it's already in cache
               cache.updateQuery(
                 { query: GetUserInfo.query, variables: { username: get(auth).userInfo?.username } },
                 (data) => {
@@ -63,18 +63,23 @@ const getClient = (ssrExchange, fetch) =>
                   return data
                 }
               )
+              // Invalidate homepage timeline because user un/followed someone so the timeline should change
+              const key = 'Query'
+              cache
+                .inspectFields(key)
+                .filter((field) => field.fieldName == 'getTimeline')
+                .forEach(
+                  (field) => field.arguments.username == null && cache.invalidate(key, field.fieldName, field.arguments)
+                )
             },
           },
         },
         optimistic: {
-          likePhoto({ input: { photoID, value } = {} }, cache) {
-            const photo = cache.readQuery(GetTimeline).result.data.find(({ _id }) => _id == photoID)
-            return {
-              ...photo,
-              likeCount: photo.likeCount + (value ? 1 : -1),
-              likedByUser: value,
-            }
-          },
+          likePhoto: (_vars, _cache, { variables: { value, photo } }) => ({
+            ...photo,
+            likeCount: photo.likeCount + (value ? 1 : -1),
+            likedByUser: value,
+          }),
         },
         // Any Page types (usually for lists) in your schema should be nulled to silence warnings as they don't have an ID.
         keys: {

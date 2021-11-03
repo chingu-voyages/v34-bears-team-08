@@ -36,7 +36,7 @@ const execLikePhoto = LikePhoto()
           <button
             class="w-4 h-4 mr-2"
             on:click={async () => {
-              await execLikePhoto({ id: photo._id, value: !photo.likedByUser })
+              await execLikePhoto({ id: photo._id, value: !photo.likedByUser, photo })
               console.log('Executed like photo', LikePhoto.data)
             }}
           >
