@@ -102,6 +102,7 @@ const getClient = (ssrExchange, fetch) =>
             followerCount: user.followerCount + (value != false ? 1 : -1),
             followedByUser: value != false ? true : value,
           }),
+          //? consider other areas you could use optimistic for, e.g. optimistic commenting
         },
         // Any Page types (usually for lists) in your schema should be nulled to silence warnings as they don't have an ID.
         keys: {
