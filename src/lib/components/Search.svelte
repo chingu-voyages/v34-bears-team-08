@@ -5,7 +5,6 @@ import { flip } from 'svelte/animate'
 import { quintOut } from 'svelte/easing'
 import { SearchForUser } from '$lib/gql/SearchForUser'
 import { useMenu } from 'sashui'
-import { goto, prefetch } from '$app/navigation'
 import { sleep } from '$lib/utils'
 const Menu = useMenu(true),
   { selected } = Menu
@@ -41,10 +40,7 @@ $: if (!$SearchForUser.fetching) results = $SearchForUser.data?.result.data || [
           break
         case 'Enter':
           e.preventDefault()
-          const href = $selected?.href
-          await prefetch(href)
-          await goto(href)
-          username = ''
+          $selected?.click()
           break
         case 'Tab':
           if (username != '') e.preventDefault()
