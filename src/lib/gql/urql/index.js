@@ -74,9 +74,23 @@ const getClient = (ssrExchange, fetch) =>
           },
         },
         optimistic: {
-          likePhoto: (_vars, _cache, { variables: { value, photo } }) => ({
+          // NOTE: Must define all nested types, __typename info is lost by data passed in as variables, unless you get them in query (not ideal).
+          likePhoto: (
+            _vars,
+            _cache,
+            {
+              variables: {
+                value,
+                photo: { comments, ...photo },
+              },
+            }
+          ) => ({
             ...photo,
             __typename: 'Photo',
+            comments: {
+              data: comments.data.map((data) => ({ ...data, __typename: 'Comment' })),
+              __typename: 'CommentPage',
+            },
             likeCount: photo.likeCount + (value ? 1 : -1),
             likedByUser: value,
           }),
