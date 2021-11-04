@@ -1,14 +1,13 @@
 <script>
 import { auth, isAuthenticated, logout } from '$lib/stores/auth'
 import Modal from '$components/Modal.svelte'
-import { Home, Compass, SignOutAlt, PlusCircle } from '@svicons/fa-solid'
+import { Compass, SignOutAlt, PlusCircle } from '@svicons/fa-solid'
 import Logo from '$components/Logo.svelte'
 import Search from '$components/Search.svelte'
 import { LightningCharge } from '@svicons/bootstrap'
 import Quick from './Quick/Quick.svelte'
 
 let username = $auth.userInfo?.username,
-  disableLogout = false,
   showModal = false,
   quickOpen = false
 </script>
@@ -25,55 +24,20 @@ let username = $auth.userInfo?.username,
       <Search />
       <div class="text-gray-700 text-center flex items-center align-items space-x-5">
         {#if $isAuthenticated}
-          <button class="rounded-full bg-whiteA-whiteA5 p-2" title="Add Post" on:click={() => (showModal = true)}>
-            <PlusCircle
-              class="w-6 text-gray-gray11 pointer-events-none"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            />
-          </button>
           <button
-            class="rounded-full bg-whiteA-whiteA5 p-2"
+            class="rounded-full text-gray-gray11 bg-whiteA-whiteA5 p-2 hover:text-whiteA-whiteA11 hover:bg-whiteA-whiteA6"
             aria-label="quick actions"
             on:click={() => (quickOpen = !quickOpen)}
           >
             <LightningCharge
-              class="w-6 text-gray-gray11 pointer-events-none"
+              class="w-6"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
             />
           </button>
-          <a class="rounded-full bg-whiteA-whiteA5 p-2" sveltekit:prefetch href="/explore" area-label="explore">
-            <Compass
-              class="w-5 text-gray-gray11 pointer-events-none	"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            />
-          </a>
-          <button
-            type="button"
-            class="rounded-full bg-whiteA-whiteA5 p-2"
-            title="Sign Out"
-            disabled={disableLogout}
-            on:click={() => {
-              disableLogout = true
-              logout()
-            }}
-          >
-            <SignOutAlt
-              class="ml-1 -mr-1 w-6 text-gray-gray11 pointer-events-none"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            />
-          </button>
+
           <!--This conditional will be replaced with some user data containing a user image (avatar)-->
           {#if $isAuthenticated}
             <a sveltekit:prefetch class="rounded-full bg-whiteA-whiteA5 p-2" href="/{username}">

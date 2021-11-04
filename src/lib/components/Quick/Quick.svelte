@@ -4,41 +4,55 @@ import { useDialog, useMenu } from 'sashui'
 import { tick } from 'svelte'
 import { slide } from 'svelte/transition'
 import Fuse from 'fuse.js'
+import { PlusSquareFill } from '@svicons/bootstrap'
+import { Compass, SignOutAlt, PlusCircle } from '@svicons/fa-solid'
+import { logout } from '$lib/stores/auth'
+
 let isOpen
 export { isOpen as open }
 export let showModal = false
 const Menu = useMenu(true),
   { menuId, Item, button, selected } = Menu
-
+function navigate(href) {
+  if (location.pathname != href) goto(href)
+}
 const dialog = useDialog(false),
   { overlay, title } = dialog
 $: $dialog = isOpen
-$: isOpen && onOpen()
 async function onOpen() {
   await tick()
-  Menu?.nextItem()
+  Menu.gotoItem?.()
 }
 let inp = ''
+$: isOpen ? onOpen() : (inp = '') // focus first item on open
 $: queryStr = inp.toLowerCase()
 let buttonsArr = [
   {
     text: 'Post',
+    Icon: PlusSquareFill,
     async click() {
-      isOpen = false
       await tick()
       showModal = true
     },
   },
   {
     text: 'Explore',
+    Icon: Compass,
     click() {
-      isOpen = false
-      goto('/explore')
+      navigate('/explore')
+    },
+  },
+  {
+    text: 'Sign Out',
+    Icon: SignOutAlt,
+    click() {
+      logout()
     },
   },
 ]
 const fuse = new Fuse(buttonsArr, { keys: ['text'] })
 $: buttons = inp == '' ? buttonsArr : fuse.search(queryStr).map(({ item }) => item)
+$: buttons.length && Menu.gotoItem?.() // go to first on input
 </script>
 
 {#if $dialog}
@@ -58,18 +72,19 @@ $: buttons = inp == '' ? buttonsArr : fuse.search(queryStr).map(({ item }) => it
             switch (e.key) {
               case 'ArrowDown':
                 e.preventDefault()
-                Menu?.nextItem()
+                Menu.nextItem?.()
                 break
               case 'ArrowUp':
                 e.preventDefault()
-                Menu?.prevItem()
+                Menu.prevItem?.()
                 break
               case 'Escape':
                 inp = ''
                 break
               case 'Enter':
                 e.preventDefault()
-                $selected?.click()
+                $selected?.click?.()
+                isOpen = false
                 break
               case 'Tab':
                 if (inp != '') e.preventDefault()
@@ -78,15 +93,21 @@ $: buttons = inp == '' ? buttonsArr : fuse.search(queryStr).map(({ item }) => it
                 break
             }
           }}
+          on:blur={(e) => {
+            e.currentTarget.focus() // prevent losing focus due to modal's focus trap event
+          }}
         />
 
         <menu class="p-0 m-0" use:Menu={{ autofocus: false }}>
-          {#each buttons as { text, click }}
+          {#each buttons as { text,  click, Icon = Compass}}
             <Item let:active>
               <button
-                class="block w-full p-4 {active ? 'bg-whiteA-whiteA8' : ''}"
+                class="text-left flex items-center w-full p-4 {active ? 'bg-whiteA-whiteA8' : ''}"
                 transition:slide|local
-                on:click={click}>{text}</button
+                title={text}
+                on:click={click}
+                >{#if Icon}<Icon class="mr-6" width="16" />{/if}
+                {text}</button
               >
             </Item>
           {/each}
