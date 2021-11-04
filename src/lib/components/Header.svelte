@@ -1,13 +1,12 @@
 <script>
 import { auth, isAuthenticated } from '$lib/stores/auth'
-import Modal from '$components/Modal.svelte'
 import Logo from '$components/Logo.svelte'
 import { LightningCharge } from '@svicons/bootstrap'
 import Quick from './Quick/Quick.svelte'
 import { goto } from '$app/navigation'
 
 let username = $auth.userInfo?.username,
-  showModal = false,
+  post = false,
   quickOpen = false,
   searchMode = false
 $: if (!quickOpen) searchMode = false
@@ -67,12 +66,8 @@ $: if (!quickOpen) searchMode = false
   </div>
 </header>
 
-{#if showModal}
-  <Modal on:close={() => (showModal = false)} />
-{/if}
-
 {#if quickOpen}
-  <Quick bind:isOpen={quickOpen} bind:searchMode bind:showModal />
+  <Quick bind:isOpen={quickOpen} bind:searchMode bind:post />
 {/if}
 <!-- shortcuts -->
 <svelte:window
@@ -99,7 +94,8 @@ $: if (!quickOpen) searchMode = false
       case 'p':
         if (e.ctrlKey) {
           e.preventDefault()
-          showModal = true
+          quickOpen = true
+          post = true
         }
         break
       case 's':

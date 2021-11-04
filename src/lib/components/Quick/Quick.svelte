@@ -1,22 +1,23 @@
 <script>
 import { goto } from '$app/navigation'
 import { useDialog, useMenu } from 'sashui'
-import { onMount, tick } from 'svelte'
+import { onDestroy, onMount, tick } from 'svelte'
 import { fade, slide } from 'svelte/transition'
 import Fuse from 'fuse.js'
 import { PlusSquareFill, Search } from '@svicons/bootstrap'
 import { Compass, SignOutAlt, Home } from '@svicons/fa-solid'
 import { logout } from '$lib/stores/auth'
 import { SearchForUser } from '$lib/gql/SearchForUser'
+import Post from '../Post.svelte'
 
 export let isOpen = false,
-  searchMode = false
+  searchMode = false,
+  post = false
 $: placeholder = !searchMode ? 'Get there in a flash' : 'Find your buddies'
-export let showModal = false
 const dialog = useDialog(false),
   { overlay } = dialog
 const Menu = useMenu(true),
-  { menuId, Item, selected } = Menu
+  { Item, selected } = Menu
 
 let documentStyle
 onMount(() => {
@@ -27,6 +28,8 @@ onMount(() => {
 function navigate(href) {
   if (location.pathname != href) goto(href)
 }
+
+onDestroy(() => (post = false))
 
 let inp = ''
 $: queryStr = inp.toLowerCase()
@@ -54,9 +57,8 @@ let buttonsArr = [
       Icon: PlusSquareFill,
       shortcut: ['ctrl', 'p'],
       async click() {
-        isOpen = false
+        post = true
         await tick()
-        showModal = true
       },
     },
     {
@@ -113,87 +115,91 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
     <div
       class="inline-block align-bottom bg-blackA-blackA12 rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 sm:align-middle max-w-lg w-full"
     >
-      <input
-        class="w-full outline-none p-4"
-        class:animate-pulse={$SearchForUser.fetching}
-        type="text"
-        bind:value={inp}
-        {placeholder}
-        on:keydown={function keydown(e) {
-          switch (e.key) {
-            case 'ArrowDown':
-              e.preventDefault()
-              Menu.nextItem?.()
-              break
-            case 'ArrowUp':
-              e.preventDefault()
-              Menu.prevItem?.()
-              break
-            case 'Escape':
-              isOpen = false
-              break
-            case 'Enter':
-              e.preventDefault()
-              $selected?.click?.()
-              break
-            case 'Tab':
-              if (inp != '') e.preventDefault()
-              break
-            default:
-              break
-          }
-        }}
-        on:blur={(e) => {
-          e.currentTarget.focus() // prevent losing focus due to modal's focus trap event
-        }}
-      />
+      {#if post}
+        <Post />
+      {:else}
+        <input
+          class="w-full outline-none p-4"
+          class:animate-pulse={$SearchForUser.fetching}
+          type="text"
+          bind:value={inp}
+          {placeholder}
+          on:keydown={function keydown(e) {
+            switch (e.key) {
+              case 'ArrowDown':
+                e.preventDefault()
+                Menu.nextItem?.()
+                break
+              case 'ArrowUp':
+                e.preventDefault()
+                Menu.prevItem?.()
+                break
+              case 'Escape':
+                isOpen = false
+                break
+              case 'Enter':
+                e.preventDefault()
+                $selected?.click?.()
+                break
+              case 'Tab':
+                if (inp != '') e.preventDefault()
+                break
+              default:
+                break
+            }
+          }}
+          on:blur={(e) => {
+            e.currentTarget.focus() // prevent losing focus due to modal's focus trap event
+          }}
+        />
 
-      <menu class="p-0 m-0" use:Menu={{ autofocus: false }}>
-        {#if !searchMode}
-          {#each buttons as { text, click, Icon, shortcut } (text)}
-            <Item let:active>
-              <button
-                class="text-left flex items-center w-full p-4 {active
-                  ? 'bg-whiteA-whiteA8'
-                  : 'text-gray-gray11'} transition-all duration-200 ease-in text-lg"
-                transition:slide|local
-                title={text}
-                on:click={click}
-                >{#if Icon}<Icon class="mr-6" width="16" />{/if}
-                {text}
-                {#if shortcut}
-                  <span class="ml-auto">
-                    {#each shortcut as key}
-                      <kbd class="bg-whiteA-whiteA5 py-1 px-2 rounded-md ml-2 text-base">{key.toUpperCase()}</kbd>
-                    {/each}
-                  </span>
-                {/if}
-              </button>
-            </Item>
-          {/each}
-        {:else}
-          {#each searchResults as user (user._id)}
-            <!-- Search -->
-            <!-- TODO: Might want to think about how the loading is visually represented, probably a small loader next to or inside the search bar? -->
-            <Menu.Item let:active>
-              <a
-                sveltekit:prefetch
-                href="/{user.username}"
-                class="text-left flex items-center w-full p-4 {active
-                  ? 'bg-whiteA-whiteA8'
-                  : 'text-gray-gray11'} transition-all duration-200 ease-in text-lg"
-                on:click={() => {
-                  isOpen = false
-                }}
-              >
-                <p class="text-base font-medium">
-                  {user.username}
-                </p>
-              </a>
-            </Menu.Item>
-          {/each}
-        {/if}
-      </menu>
+        <menu class="p-0 m-0" use:Menu={{ autofocus: false }}>
+          {#if !searchMode}
+            {#each buttons as { text, click, Icon, shortcut } (text)}
+              <Item let:active>
+                <button
+                  class="text-left flex items-center w-full p-4 {active
+                    ? 'bg-whiteA-whiteA8'
+                    : 'text-gray-gray11'} transition-all duration-200 ease-in text-lg"
+                  transition:slide|local
+                  title={text}
+                  on:click={click}
+                  >{#if Icon}<Icon class="mr-6" width="16" />{/if}
+                  {text}
+                  {#if shortcut}
+                    <span class="ml-auto">
+                      {#each shortcut as key}
+                        <kbd class="bg-whiteA-whiteA5 py-1 px-2 rounded-md ml-2 text-base">{key.toUpperCase()}</kbd>
+                      {/each}
+                    </span>
+                  {/if}
+                </button>
+              </Item>
+            {/each}
+          {:else}
+            {#each searchResults as user (user._id)}
+              <!-- Search -->
+              <!-- TODO: Might want to think about how the loading is visually represented, probably a small loader next to or inside the search bar? -->
+              <Menu.Item let:active>
+                <a
+                  sveltekit:prefetch
+                  href="/{user.username}"
+                  class="text-left flex items-center w-full p-4 {active
+                    ? 'bg-whiteA-whiteA8'
+                    : 'text-gray-gray11'} transition-all duration-200 ease-in text-lg"
+                  on:click={() => {
+                    isOpen = false
+                  }}
+                >
+                  <p class="text-base font-medium">
+                    {user.username}
+                  </p>
+                </a>
+              </Menu.Item>
+            {/each}
+          {/if}
+        </menu>
+      {/if}
     </div>
   </div>
 </section>
