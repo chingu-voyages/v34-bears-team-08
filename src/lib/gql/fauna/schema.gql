@@ -17,7 +17,15 @@ type User {
   dynamic, only available through manually defined queries/mutations
   """
   followedByUser: Boolean
+  # settings: Settings
 }
+
+# type Settings {
+#   avatar: Media
+#   fullName: String
+#   headline: String
+#   bio: String
+# }
 
 type Follow {
   user: User! @relation(name: "following")
@@ -36,7 +44,16 @@ type Photo {
   dynamic
   """
   likedByUser: Boolean
+  # starredByUser: Boolean
 }
+
+# type Media {
+#   src: String!
+#   """
+#   imagekit file ID
+#   """
+#   _id: ID!
+# }
 
 type Comment {
   author: User!
