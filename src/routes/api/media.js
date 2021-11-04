@@ -13,3 +13,17 @@ export const get = async ({ query }) => ({
     query.expiration || parseInt(Date.now() / 1000) + 60 * 10
   ),
 })
+
+export function del({ body: { fileId } }) {
+  try {
+    var result = await(
+      new Promise((res, rej) => {
+        imagekit.deleteFile(fileId, (error, result) => (error ? rej(error) : res(result)))
+      })
+    )
+  } catch (error) {
+    console.log(error)
+    return { status: 418 }
+  }
+  return { body: result }
+}
