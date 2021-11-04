@@ -76,33 +76,36 @@ $: if (!quickOpen) searchMode = false
       case 'k':
         if (e.ctrlKey) {
           e.preventDefault()
-          quickOpen = !quickOpen
-        }
-        break
-      case 'e':
-        if (e.ctrlKey) {
-          e.preventDefault()
-          goto('/explore')
-        }
-        break
-      case 'h':
-        if (e.ctrlKey) {
-          e.preventDefault()
-          goto('/')
+          if (post) post = false
+          else if (searchMode) searchMode = false
+          else quickOpen = !quickOpen
         }
         break
       case 'p':
         if (e.ctrlKey) {
           e.preventDefault()
-          quickOpen = true
-          post = true
+          quickOpen = post = !post
         }
         break
       case 's':
         if (e.ctrlKey) {
           e.preventDefault()
-          quickOpen = true
-          searchMode = true
+          if (post) {
+            searchMode = true
+            post = false
+          } else quickOpen = searchMode = !searchMode
+        }
+        break
+      case 'e':
+        if (e.ctrlKey && !quickOpen) {
+          e.preventDefault()
+          goto('/explore')
+        }
+        break
+      case 'h':
+        if (e.ctrlKey && !quickOpen) {
+          e.preventDefault()
+          goto('/')
         }
         break
       default:
