@@ -1,9 +1,7 @@
 <script>
-import { auth, isAuthenticated, logout } from '$lib/stores/auth'
+import { auth, isAuthenticated } from '$lib/stores/auth'
 import Modal from '$components/Modal.svelte'
-import { Compass, SignOutAlt, PlusCircle } from '@svicons/fa-solid'
 import Logo from '$components/Logo.svelte'
-import Search from '$components/Search.svelte'
 import { LightningCharge } from '@svicons/bootstrap'
 import Quick from './Quick/Quick.svelte'
 
@@ -21,7 +19,6 @@ let username = $auth.userInfo?.username,
         </h1>
       </div>
       <div class="absolute">beta</div>
-      <Search />
       <div class="text-gray-700 text-center flex items-center align-items space-x-5">
         {#if $isAuthenticated}
           <button
@@ -71,4 +68,20 @@ let username = $auth.userInfo?.username,
   <Modal on:close={() => (showModal = false)} />
 {/if}
 
-<Quick bind:open={quickOpen} bind:showModal />
+{#if quickOpen}
+  <Quick bind:isOpen={quickOpen} bind:showModal />
+{/if}
+<svelte:window
+  on:keydown={(e) => {
+    switch (e.key) {
+      case 'k':
+        if (e.ctrlKey) {
+          e.preventDefault()
+          quickOpen = !quickOpen
+        }
+        break
+      default:
+        break
+    }
+  }}
+/>

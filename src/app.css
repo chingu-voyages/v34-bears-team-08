@@ -20,6 +20,9 @@ img {
 #svelte {
   @apply min-h-screen grid;
 }
+menu {
+  padding-inline-start: 0px;
+}
 
 @tailwind base;
 @tailwind components;
