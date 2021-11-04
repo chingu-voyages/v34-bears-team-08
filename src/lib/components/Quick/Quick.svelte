@@ -95,6 +95,8 @@ async function focusFirstOnInp() {
   } else buttons.length && Menu.gotoItem?.()
 }
 
+let uploading = false
+
 // SearchForUser
 $SearchForUser.fetching = false
 async function searchQuery() {
@@ -104,7 +106,7 @@ $: searchMode && inp && searchQuery()
 $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.data || []
 </script>
 
-<section class="fixed z-10 inset-0 overflow-y-auto" use:dialog on:close={() => (isOpen = false)}>
+<section class="fixed z-10 inset-0 overflow-y-auto" use:dialog on:close={() => !uploading && (isOpen = false)}>
   <div class="fixed inset-0 bg-blackA-blackA9 bg-opacity-75 transition-opacity" transition:fade use:overlay />
   <div
     class="flex items-end justify-center min-h-screen pb-20 text-center sm:block sm:p-0"
@@ -116,7 +118,7 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
       class="inline-block align-bottom bg-blackA-blackA12 rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 sm:align-middle max-w-lg w-full"
     >
       {#if post}
-        <Post />
+        <Post bind:uploading />
       {:else}
         <input
           class="w-full outline-none p-4"

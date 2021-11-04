@@ -5,9 +5,9 @@ import { auth } from '$lib/stores/auth'
 import { scale, fade } from 'svelte/transition'
 const execCreatePhoto = CreatePhoto()
 
+export let uploading = false
 let files = null,
   caption,
-  uploading = false,
   err
 
 function uploadPost() {
