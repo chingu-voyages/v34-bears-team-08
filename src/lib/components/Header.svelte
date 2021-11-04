@@ -4,10 +4,13 @@ import Modal from '$components/Modal.svelte'
 import Logo from '$components/Logo.svelte'
 import { LightningCharge } from '@svicons/bootstrap'
 import Quick from './Quick/Quick.svelte'
+import { goto } from '$app/navigation'
 
 let username = $auth.userInfo?.username,
   showModal = false,
-  quickOpen = false
+  quickOpen = false,
+  searchMode = false
+$: if (!quickOpen) searchMode = false
 </script>
 
 <header class="px-4 h-16 bg-blackA-blackA11 mb-8 w-full fixed z-10 top-0">
@@ -37,7 +40,7 @@ let username = $auth.userInfo?.username,
 
           <!--This conditional will be replaced with some user data containing a user image (avatar)-->
           {#if $isAuthenticated}
-            <a sveltekit:prefetch class="rounded-full bg-whiteA-whiteA5 p-2" href="/{username}">
+            <a sveltekit:prefetch class="rounded-full bg-whiteA-whiteA5 p-2 hover:bg-whiteA-whiteA6" href="/{username}">
               <!-- TODO remove this line when profile photo upload func implemented -->
               <img class="h-6 w-6 rounded-full" src="https://picsum.photos/24" alt="" />
               {#if $auth.userInfo?.profileImgSrc}
@@ -69,8 +72,9 @@ let username = $auth.userInfo?.username,
 {/if}
 
 {#if quickOpen}
-  <Quick bind:isOpen={quickOpen} bind:showModal />
+  <Quick bind:isOpen={quickOpen} bind:searchMode bind:showModal />
 {/if}
+<!-- shortcuts -->
 <svelte:window
   on:keydown={(e) => {
     switch (e.key) {
@@ -78,6 +82,31 @@ let username = $auth.userInfo?.username,
         if (e.ctrlKey) {
           e.preventDefault()
           quickOpen = !quickOpen
+        }
+        break
+      case 'e':
+        if (e.ctrlKey) {
+          e.preventDefault()
+          goto('/explore')
+        }
+        break
+      case 'h':
+        if (e.ctrlKey) {
+          e.preventDefault()
+          goto('/')
+        }
+        break
+      case 'p':
+        if (e.ctrlKey) {
+          e.preventDefault()
+          showModal = true
+        }
+        break
+      case 's':
+        if (e.ctrlKey) {
+          e.preventDefault()
+          quickOpen = true
+          searchMode = true
         }
         break
       default:

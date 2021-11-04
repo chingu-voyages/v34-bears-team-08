@@ -138,27 +138,6 @@ Update(Function('get_timeline'), {
   ),
 })
 
-Update(Function('get_user_by_username'), {
-  body: Query(
-    Lambda(
-      ['username'],
-      Let(
-        { userDoc: Get(Match(Index('unique_User_username'), Var('username'))) },
-        Merge(Var('userDoc'), {
-          data: Merge(Select('data', Var('userDoc')), {
-            followedByUser: Exists(
-              Intersection(
-                Match(Index('following_by_user'), CurrentIdentity()),
-                Match(Index('followers_by_user'), Select('ref', Var('userDoc')))
-              )
-            ),
-          }),
-        })
-      )
-    )
-  ),
-})
-
 Update(Function('like_photo'), {
   body: Query(
     Lambda(
@@ -203,6 +182,46 @@ Update(Function('like_photo'), {
             })
           )
         )
+      )
+    )
+  ),
+})
+
+Update(Function('get_photo'), {
+  body: Query(
+    Lambda(
+      ['input'],
+      Let(
+        {
+          photoRef: Ref(Collection('Photo'), Select('photoID', Var('input'))),
+          photoDoc: Get(Var('photoRef')),
+        },
+        Merge(Var('photoDoc'), {
+          data: Merge(Select('data', Var('photoDoc')), {
+            likedByUser: Exists(Match(Index('photo_liked_by_photo_and_user'), [Var('photoRef'), CurrentIdentity()])),
+          }),
+        })
+      )
+    )
+  ),
+})
+
+Update(Function('get_user_by_username'), {
+  body: Query(
+    Lambda(
+      ['username'],
+      Let(
+        { userDoc: Get(Match(Index('unique_User_username'), Var('username'))) },
+        Merge(Var('userDoc'), {
+          data: Merge(Select('data', Var('userDoc')), {
+            followedByUser: Exists(
+              Intersection(
+                Match(Index('following_by_user'), CurrentIdentity()),
+                Match(Index('followers_by_user'), Select('ref', Var('userDoc')))
+              )
+            ),
+          }),
+        })
       )
     )
   ),

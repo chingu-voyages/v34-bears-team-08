@@ -2,7 +2,7 @@
 import { goto } from '$app/navigation'
 import { useDialog, useMenu } from 'sashui'
 import { onMount, tick } from 'svelte'
-import { slide } from 'svelte/transition'
+import { fade, slide } from 'svelte/transition'
 import Fuse from 'fuse.js'
 import { PlusSquareFill, Search } from '@svicons/bootstrap'
 import { Compass, SignOutAlt } from '@svicons/fa-solid'
@@ -32,12 +32,11 @@ let inp = ''
 $: queryStr = inp.toLowerCase()
 let buttonsArr = [
     {
-      text: 'Post',
-      Icon: PlusSquareFill,
-      async click() {
-        isOpen = false
-        await tick()
-        showModal = true
+      text: 'Search',
+      Icon: Search,
+      click() {
+        searchMode = true
+        inp = ''
       },
     },
     {
@@ -49,11 +48,12 @@ let buttonsArr = [
       },
     },
     {
-      text: 'Search',
-      Icon: Search,
-      click() {
-        searchMode = true
-        inp = ''
+      text: 'Post',
+      Icon: PlusSquareFill,
+      async click() {
+        isOpen = false
+        await tick()
+        showModal = true
       },
     },
     {
@@ -91,7 +91,11 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
 
 <section class="fixed z-10 inset-0 overflow-y-auto" use:dialog on:close={() => (isOpen = false)}>
   <div class="flex items-end justify-center min-h-screen pb-20 text-center sm:block sm:p-0">
-    <div class="fixed inset-0 bg-blackA-blackA8 bg-opacity-75 transition-opacity" use:overlay />
+    <div
+      class="fixed inset-0 bg-blackA-blackA9 bg-opacity-75 transition-opacity"
+      use:overlay
+      transition:fade={{ duration: 200 }}
+    />
     <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true"> &#8203; </span>
     <div
       class="inline-block align-bottom bg-blackA-blackA12 rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 sm:align-middle max-w-lg w-full"
@@ -134,6 +138,7 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
         {#if !searchMode}
           {#each buttons as { text, click, Icon } (text)}
             <Item let:active>
+              <!-- TODO: Show shortcuts -->
               <button
                 class="text-left flex items-center w-full p-4 {active
                   ? 'bg-whiteA-whiteA8'
