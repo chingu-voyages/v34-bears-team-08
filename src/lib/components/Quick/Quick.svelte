@@ -71,7 +71,7 @@ function filterButtons() {
   if (!inp || searchMode) return buttonsArr
   return fuse.search(queryStr).map(({ item }) => item)
 }
-$: focusFirstOnInp(inp)
+$: focusFirstOnInp(inp, searchResults)
 async function focusFirstOnInp() {
   // go to first on input
   await tick()
