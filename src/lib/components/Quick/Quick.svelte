@@ -2,7 +2,7 @@
 import { goto } from '$app/navigation'
 import { useDialog, useMenu } from 'sashui'
 import { onMount, tick } from 'svelte'
-import { fade, slide } from 'svelte/transition'
+import { fly } from 'svelte/transition'
 import Fuse from 'fuse.js'
 import { PlusSquareFill, Search } from '@svicons/bootstrap'
 import { Compass, SignOutAlt, Home } from '@svicons/fa-solid'
@@ -13,7 +13,6 @@ import Post from '../Post.svelte'
 export let isOpen = false,
   searchMode = false,
   post = false
-$: placeholder = !searchMode ? 'Get there in a flash' : 'Find your buddies'
 const dialog = useDialog(false),
   { overlay } = dialog
 const Menu = useMenu(true),
@@ -87,7 +86,7 @@ function filterButtons() {
   if (!inp || searchMode) return buttonsArr
   return fuse.search(queryStr).map(({ item }) => item)
 }
-$: focusFirstOnInp(inp, searchResults)
+$: focusFirstOnInp(inp, searchResults, searchMode)
 async function focusFirstOnInp() {
   // go to first on input
   await tick()
@@ -106,14 +105,14 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
 </script>
 
 <section class="fixed z-10 inset-0 overflow-y-auto" use:dialog on:close={() => (isOpen = false)}>
-  <div class="flex items-end justify-center min-h-screen pb-20 text-center sm:block sm:p-0">
-    <div
-      class="fixed inset-0 bg-blackA-blackA9 bg-opacity-75 transition-opacity"
-      use:overlay
-      transition:fade={{ duration: 200 }}
-    />
+  <div
+    class="flex items-end justify-center min-h-screen pb-20 text-center sm:block sm:p-0"
+    transition:fly={{ duration: 200, y: -10 }}
+  >
+    <div class="fixed inset-0 bg-blackA-blackA9 bg-opacity-75 transition-opacity" use:overlay />
     <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true"> &#8203; </span>
     <div
+      style={`height: ${post ? 420 : (searchMode ? searchResults.length : buttons.length) * 60 + 56}px`}
       class="inline-block align-bottom bg-blackA-blackA12 rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 sm:align-middle max-w-lg w-full"
     >
       {#if post}
@@ -124,7 +123,7 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
           class:animate-pulse={$SearchForUser.fetching}
           type="text"
           bind:value={inp}
-          {placeholder}
+          placeholder={!searchMode ? 'Get there in a flash' : 'Find your buddies'}
           on:keydown={function keydown(e) {
             switch (e.key) {
               case 'ArrowDown':
@@ -162,7 +161,6 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
                   class="text-left flex items-center w-full p-4 {active
                     ? 'bg-whiteA-whiteA8'
                     : 'text-gray-gray11'} transition-all duration-200 ease-in text-lg"
-                  transition:slide|local
                   title={text}
                   on:click={click}
                   >{#if Icon}<Icon class="mr-6" width="16" />{/if}
@@ -204,11 +202,9 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
     </div>
   </div>
 </section>
-<!-- TODO This transition works but needs height and we need to have a fixed contain anchor point -->
 
-<!-- 
 <style>
 menu {
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: all 0.2s ease, opacity 0.2s ease;
 }
-</style> -->
+</style>

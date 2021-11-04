@@ -2,7 +2,7 @@
 import { imagekit } from '$lib/utils/imagekit'
 import { CreatePhoto } from '$lib/gql/CreatePhoto'
 import { auth } from '$lib/stores/auth'
-
+import { scale, fade } from 'svelte/transition'
 const execCreatePhoto = CreatePhoto()
 
 let files = null,
@@ -38,7 +38,7 @@ function uploadPost() {
 }
 </script>
 
-<div class="py-40">
+<div class="py-40" transition:fade>
   {#if !uploading}
     <h2 class="w-full text-center text-lg font-bold px-2 py-3 mb-2">Create new post</h2>
     {#if err}
@@ -48,7 +48,7 @@ function uploadPost() {
       {#if !files}
         <label
           for="fileUpload"
-          class="cursor-pointer inline-block top-1/2 font-medium rounded-md px-5 py-2 bg-whiteA-whiteA6"
+          class="cursor-pointer inline-block top-1/2 font-medium rounded-md px-5 py-2 bg-amberA-amberA8"
         >
           Select an Image for Upload
           <input type="file" id="fileUpload" name="fileUpload" class="my-5 hidden" accept="image/*" bind:files />
@@ -65,7 +65,8 @@ function uploadPost() {
         />
         {#if caption}
           <button
-            class="absolute bottom-0  mb-4 rounded-md border-none px-7 py-2 bg-whiteA-whiteA5 font-bold"
+            class="absolute bottom-0  mb-4 rounded-md border-none px-7 py-2 bg-amberA-amberA8 font-bold"
+            transition:scale={{ duration: 200, start: 0.9 }}
             type="submit">Post</button
           >
         {/if}
