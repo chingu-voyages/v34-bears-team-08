@@ -162,7 +162,7 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
                 <button
                   class="text-left flex items-center w-full p-4 {active
                     ? 'bg-whiteA-whiteA8'
-                    : 'text-gray-gray11'} transition-all duration-200 ease-in text-lg"
+                    : 'text-gray-gray11'} transition-all duration-200 ease-in text-lg h-[60px]"
                   title={text}
                   on:click={click}
                   >{#if Icon}<Icon class="mr-6" width="16" />{/if}
