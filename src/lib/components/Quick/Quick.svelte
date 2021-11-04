@@ -2,7 +2,7 @@
 import { goto } from '$app/navigation'
 import { useDialog, useMenu } from 'sashui'
 import { onMount, tick } from 'svelte'
-import { fly } from 'svelte/transition'
+import { fly, fade } from 'svelte/transition'
 import Fuse from 'fuse.js'
 import { PlusSquareFill, Search } from '@svicons/bootstrap'
 import { Compass, SignOutAlt, Home } from '@svicons/fa-solid'
@@ -105,11 +105,11 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
 </script>
 
 <section class="fixed z-10 inset-0 overflow-y-auto" use:dialog on:close={() => (isOpen = false)}>
+  <div class="fixed inset-0 bg-blackA-blackA9 bg-opacity-75 transition-opacity" transition:fade use:overlay />
   <div
     class="flex items-end justify-center min-h-screen pb-20 text-center sm:block sm:p-0"
     transition:fly={{ duration: 200, y: -10 }}
   >
-    <div class="fixed inset-0 bg-blackA-blackA9 bg-opacity-75 transition-opacity" use:overlay />
     <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true"> &#8203; </span>
     <div
       style={`height: ${post ? 420 : (searchMode ? searchResults.length : buttons.length) * 60 + 56}px`}
