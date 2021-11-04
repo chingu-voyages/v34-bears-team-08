@@ -38,17 +38,17 @@ function uploadPost() {
 }
 </script>
 
-<div class="py-40" transition:fade>
+<div class="h-full grid content-center" transition:fade>
   {#if !uploading}
     <h2 class="w-full text-center text-lg font-bold px-2 py-3 mb-2">Create new post</h2>
     {#if err}
       <p>{err}</p>
     {/if}
-    <form class="w-full flex flex-col justify-center items-center " on:submit|preventDefault={uploadPost}>
+    <form class="w-full text-center" on:submit|preventDefault={uploadPost}>
       {#if !files}
         <label
           for="fileUpload"
-          class="cursor-pointer inline-block top-1/2 font-medium rounded-md px-5 py-2 bg-amberA-amberA8"
+          class="cursor-pointer font-medium rounded-md px-5 py-2 bg-amberA-amberA8 hover:bg-amberA-amberA10"
         >
           Select an Image for Upload
           <input type="file" id="fileUpload" name="fileUpload" class="my-5 hidden" accept="image/*" bind:files />
