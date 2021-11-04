@@ -30,7 +30,7 @@ const execLikePhoto = LikePhoto()
       <div class="w-full py-3 px-4 rounded-t-sm">
         <span class="font-semibold">{photo.author.username}</span>
       </div>
-      <img src={photo.src} width="700px" class="rounded-md" alt="{photo.author.username}'s photo" />
+      <img src={photo.media.src} width="700px" class="rounded-md" alt="{photo.author.username}'s photo" />
       <div class="w-full max-w-full p-2 flex flex-col rounded-b-sm pt-4 px-4">
         <div class="flex items-center">
           <button

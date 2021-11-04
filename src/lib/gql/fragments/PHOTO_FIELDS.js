@@ -6,7 +6,10 @@ export const PHOTO_FIELDS = gql`
       username
       _id
     }
-    src
+    media {
+      src
+      id
+    }
     likeCount
     comments {
       data {

@@ -24,7 +24,12 @@ function uploadPost() {
     } else {
       // result has TS support! Use VSCode intellisense to get the image types
       // Save the url and maybe a transformation with a smaller image and a thumbnail to the db query to create the post
-      await execCreatePhoto({ id: $auth.userInfo?._id, src: result.url, posted: new Date().toISOString(), caption })
+      await execCreatePhoto({
+        id: $auth.userInfo?._id,
+        media: { src: result.url, id: result.fileId },
+        posted: new Date().toISOString(),
+        caption,
+      })
       uploading = false
       files = null
       caption = ''

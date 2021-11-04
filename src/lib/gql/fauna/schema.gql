@@ -20,7 +20,7 @@ type User {
   # settings: Settings
 }
 
-# type Settings {
+# type Settings @embedded {
 #   avatar: Media
 #   fullName: String
 #   headline: String
@@ -34,7 +34,7 @@ type Follow {
 
 type Photo {
   author: User! @relation(name: "user_photos")
-  src: String!
+  media: Media!
   posted: Time!
   caption: String
   liked: [User] @relation
@@ -47,13 +47,13 @@ type Photo {
   # starredByUser: Boolean
 }
 
-# type Media {
-#   src: String!
-#   """
-#   imagekit file ID
-#   """
-#   _id: ID!
-# }
+type Media @embedded {
+  src: String!
+  """
+  imagekit fileID
+  """
+  id: ID!
+}
 
 type Comment {
   author: User!

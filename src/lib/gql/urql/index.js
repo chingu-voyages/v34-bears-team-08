@@ -88,6 +88,7 @@ const getClient = (ssrExchange, fetch) =>
           ) => ({
             ...photo,
             __typename: 'Photo',
+            media: { ...photo.media, __typename: 'Media' },
             author: { ...author, __typename: 'User' },
             comments: {
               data: comments.data.map((data) => ({ ...data, __typename: 'Comment' })),

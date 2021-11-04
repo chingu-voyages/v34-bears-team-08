@@ -1,7 +1,7 @@
 <script>
 import { goto } from '$app/navigation'
 import { useDialog, useMenu } from 'sashui'
-import { onDestroy, onMount, tick } from 'svelte'
+import { onMount, tick } from 'svelte'
 import { fade, slide } from 'svelte/transition'
 import Fuse from 'fuse.js'
 import { PlusSquareFill, Search } from '@svicons/bootstrap'
@@ -22,14 +22,15 @@ const Menu = useMenu(true),
 let documentStyle
 onMount(() => {
   documentStyle = document.documentElement.style
-  return () => (document.documentElement.style = documentStyle)
+  return () => {
+    post = false
+    document.documentElement.style = documentStyle
+  }
 })
 
 function navigate(href) {
   if (location.pathname != href) goto(href)
 }
-
-onDestroy(() => (post = false))
 
 let inp = ''
 $: queryStr = inp.toLowerCase()

@@ -14,16 +14,14 @@ export const get = async ({ query }) => ({
   ),
 })
 
-export function del({ body: { fileId } }) {
+export async function del({ body: { fileId } }) {
   try {
-    var result = await(
-      new Promise((res, rej) => {
-        imagekit.deleteFile(fileId, (error, result) => (error ? rej(error) : res(result)))
-      })
-    )
+    await new Promise((res, rej) => {
+      imagekit.deleteFile(fileId, (error, result) => (error ? rej(error) : res(result)))
+    })
   } catch (error) {
     console.log(error)
     return { status: 418 }
   }
-  return { body: result }
+  return { body: 'OK', status: 204 }
 }

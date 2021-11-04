@@ -17,7 +17,7 @@ import ProfileInfo from '$lib/components/ProfileInfo.svelte'
 import TimelineFormat from '$lib/components/TimelineFormat.svelte'
 import { DeletePhoto } from '$lib/gql/DeletePhoto'
 import { DeleteComment } from '$lib/gql/DeleteComment'
-import { auth } from '$lib/stores/auth'
+import { apiReq, auth } from '$lib/stores/auth'
 import { ThLarge, ListUl } from '@svicons/fa-solid'
 import { page } from '$app/stores'
 
@@ -33,25 +33,6 @@ $: photoArr = $Timeline.data?.result.data || []
 
 const execDeletePhoto = DeletePhoto()
 const execDeleteComment = DeleteComment()
-async function callDeletePhoto(e) {
-  let id = e.target.dataset.photoId
-  if (confirm('Are you sure you want to delete this post?')) {
-    const {
-      data: {
-        result: {
-          comments: { data },
-        },
-      },
-    } = await execDeletePhoto({ id })
-    console.log(data)
-    if (data.length > 0) console.log(data.length)
-    data.forEach((obj) => {
-      const id = obj._id
-      execDeleteComment({ id })
-    })
-    // likes need to be deleted
-  }
-}
 
 let direction = 'wrap'
 </script>
@@ -81,12 +62,32 @@ let direction = 'wrap'
     >
       {#each photoArr as photo, index}
         <li class="w-max relative">
-          <img src={photo.src} width="300px" alt="photo #{index + 1}" class="z-0" />
+          <img src={photo.media.src} width="300px" alt="photo #{index + 1}" class="z-0" />
           {#if currentUser === username}
             <button
               class="z-0 display-block absolute top-0 right-2 mt-4 ml-3 text-white text-lg pr-4 pb-4"
-              on:click={callDeletePhoto}
-              data-photo-id={photo._id}
+              on:click={async function callDeletePhoto(e) {
+                const id = photo._id
+                if (confirm('Are you sure you want to delete this post?')) {
+                  await apiReq.delete('/media', { body: { fileId: photo.media.id } })
+
+                  const {
+                    data: {
+                      result: {
+                        comments: { data },
+                      },
+                    },
+                  } = await execDeletePhoto({ id })
+                  console.log(data)
+                  if (data.length > 0) console.log(data.length)
+                  data.forEach((obj) => {
+                    const id = obj._id
+                    execDeleteComment({ id })
+                  })
+                  // TODO likes need to be deleted
+                  // Tip: You can actually execute multiple mutations at once in a single query. Also to "connect" there is also "disconnect", which serves the same purposes as deleting, in fact you could provide a whole array of disconnects and delete everything in one query.
+                }
+              }}
             >
               x
             </button>
