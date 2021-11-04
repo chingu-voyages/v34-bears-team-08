@@ -115,6 +115,7 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
     >
       <input
         class="w-full outline-none p-4"
+        class:animate-pulse={$SearchForUser.fetching}
         type="text"
         bind:value={inp}
         {placeholder}
@@ -149,9 +150,8 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
 
       <menu class="p-0 m-0" use:Menu={{ autofocus: false }}>
         {#if !searchMode}
-          {#each buttons as { text, click, Icon, shortcut = [] } (text)}
+          {#each buttons as { text, click, Icon, shortcut } (text)}
             <Item let:active>
-              <!-- TODO: Show shortcuts -->
               <button
                 class="text-left flex items-center w-full p-4 {active
                   ? 'bg-whiteA-whiteA8'
@@ -197,8 +197,8 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
     </div>
   </div>
 </section>
-
 <!-- TODO This transition works but needs height and we need to have a fixed contain anchor point -->
+
 <!-- 
 <style>
 menu {
