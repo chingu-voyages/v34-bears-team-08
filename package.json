@@ -23,6 +23,7 @@
     "autoprefixer": "^10.3.6",
     "cookie": "^0.4.1",
     "cssnano": "^5.0.8",
+    "fuse.js": "^6.4.6",
     "graphql": "^15.6.1",
     "imagekit": "^3.2.2",
     "imagekit-javascript": "latest",

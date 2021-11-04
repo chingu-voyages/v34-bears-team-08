@@ -4,10 +4,13 @@ import Modal from '$components/Modal.svelte'
 import { Home, Compass, SignOutAlt, PlusCircle } from '@svicons/fa-solid'
 import Logo from '$components/Logo.svelte'
 import Search from '$components/Search.svelte'
+import { LightningCharge } from '@svicons/bootstrap'
+import Quick from './Quick/Quick.svelte'
 
 let username = $auth.userInfo?.username,
-  disableLogout = false
-let showModal = false
+  disableLogout = false,
+  showModal = false,
+  quickOpen = false
 </script>
 
 <header class="px-4 h-16 bg-blackA-blackA11 mb-8 w-full fixed z-10 top-0">
@@ -31,15 +34,19 @@ let showModal = false
               stroke="currentColor"
             />
           </button>
-          <a class="rounded-full bg-whiteA-whiteA5 p-2" sveltekit:prefetch href="/" aria-label="Timeline">
-            <Home
+          <button
+            class="rounded-full bg-whiteA-whiteA5 p-2"
+            aria-label="quick actions"
+            on:click={() => (quickOpen = !quickOpen)}
+          >
+            <LightningCharge
               class="w-6 text-gray-gray11 pointer-events-none"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
             />
-          </a>
+          </button>
           <a class="rounded-full bg-whiteA-whiteA5 p-2" sveltekit:prefetch href="/explore" area-label="explore">
             <Compass
               class="w-5 text-gray-gray11 pointer-events-none	"
@@ -99,3 +106,5 @@ let showModal = false
 {#if showModal}
   <Modal on:close={() => (showModal = false)} />
 {/if}
+
+<Quick bind:open={quickOpen} bind:showModal />
