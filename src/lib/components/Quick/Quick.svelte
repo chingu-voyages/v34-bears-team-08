@@ -5,7 +5,7 @@ import { onMount, tick } from 'svelte'
 import { fade, slide } from 'svelte/transition'
 import Fuse from 'fuse.js'
 import { PlusSquareFill, Search } from '@svicons/bootstrap'
-import { Compass, SignOutAlt } from '@svicons/fa-solid'
+import { Compass, SignOutAlt, Home } from '@svicons/fa-solid'
 import { logout } from '$lib/stores/auth'
 import { SearchForUser } from '$lib/gql/SearchForUser'
 
@@ -34,6 +34,7 @@ let buttonsArr = [
     {
       text: 'Search',
       Icon: Search,
+      shortcut: ['ctrl', 's'],
       click() {
         searchMode = true
         inp = ''
@@ -42,6 +43,7 @@ let buttonsArr = [
     {
       text: 'Explore',
       Icon: Compass,
+      shortcut: ['ctrl', 'e'],
       click() {
         navigate('/explore')
         isOpen = false
@@ -50,12 +52,23 @@ let buttonsArr = [
     {
       text: 'Post',
       Icon: PlusSquareFill,
+      shortcut: ['ctrl', 'p'],
       async click() {
         isOpen = false
         await tick()
         showModal = true
       },
     },
+    {
+      text: 'Home',
+      Icon: Home,
+      shortcut: ['ctrl', 'h'],
+      async click() {
+        navigate('/')
+        isOpen = false
+      },
+    },
+
     {
       text: 'Sign Out',
       Icon: SignOutAlt,
@@ -136,7 +149,7 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
 
       <menu class="p-0 m-0" use:Menu={{ autofocus: false }}>
         {#if !searchMode}
-          {#each buttons as { text, click, Icon } (text)}
+          {#each buttons as { text, click, Icon, shortcut = [] } (text)}
             <Item let:active>
               <!-- TODO: Show shortcuts -->
               <button
@@ -147,8 +160,15 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
                 title={text}
                 on:click={click}
                 >{#if Icon}<Icon class="mr-6" width="16" />{/if}
-                {text}</button
-              >
+                {text}
+                {#if shortcut}
+                  <span class="ml-auto">
+                    {#each shortcut as key}
+                      <kbd class="bg-whiteA-whiteA5 py-1 px-2 rounded-md ml-2 text-base">{key.toUpperCase()}</kbd>
+                    {/each}
+                  </span>
+                {/if}
+              </button>
             </Item>
           {/each}
         {:else}
