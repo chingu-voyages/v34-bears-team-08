@@ -72,7 +72,7 @@ function uploadPost() {
       {/if}
     </form>
   {:else}
-    <h4>Uploading post.. Please wait</h4>
+    <h4 class="w-full text-center text-lg font-bold px-2 py-3 mb-2">Uploading post.. Please wait</h4>
   {/if}
 </div>
 
