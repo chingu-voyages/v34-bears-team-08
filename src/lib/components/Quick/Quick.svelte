@@ -37,7 +37,7 @@ let buttonsArr = [
     {
       text: 'Search',
       Icon: Search,
-      shortcut: ['ctrl', 's'],
+      shortcut: ['g', 's'],
       click() {
         searchMode = true
         inp = ''
@@ -46,7 +46,7 @@ let buttonsArr = [
     {
       text: 'Explore',
       Icon: Compass,
-      shortcut: ['ctrl', 'e'],
+      shortcut: ['g', 'e'],
       click() {
         navigate('/explore')
         isOpen = false
@@ -55,7 +55,7 @@ let buttonsArr = [
     {
       text: 'Post',
       Icon: PlusSquareFill,
-      shortcut: ['ctrl', 'p'],
+      shortcut: ['g', 'p'],
       async click() {
         post = true
         await tick()
@@ -64,7 +64,7 @@ let buttonsArr = [
     {
       text: 'Home',
       Icon: Home,
-      shortcut: ['ctrl', 'h'],
+      shortcut: ['g', 'h'],
       async click() {
         navigate('/')
         isOpen = false
