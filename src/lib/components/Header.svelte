@@ -15,7 +15,7 @@ $: if (!quickOpen) searchMode = false
 let gPressedId = null
 </script>
 
-<header class="px-4 h-16 bg-blackA-blackA11 mb-8 w-full fixed z-10 top-0">
+<header class="px-4 h-16 bg-blackA-blackA11 w-full fixed z-10 top-0">
   <div class="container mx-auto max-w-screen-lg h-full">
     <div class="flex justify-between h-full">
       <div class="text-gray-700 text-center flex items-center align-items">
@@ -24,7 +24,7 @@ let gPressedId = null
         </h1>
       </div>
       <div class="absolute">beta</div>
-      <div class="text-gray-700 text-center flex items-center align-items space-x-5">
+      <nav class="text-gray-700 text-center flex items-center align-items space-x-5">
         {#if $isAuthenticated}
           <button
             class="fixed bottom-6 right-6 p-4 sm:static rounded-full text-gray-gray11 bg-whiteA-whiteA5 sm:p-2 hover:text-whiteA-whiteA11 hover:bg-whiteA-whiteA6"
@@ -59,10 +59,12 @@ let gPressedId = null
             {/if}
           </a>
         {/if}
-      </div>
+      </nav>
     </div>
   </div>
 </header>
+<!-- Offset height of document so we never have the header overlap it by default. Negative margins can be used to adjust an element if an override is desired. -->
+<div class="h-16" />
 
 {#if quickOpen && !$quickDisabled}
   <Quick bind:isOpen={quickOpen} bind:searchMode bind:post />
