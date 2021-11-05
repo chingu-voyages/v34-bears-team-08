@@ -24,7 +24,7 @@ let gPressedId = null
         </h1>
       </div>
       <div class="absolute">beta</div>
-      <div class="text-gray-700 text-center flex items-center align-items space-x-5">
+      <nav class="text-gray-700 text-center flex items-center align-items space-x-5">
         {#if $isAuthenticated}
           <button
             class="fixed bottom-6 right-6 p-4 sm:static rounded-full text-gray-gray11 bg-whiteA-whiteA5 sm:p-2 hover:text-whiteA-whiteA11 hover:bg-whiteA-whiteA6"
@@ -59,7 +59,7 @@ let gPressedId = null
             {/if}
           </a>
         {/if}
-      </div>
+      </nav>
     </div>
   </div>
 </header>
