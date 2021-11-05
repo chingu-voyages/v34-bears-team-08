@@ -424,6 +424,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@radix-ui/colors@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@radix-ui/colors/-/colors-0.1.7.tgz#055cdf104f92ae58a7d6a7f1c7327c635b90747f"
+  integrity sha512-E6+ZPQ+FFn1/NZ4c/KRvZTu9KjC/MXrbJNETYs1HKe96gyxQivPu65FkhOsRnPigvJ0YJ9ZxYGxayqDNmaC1cQ==
+
 "@rollup/pluginutils@^4.1.1":
   version "4.1.1"
   resolved "https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-4.1.1.tgz"
@@ -1876,6 +1881,11 @@ function-bind@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
+
+fuse.js@^6.4.6:
+  version "6.4.6"
+  resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-6.4.6.tgz#62f216c110e5aa22486aff20be7896d19a059b79"
+  integrity sha512-/gYxR/0VpXmWSfZOIPS3rWwU8SHgsRTwWuXhyb2O6s7aRuVtHtxCkR33bNYu3wyLyNx/Wpv0vU7FZy8Vj53VNw==
 
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
@@ -3376,10 +3386,10 @@ sander@^0.5.0:
     mkdirp "^0.5.1"
     rimraf "^2.5.2"
 
-sashui@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/sashui/-/sashui-0.0.9.tgz#27f44c901809b77a4c5af8889d376dfb67e7c3bb"
-  integrity sha512-PuvjNpBzmnL+r5iOF/vdWH8hjwrG5guLMyaEMQdT9vOoaD+/pkjZ4mRpHVcS4pHN9JgyDsh4yNPV6DQVn7QYgQ==
+sashui@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/sashui/-/sashui-0.1.0.tgz#0b2f5496a0f6dce46b3a2f69cd3b1e1d4b2795d3"
+  integrity sha512-rqqK7LF0CLodX2CGdIIJwYDwKRH+4pvgQnc/9VDpTM5d6zyjIB82Z57bZTxqJOurLPa18+R/4y3knmhgVRJ4+g==
 
 scrypt-js@^3.0.0:
   version "3.0.1"
