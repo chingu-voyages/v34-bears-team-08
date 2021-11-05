@@ -4,12 +4,15 @@ import Logo from '$components/Logo.svelte'
 import { LightningCharge } from '@svicons/bootstrap'
 import Quick from './Quick/Quick.svelte'
 import { goto } from '$app/navigation'
+import { quickDisabled } from '$lib/stores/quickDisabled'
 
 let username = $auth.userInfo?.username,
   post = false,
   quickOpen = false,
   searchMode = false
 $: if (!quickOpen) searchMode = false
+
+let gPressedId = null
 </script>
 
 <header class="px-4 h-16 bg-blackA-blackA11 mb-8 w-full fixed z-10 top-0">
@@ -61,50 +64,57 @@ $: if (!quickOpen) searchMode = false
   </div>
 </header>
 
-{#if quickOpen}
+{#if quickOpen && !$quickDisabled}
   <Quick bind:isOpen={quickOpen} bind:searchMode bind:post />
 {/if}
 <!-- shortcuts -->
 <svelte:window
   on:keydown={(e) => {
-    switch (e.key) {
-      case 'k':
-        if (e.ctrlKey) {
-          e.preventDefault()
-          if (post) post = false
-          else if (searchMode) searchMode = false
-          else quickOpen = !quickOpen
-        }
-        break
-      case 'p':
-        if (e.ctrlKey) {
-          e.preventDefault()
-          quickOpen = post = !post
-        }
-        break
-      case 's':
-        if (e.ctrlKey) {
-          e.preventDefault()
-          if (post) {
-            searchMode = true
-            post = false
-          } else quickOpen = searchMode = !searchMode
-        }
-        break
-      case 'e':
-        if (e.ctrlKey && !quickOpen) {
-          e.preventDefault()
-          goto('/explore')
-        }
-        break
-      case 'h':
-        if (e.ctrlKey && !quickOpen) {
-          e.preventDefault()
-          goto('/')
-        }
-        break
-      default:
-        break
+    if (e.ctrlKey && e.key == 'k') {
+      e.preventDefault()
+      if (post) post = false
+      else if (searchMode) searchMode = false
+      else quickOpen = !quickOpen
+      return
     }
+
+    // g keys
+    if (!quickOpen && !document.activeElement.matches(':read-write'))
+      switch (e.key) {
+        case 'g':
+          gPressedId = setTimeout(() => (gPressedId = null), 500)
+          break
+        case 'k':
+          break
+        case 'p':
+          if (gPressedId) {
+            gPressedId = null
+            e.preventDefault()
+            quickOpen = post = !post
+          }
+          break
+        case 's':
+          if (gPressedId) {
+            gPressedId = null
+            e.preventDefault()
+            quickOpen = searchMode = !searchMode
+          }
+          break
+        // navigation
+        case 'e':
+          if (gPressedId && !quickOpen) {
+            e.preventDefault()
+            goto('/explore')
+          }
+          break
+        case 'h':
+          if (gPressedId && !quickOpen) {
+            e.preventDefault()
+            goto('/')
+          }
+          break
+        default:
+          break
+      }
   }}
 />

@@ -20,6 +20,7 @@ import { DeleteComment } from '$lib/gql/DeleteComment'
 import { apiReq, auth } from '$lib/stores/auth'
 import { ThLarge, ListUl } from '@svicons/fa-solid'
 import { page } from '$app/stores'
+import { transformMedia } from '$lib/utils'
 
 $: ({ username } = $page.params)
 const Timeline = queryOp(GetTimeline.query)
@@ -62,7 +63,7 @@ let direction = 'wrap'
     >
       {#each photoArr as photo, index}
         <li class="w-max relative">
-          <img src={photo.media.src} width="300px" alt="photo #{index + 1}" class="z-0" />
+          <img src={transformMedia(photo.media.src, 300)} width="300px" alt="photo #{index + 1}" class="z-0" />
           {#if currentUser === username}
             <button
               class="z-0 display-block absolute top-0 right-2 mt-4 ml-3 text-white text-lg pr-4 pb-4"

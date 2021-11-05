@@ -53,6 +53,8 @@ type Media @embedded {
   imagekit fileID
   """
   id: ID!
+  width: Int!
+  height: Int!
 }
 
 type Comment {
