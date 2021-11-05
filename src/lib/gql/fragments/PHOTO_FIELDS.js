@@ -9,6 +9,8 @@ export const PHOTO_FIELDS = gql`
     media {
       src
       id
+      width
+      height
     }
     likeCount
     comments {

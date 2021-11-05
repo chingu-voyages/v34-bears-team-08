@@ -17,7 +17,7 @@ function uploadPost() {
     tags: [''],
   }
   uploading = true
-  imagekit.upload(fileOptions, async (error, result) => {
+  imagekit.upload(fileOptions, async (error, { url, width, height, fileId } = {}) => {
     if (error) {
       err = `Something went wrong Please try again`
       console.log(error)
@@ -26,7 +26,7 @@ function uploadPost() {
       // Save the url and maybe a transformation with a smaller image and a thumbnail to the db query to create the post
       await execCreatePhoto({
         id: $auth.userInfo?._id,
-        media: { src: result.url, id: result.fileId },
+        media: { src: url, id: fileId, width, height },
         posted: new Date().toISOString(),
         caption,
       })
@@ -38,17 +38,17 @@ function uploadPost() {
 }
 </script>
 
-<div class="h-full grid content-center" transition:fade>
+<div class="h-full grid" transition:fade>
   {#if !uploading}
-    <h2 class="w-full text-center text-lg font-bold px-2 py-3 mb-2">Create new post</h2>
+    <h2 class="w-full text-center text-lg font-bold px-2 py-3 mb-2 mt-auto">Create new post</h2>
     {#if err}
       <p>{err}</p>
     {/if}
-    <form class="w-full text-center" on:submit|preventDefault={uploadPost}>
+    <form class="w-full text-center mt-3 mb-auto" on:submit|preventDefault={uploadPost}>
       {#if !files}
         <label
           for="fileUpload"
-          class="cursor-pointer font-medium rounded-md px-5 py-2 bg-amberA-amberA8 hover:bg-amberA-amberA10"
+          class="cursor-pointer font-medium rounded-md px-5 py-3 bg-amberA-amberA8 hover:bg-amberA-amberA10"
         >
           Select an Image for Upload
           <input type="file" id="fileUpload" name="fileUpload" class="my-5 hidden" accept="image/*" bind:files />
@@ -61,19 +61,20 @@ function uploadPost() {
           bind:value={caption}
           cols="3"
           rows="2"
-          placeholder="Write a caption"
+          placeholder="Write the most enthusiastically written caption you have ever written in your whole life. You must to proceed!"
         />
-        {#if caption}
-          <button
-            class="absolute bottom-0  mb-4 rounded-md border-none px-7 py-2 bg-amberA-amberA8 font-bold"
-            transition:scale={{ duration: 200, start: 0.9 }}
-            type="submit">Post</button
-          >
-        {/if}
+        <button
+          class="mt-4 rounded-md border-none px-7 py-2 font-bold transition-all {!caption
+            ? 'bg-whiteA-whiteA7 cursor-not-allowed'
+            : 'bg-amberA-amberA8'}"
+          disabled={!caption}
+          transition:scale={{ duration: 200, start: 0.9 }}
+          type="submit">Post</button
+        >
       {/if}
     </form>
   {:else}
-    <h4 class="w-full text-center text-lg font-bold px-2 py-3 mb-2">Uploading post.. Please wait</h4>
+    <h4 class="w-full text-center text-lg font-bold px-2 py-3 my-auto">Uploading post.. Please wait</h4>
   {/if}
 </div>
 
