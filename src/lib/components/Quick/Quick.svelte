@@ -104,6 +104,10 @@ async function searchQuery() {
 }
 $: searchMode && inp && searchQuery()
 $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.data || []
+async function inpMountedFocus(node) {
+  await tick()
+  node.focus()
+}
 </script>
 
 <section class="fixed z-10 inset-0 overflow-y-auto" use:dialog on:close={() => !uploading && (isOpen = false)}>
@@ -123,6 +127,7 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
         <input
           class="w-full outline-none p-4"
           class:animate-pulse={$SearchForUser.fetching}
+          use:inpMountedFocus
           type="text"
           bind:value={inp}
           placeholder={!searchMode ? 'Get there in a flash' : 'Find your buddies'}
