@@ -39,7 +39,7 @@ $: photoArr = $Timeline.data?.result.data || []
   <title>Devvy - Timeline</title>
 </svelte:head>
 
-<main class="flex flex-row w-full justify-center mt-36">
+<main class="flex flex-row w-full justify-center mt-8">
   <TimelineFormat {photoArr} />
   <div class="ml-28 lg:flex flex-col hidden">
     <ProfileInfo username={$auth.userInfo?.username} />
