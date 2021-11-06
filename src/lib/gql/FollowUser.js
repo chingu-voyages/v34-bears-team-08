@@ -1,18 +1,12 @@
 import { mutationOp } from '$lib/gql/urql'
 import { gql } from '@urql/svelte'
+import { USER_FIELDS } from './fragments/USER_FIELDS'
 
 export const FollowUser = mutationOp(gql`
+  ${USER_FIELDS}
   mutation FollowUser($id: ID!, $value: Boolean = true) {
     result: followUser(input: { userID: $id, value: $value }) {
-      headline
-      fullName
-      followingCount
-      followerCount
-      bio
-      username
-      profileImgSrc
-      _id
-      followedByUser
+      ...USER_FIELDS
     }
   }
 `)

@@ -31,6 +31,31 @@ const getClient = (ssrExchange, fetch) =>
       // ? Consider using offline exchange for persistence, w/ request policy exchange for clearing stale data.
       cacheExchange({
         // schema,
+        resolvers: {
+          Query: {
+            getPostByID({ result: { author, photo, likedByUser, followedByUser } = {} } = {}) {
+              // TODO Check that this is working properly by: Going from timeline to photo page, on an already liked photo, then going back without reloading app memory
+              // TODO (via nav or back button). The like state shouldn't go to null and cause it to be unliked. If it does you have two strategies in order you should do:
+              // * 1. Use a type resolver, on type Photo, looking at the field likedByUser.
+              // * 2. If 1. doesn't work, use a type resolver anywhere Photo will be used. Make it resolve to any existing getPostByID photos that exist
+              // * 3. If 2. doesn't work, your only option is to invalidate the page or entity using the Photo that isn't getPostByID.
+              // * same strategies apply to follows
+              return (
+                photo && {
+                  author: {
+                    ...author,
+                    followedByUser,
+                  },
+                  photo: {
+                    ...photo,
+                    likedByUser,
+                  },
+                  __typename: 'PostPayload',
+                }
+              )
+            },
+          },
+        },
         updates: {
           Mutation: {
             createComment({ result }, args, cache, _info) {
@@ -113,6 +138,7 @@ const getClient = (ssrExchange, fetch) =>
           CommentPage: () => null,
           QueryGetTimelinePage: () => null,
           QuerySearchUserPage: () => null,
+          PostPayload: () => null,
         },
       }),
       // [async] auth-exchange: https://waa.ai/auth-exchange
