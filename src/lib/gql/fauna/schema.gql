@@ -71,6 +71,7 @@ type Query {
   getTimeline(username: String): [Photo]! @resolver(name: "get_timeline", paginated: true)
   getUserByUsername(username: String!): User! @resolver(name: "get_user_by_username")
   searchUser(username: String!): [User]! @resolver(name: "search_user", paginated: true)
+  getPostByID(id: ID!): PostPayload! @resolver(name: "get_post_by_id")
 }
 
 type Mutation {
@@ -78,7 +79,6 @@ type Mutation {
   logoutUser(input: LogoutUserInput!): Boolean! @resolver(name: "logout_user")
   likePhoto(input: LikePhotoInput!): Photo! @resolver(name: "like_photo")
   followUser(input: FollowUserInput!): User! @resolver(name: "follow_user")
-  getPhoto(input: GetPhotoInput!): Photo! @resolver(name: "get_photo")
 }
 
 input LoginUserInput {
@@ -104,6 +104,13 @@ input FollowUserInput {
 
 input GetPhotoInput {
   photoID: ID!
+}
+
+type PostPayload @embedded {
+  author: User!
+  followedByUser: Boolean!
+  photo: Photo!
+  likedByUser: Boolean!
 }
 
 # TODO: Check base types from adaptation have all been added to schema

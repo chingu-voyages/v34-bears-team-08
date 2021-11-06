@@ -1,3 +1,4 @@
+<!-- TODO Extra credit: modal for photo viewing on using history pushState or otherwise on time line components... Not important though -->
 <script context="module">
 // export async function load() {
 //   return {status: 302 }
@@ -6,14 +7,21 @@
 
 <script>
 import { page } from '$app/stores'
-import { GetPhoto } from '$lib/gql/GetPhoto'
+import Menu from '$lib/components/Menu.svelte'
+import { GetPost } from '$lib/gql/GetPost'
 import { transformMedia } from '$lib/utils'
 
-GetPhoto({ photoID: $page.params.post })
+GetPost({ id: $page.params.post })
 // $: if($GetPhoto.data && Object.is($GetPhoto.data.result, null)) {
-//   // redirect here because a null result means query went through & it's an invalid id
+//   //
 // }
-$: photo = $GetPhoto.data?.result
+$: ({ photo, author } = $GetPost.data || {})
+$: if (!$GetPost.fetching) {
+  // if (!$GetPhoto.data.result) {
+  //   // redirect here because no result means query went through & it's an invalid id
+  //   // this is NOT a very common occurrence so don't worry about doing it on client side
+  // }
+}
 </script>
 
 <main class="container mx-auto my-12 max-w-screen-lg h-full flex">
@@ -32,7 +40,7 @@ $: photo = $GetPhoto.data?.result
             src={transformMedia(photo.media.src, 700)}
             width="700px"
             class="rounded-md object-cover"
-            alt="{photo.author.username}'s photo"
+            alt="{author.username}'s photo"
           />
         </section>
       </main>
@@ -40,10 +48,11 @@ $: photo = $GetPhoto.data?.result
       <!-- Secondary column (hidden on smaller screens) -->
       <aside class="hidden w-96 bg-whiteA-whiteA5 border-l border-gray-700 overflow-y-auto lg:block">
         <!-- TODO profile img -->
-        <a href="/{photo.author.username}">
-          {photo.author.username}
+        <a href="/{author.username}">
+          {author.username}
         </a>
         <!-- TODO following menu -->
+
         <button>following</button>
         <!-- ? extra actions menu, e.g. copy link & unfollow -->
         <button>...</button>
@@ -55,7 +64,9 @@ $: photo = $GetPhoto.data?.result
           <!-- ? unnecessary: like comment -->
         {/each}
         <!-- TODO: Heart/like -->
+        <button>like</button>
         <!-- TODO post comment -->
+        <input type="text" placeholder="say something I'm giving up on you" />
         <!-- ? extra credit: star the photo -->
       </aside>
     </div>

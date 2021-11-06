@@ -5,7 +5,6 @@ import { GetUserInfo } from '$lib/gql/GetUserInfo'
 
 export async function load({ page, fetch }) {
   const { username } = page.params
-  // let username = page.params.username
   GetUserInfo.variables = GetTimeline.variables = { username }
   await loadQueries({ fetch }, GetTimeline, GetUserInfo)
   return {}
@@ -86,7 +85,24 @@ let direction = 'wrap'
                     execDeleteComment({ id })
                   })
                   // TODO likes need to be deleted
-                  // Tip: You can actually execute multiple mutations at once in a single query. Also to "connect" there is also "disconnect", which serves the same purposes as deleting, in fact you could provide a whole array of disconnects and delete everything in one query.
+                  // Tip: You can actually execute multiple mutations at once in a single query. Also to "connect" there is also "disconnect", which serves the same purposes as deleting, in fact you could provide a whole array to disconnect and delete everything in one query.
+                  // here's an example:
+                  // gql`
+                  //   mutation DeletePhoto {
+                  //     partialUpdatePhoto(
+                  //       id: 123
+                  //       data: {
+                  //         comments: { disconnect: ["1234", "4124", "1512"] }
+                  //         liked: { disconnect: ["5235", "1552", "1614"] }
+                  //       }
+                  //     ) {
+                  //       _id
+                  //     }
+                  //     result: deletePhoto(id: 123) {
+                  //       _id
+                  //     }
+                  //   }
+                  // `
                 }
               }}
             >
