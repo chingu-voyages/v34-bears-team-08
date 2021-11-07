@@ -1,6 +1,7 @@
 <script>
-import { AngleRight, AngleDown, Times } from '@svicons/fa-solid'
+import { AngleRight, AngleDown } from '@svicons/fa-solid'
 import { Heart, HeartFill } from '@svicons/bootstrap'
+import { ChatDelete } from '@svicons/remix-line'
 import { slide } from 'svelte/transition'
 import { quintOut } from 'svelte/easing'
 import { PostNewComment } from '$lib/gql/PostNewComment'
@@ -91,22 +92,22 @@ const execLikePhoto = LikePhoto()
                   <span class="text-gray-400">{comment.author.username}</span>
                   <span>{comment.text}</span>
                 </div>
-                {#if comment.author.username === currentUser}
-                  <div class="flex flex-row">
+                <div class="flex flex-row">
+                  {#if comment.author.username === currentUser}
                     <button
-                      on:click={async function deleteComment() {
-                        await execDeleteComment({ id: comment._id, photoID: photo._id })
-                      }}
+                      class="w-5 mr-3 text-gray-300 hover:text-gray-800"
+                      on:click={() => execDeleteComment({ id: comment._id, photoID: photo._id })}
                     >
-                      <Times
-                        class="w-3 mr-3 text-gray-300 hover:text-gray-800"
-                        xmlns="http://www.w3.org/2000/svg pointer-events-none"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      /></button
-                    >
-                  </div>
-                {/if}
+                      <ChatDelete />
+                    </button>
+                  {:else}
+                    <!-- TODO Like a comment... separate type Query field for CommentPage to obtain likedByUser, but in the same query -->
+                    <button class="w-4" aria-label="like">
+                      <Heart />
+                      <!-- <HeartFill/> -->
+                    </button>
+                  {/if}
+                </div>
               </li>
             {:else}
               <li>Be the first to comment!</li>
@@ -140,9 +141,9 @@ const execLikePhoto = LikePhoto()
             placeholder="Add a comment..."
             bind:value={text}
           />
-          <button type="submit" class="z-0 display-block absolute top-2 right-2 text-amber-amber8 hover:text-blue-400"
-            >Post</button
-          >
+          <button type="submit" class="z-0 display-block absolute top-2 right-2 text-amber-amber8 hover:text-blue-400">
+            Post
+          </button>
         </form>
       </div>
     </li>

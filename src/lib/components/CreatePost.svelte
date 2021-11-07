@@ -40,7 +40,7 @@ function uploadPost() {
 
 <div class="h-full grid" transition:fade>
   {#if !uploading}
-    <h2 class="w-full text-center text-lg font-bold px-2 py-3 mb-2 mt-auto">Create new post</h2>
+    <h2 class="w-full text-center text-lg font-bold px-2 py-3 mb-2 mt-auto">Create a post</h2>
     {#if err}
       <p>{err}</p>
     {/if}
