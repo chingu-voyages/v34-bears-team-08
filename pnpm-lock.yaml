@@ -10,6 +10,7 @@ specifiers:
   '@svicons/bootstrap': ^0.1.3
   '@svicons/fa-brands': ^0.1.3
   '@svicons/fa-solid': ^0.1.3
+  '@svicons/remix-line': ^0.1.3
   '@urql/exchange-auth': ^0.1.6
   '@urql/exchange-graphcache': ^4.3.5
   '@urql/svelte': ^1.3.1
@@ -35,10 +36,11 @@ devDependencies:
   '@magic-sdk/admin': 1.3.1
   '@radix-ui/colors': 0.1.7
   '@sveltejs/adapter-netlify': 1.0.0-next.34
-  '@sveltejs/kit': 1.0.0-next.193_svelte@3.44.0
+  '@sveltejs/kit': 1.0.0-next.195_svelte@3.44.0
   '@svicons/bootstrap': 0.1.3
   '@svicons/fa-brands': 0.1.3
   '@svicons/fa-solid': 0.1.3
+  '@svicons/remix-line': 0.1.3
   '@urql/exchange-auth': 0.1.6_graphql@15.6.1
   '@urql/exchange-graphcache': 4.3.5_graphql@15.6.1
   '@urql/svelte': 1.3.1_graphql@15.6.1+svelte@3.44.0
@@ -506,8 +508,8 @@ packages:
       esbuild: 0.13.4
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.193_svelte@3.44.0:
-    resolution: {integrity: sha512-JRe7ZTZONNL2t+uFUkrT6HDWajD/Dp0lDMiB4FODZAtQLx94PKit0I699/dHrQR0qpzE3gYipqtxInTWasFpBg==}
+  /@sveltejs/kit/1.0.0-next.195_svelte@3.44.0:
+    resolution: {integrity: sha512-R2X4FgzXQhp63XOik6S1Flw91S2CEA7sTxdsnNFrq3O+bIN7pQhJhkm6zgH68MZANdDcq8oIiSRkxT4M3t1+jQ==}
     engines: {node: '>=14.13'}
     hasBin: true
     peerDependencies:
@@ -559,6 +561,10 @@ packages:
 
   /@svicons/fa-solid/0.1.3:
     resolution: {integrity: sha512-UUp38jr06r3byLXtmuIRc8lodfedFMP6rKx5GxiWuaIkWTsrNLYe3ccqZSBIKaNOi29G+k6KWogNfVYK7//ejg==}
+    dev: true
+
+  /@svicons/remix-line/0.1.3:
+    resolution: {integrity: sha512-k5fDmKj2boYXdR9Fbyro6cE0jmU7vI+U86xxaM7JOeTbMJDXzk/6XETAtxt4k2zS0RbVXISbEC5737PsWkyAMQ==}
     dev: true
 
   /@trysound/sax/0.2.0:

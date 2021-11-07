@@ -1,19 +1,13 @@
 import { queryOp } from '$lib/gql/urql'
 import { gql } from '@urql/svelte'
+import { USER_FIELDS } from './fragments/USER_FIELDS'
 
 export const GetUserInfo = queryOp(
   gql`
+    ${USER_FIELDS}
     query GetUserInfo($username: String!) {
       result: getUserByUsername(username: $username) {
-        headline
-        fullName
-        followingCount
-        followerCount
-        bio
-        username
-        profileImgSrc
-        _id
-        followedByUser
+        ...USER_FIELDS
       }
     }
   `

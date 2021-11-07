@@ -1,5 +1,6 @@
 // * Schema must be uploaded before running setup script!
 // * Please run blocks one at a time to prevent race conditions, or use `Do` to execute them in order.
+// TODO: Add role creation func at the end, generated from dashboard/security/roles/EditRole(User)/FQL, as it's the most accurate way to get it.
 
 /* VSCode Fauna (+extension) tips
 Easily format for Do: wrap all in Do(), then select a closing parens + whitespace and ctrl+shift+l to get all cursors. 
@@ -96,6 +97,8 @@ Update(Function('get_timeline'), {
               Join(
                 // Potential optimization incurs significantly more calls and will not be applied here as it handles an edge case.
                 // Paginate could be used on these matches to prevent resulting Join set from being too large (100k) if following too many users w/ too many photos.
+                // Another possible optimization that reduces runtime reads significantly is a compound index that works on multiple collections...
+                // and then does this match logic upfront... but I can't of how to do it without it being costly instead of an optimization, so we'll stick to this.
                 Match(Index('_following_by_user'), CurrentIdentity()),
                 Index('photo_author_by_user')
               )
@@ -187,20 +190,39 @@ Update(Function('like_photo'), {
   ),
 })
 
-Update(Function('get_photo'), {
+CreateIndex({
+  name: 'Follow_by_user_and_follows',
+  unique: true,
+  serialized: true,
+  source: 'Follow',
+  terms: [
+    {
+      field: ['data', 'user'],
+    },
+    {
+      field: ['data', 'follows'],
+    },
+  ],
+})
+
+Update(Function('get_post_by_id'), {
   body: Query(
     Lambda(
-      ['input'],
+      ['id'],
       Let(
         {
-          photoRef: Ref(Collection('Photo'), Select('photoID', Var('input'))),
+          photoRef: Ref(Collection('Photo'), Var('id')),
           photoDoc: Get(Var('photoRef')),
+          userDoc: Get(Select(['data', 'author'], Var('photoDoc'))),
         },
-        Merge(Var('photoDoc'), {
-          data: Merge(Select('data', Var('photoDoc')), {
-            likedByUser: Exists(Match(Index('photo_liked_by_photo_and_user'), [Var('photoRef'), CurrentIdentity()])),
-          }),
-        })
+        {
+          author: Select(['data', 'author'], Var('photoDoc')),
+          followedByUser: Exists(
+            Match(Index('Follow_by_user_and_follows'), CurrentIdentity(), Select('ref', Var('userDoc')))
+          ),
+          photo: Var('photoRef'),
+          likedByUser: Exists(Match(Index('photo_liked_by_photo_and_user'), [Var('photoRef'), CurrentIdentity()])),
+        }
       )
     )
   ),
@@ -215,10 +237,7 @@ Update(Function('get_user_by_username'), {
         Merge(Var('userDoc'), {
           data: Merge(Select('data', Var('userDoc')), {
             followedByUser: Exists(
-              Intersection(
-                Match(Index('following_by_user'), CurrentIdentity()),
-                Match(Index('followers_by_user'), Select('ref', Var('userDoc')))
-              )
+              Match(Index('Follow_by_user_and_follows'), CurrentIdentity(), Select('ref', Var('userDoc')))
             ),
           }),
         })
@@ -346,3 +365,5 @@ Update(Function('search_user'), {
     )
   ),
 })
+
+// TODO DELETE query for deleting a photo in one shot
