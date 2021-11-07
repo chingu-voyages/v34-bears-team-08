@@ -36,9 +36,11 @@ const getClient = (ssrExchange, fetch) =>
             getPostByID({ result: { author, photo, likedByUser, followedByUser } = {} } = {}) {
               // TODO Check that this is working properly by: Going from timeline to photo page, on an already liked photo, then going back without reloading app memory
               // TODO (via nav or back button). The like state shouldn't go to null and cause it to be unliked. If it does you have two strategies in order you should do:
-              // * 1. Use a type resolver, on type Photo, looking at the field likedByUser.
-              // * 2. If 1. doesn't work, use a type resolver anywhere Photo will be used. Make it resolve to any existing getPostByID photos that exist
+              // * 1. Use a type resolver, on type Photo, looking at the field likedByUser and the Photo parent
+              // * 2. If 1. doesn't work, use a type resolver anywhere Photo will be used. Make it resolve to existing getPostByID photos that exist if the `likedByUser` field is `null` b/c when it is it's only
+              // *    because of querying getPostByID, so just find the value itself by using introspectFields on getPostByID (finding one with the respective photoID) + cache.resolve its likedByUser field value and return/resolve to it.
               // * 3. If 2. doesn't work, your only option is to invalidate the page or entity using the Photo that isn't getPostByID.
+              // ? Alternatively, exclude likedByUser/followedByUser from the query itself, which is rougly equivalent to `null` except by enabling schema awareness, you can use partial results as it's an optional field.
               // * same strategies apply to follows
               return (
                 photo && {

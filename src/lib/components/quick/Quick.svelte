@@ -8,7 +8,7 @@ import { PlusSquareFill, Search } from '@svicons/bootstrap'
 import { Compass, SignOutAlt, Home } from '@svicons/fa-solid'
 import { logout } from '$lib/stores/auth'
 import { SearchForUser } from '$lib/gql/SearchForUser'
-import Post from '../Post.svelte'
+import CreatePost from '../CreatePost.svelte'
 
 export let isOpen = false,
   searchMode = false,
@@ -118,7 +118,7 @@ $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.dat
       class="inline-block align-bottom bg-blackA-blackA12 rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 sm:align-middle max-w-lg w-full"
     >
       {#if post}
-        <Post bind:uploading />
+        <CreatePost bind:uploading />
       {:else}
         <input
           class="w-full outline-none p-4"

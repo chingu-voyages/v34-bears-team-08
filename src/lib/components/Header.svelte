@@ -2,7 +2,7 @@
 import { auth, isAuthenticated } from '$lib/stores/auth'
 import Logo from '$components/Logo.svelte'
 import { LightningCharge } from '@svicons/bootstrap'
-import Quick from './Quick/Quick.svelte'
+import Quick from './quick/Quick.svelte'
 import { goto } from '$app/navigation'
 import { quickDisabled } from '$lib/stores/quickDisabled'
 

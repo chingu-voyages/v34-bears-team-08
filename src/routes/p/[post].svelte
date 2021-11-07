@@ -15,8 +15,9 @@ GetPost({ id: $page.params.post })
 // $: if($GetPhoto.data && Object.is($GetPhoto.data.result, null)) {
 //   //
 // }
-$: ({ photo, author } = $GetPost.data || {})
+$: ({ photo, author } = $GetPost.data?.result || {})
 $: if (!$GetPost.fetching) {
+  console.dir($GetPost)
   // if (!$GetPhoto.data.result) {
   //   // redirect here because no result means query went through & it's an invalid id
   //   // this is NOT a very common occurrence so don't worry about doing it on client side
@@ -24,29 +25,21 @@ $: if (!$GetPost.fetching) {
 }
 </script>
 
-<main class="container mx-auto my-12 max-w-screen-lg h-full flex">
+<div class="container mx-auto my-12 max-w-screen-lg h-full">
   {#if photo}
     <!-- Main content -->
-    <div class="flex-1 flex items-stretch overflow-hidden">
-      <main class="flex-1 overflow-y-auto">
+    <div class="grid justify-center md:grid-cols-[1.5fr,1fr] rounded-md overflow-hidden md:bg-whiteA-whiteA5">
+      <main>
         <!-- Primary column -->
-        <section
-          aria-labelledby="primary-heading"
-          class="min-w-0 flex-1 h-full flex flex-col overflow-hidden lg:order-last"
-        >
+        <section aria-labelledby="primary-heading" class="h-full">
           <h1 id="primary-heading" class="sr-only">Photos</h1>
           <!-- Your content -->
-          <img
-            src={transformMedia(photo.media.src, 700)}
-            width="700px"
-            class="rounded-md object-cover"
-            alt="{author.username}'s photo"
-          />
+          <img src={transformMedia(photo.media.src, 700)} class="rounded-md" alt="{author.username}'s photo" />
         </section>
       </main>
 
       <!-- Secondary column (hidden on smaller screens) -->
-      <aside class="hidden w-96 bg-whiteA-whiteA5 border-l border-gray-700 overflow-y-auto lg:block">
+      <aside class="hidden border-l p-4 border-gray-700 overflow-y-auto h-auto md:block">
         <!-- TODO profile img -->
         <a href="/{author.username}">
           {author.username}
@@ -71,4 +64,4 @@ $: if (!$GetPost.fetching) {
       </aside>
     </div>
   {/if}
-</main>
+</div>

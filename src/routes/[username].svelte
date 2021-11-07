@@ -58,14 +58,14 @@ let direction = 'wrap'
     </div>
   {:else}
     <ul
-      class="grid gap-10 justify-center sm:grid-cols-[repeat(2,300px)] sm:justify-around lg:grid-cols-[repeat(3,300px)] lg:justify-between w-full max-w-screen-lg relative"
+      class="grid gap-y-10 justify-center sm:gap-[1%] md:gap-[4%] sm:grid-cols-3 sm:justify-around lg:justify-between max-w-screen-lg relative w-full"
     >
       {#each photoArr as photo, index}
-        <li class="w-max relative">
-          <img src={transformMedia(photo.media.src, 300)} width="300px" alt="photo #{index + 1}" class="z-0" />
+        <li class="relative">
+          <img class="rounded-none" src={transformMedia(photo.media.src, 324)} alt="photo #{index + 1}" />
           {#if currentUser === username}
             <button
-              class="z-0 display-block absolute top-0 right-2 mt-4 ml-3 text-white text-lg pr-4 pb-4"
+              class="absolute top-0 right-2 mt-4 ml-3 text-whiteA-whiteA9 hover:text-whiteA-whiteA12 text-lg w-5 pb-1 leading-none rounded-full bg-blackA-blackA7 hover:bg-blackA-blackA11"
               on:click={async function callDeletePhoto(e) {
                 const id = photo._id
                 if (confirm('Are you sure you want to delete this post?')) {
