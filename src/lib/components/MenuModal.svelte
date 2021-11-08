@@ -3,7 +3,9 @@ import { useMenu } from 'sashui'
 import Modal from './Modal.svelte'
 let className = ''
 export { className as class }
-const Menu = useMenu(true)
+export let open = true
+const Menu = useMenu(open)
+$: open = $Menu
 </script>
 
 <Modal on:close let:title>

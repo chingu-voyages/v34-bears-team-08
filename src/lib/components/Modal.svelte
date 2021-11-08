@@ -3,7 +3,7 @@ import { useDialog } from 'sashui'
 import { fly, fade } from 'svelte/transition'
 
 export let style = null
-let className
+let className = ''
 export { className as class }
 
 const dialog = useDialog(),
@@ -20,7 +20,7 @@ const dialog = useDialog(),
 
     <div
       {style}
-      class="inline-block align-bottom bg-blackA-blackA12 rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 sm:align-middle max-w-lg w-full {className}"
+      class="inline-block align-bottom bg-goldDark-gold1 opacity-95 rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 sm:align-middle max-w-lg w-full {className}"
     >
       <slot {title} />
     </div>
