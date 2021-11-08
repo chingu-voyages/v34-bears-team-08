@@ -7,20 +7,31 @@ import { GetUserInfo } from '$lib/gql/GetUserInfo'
 import { FollowUser } from '$lib/gql/FollowUser'
 import { auth } from '$lib/stores/auth'
 import { queryOp } from '$lib/gql/urql'
+import { Gear } from '@svicons/bootstrap'
 
 export let username
 let currentUser = $auth?.userInfo.username
 const UserInfo = queryOp(GetUserInfo.query, { username })()
 $: ({ headline, fullName, followingCount, followerCount, bio, username, profileImgSrc, followedByUser, _id } =
   $UserInfo.data?.result || {})
-
 const execFollowUser = FollowUser()
 </script>
 
 {#if $UserInfo.data}
   <img src={profileImgSrc || 'https://picsum.photos/200'} class="mr-3 rounded-full" alt="profile avatar" width="200" />
   <div class="flex flex-col w-3/4">
-    <h2 class="my-1 text-4xl overflow-ellipsis overflow-hidden">{fullName || username}</h2>
+    <div class="flex flex-row justify-between">
+      <h2 class="my-1 text-4xl overflow-ellipsis overflow-hidden">{fullName || username}</h2>
+      <a href="/settings"
+        ><Gear
+          class="w-8 sm:w-6 text-gray-gray11 hover:text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        /></a
+        >
+    </div>
     <div class="flex items-center ">
       <span class="text-sm inline-block mr-2">{followingCount || 0} following</span>
       <span class="text-sm inline-block">{followerCount || 0} followers</span>
