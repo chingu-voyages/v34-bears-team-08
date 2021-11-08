@@ -1,4 +1,6 @@
 <script>
+import { quickDisabled } from '$lib/stores/quickDisabled'
+import { onMount } from 'svelte'
 import { useDialog } from 'sashui'
 import { fly, fade } from 'svelte/transition'
 
@@ -8,6 +10,7 @@ export { className as class }
 
 const dialog = useDialog(),
   { overlay, title } = dialog
+onMount(() => ($quickDisabled = true) && (() => ($quickDisabled = false)))
 </script>
 
 <section class="fixed z-10 inset-0 overflow-y-auto" use:dialog on:close>
