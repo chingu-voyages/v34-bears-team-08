@@ -9,7 +9,7 @@ import { auth } from '$lib/stores/auth'
 import { queryOp } from '$lib/gql/urql'
 import { Gear } from '@svicons/bootstrap'
 import Modal from '$lib/components/Modal.svelte'
-import Settings from '$lib/components/settings.svelte'
+import Settings from '$lib/components/Settings.svelte'
 import Following from './Following.svelte'
 import Followers from './Followers.svelte'
 
@@ -33,7 +33,10 @@ let followersOpen = false
   <div class="flex flex-col w-3/4">
     <div class="flex flex-row justify-between">
       <h2 class="my-1 text-4xl overflow-ellipsis overflow-hidden">{fullName || username}</h2>
-      <button on:click={()=>{settingsOpen = true}}
+      <button
+        on:click={() => {
+          settingsOpen = true
+        }}
         ><Gear
           class="w-8 sm:w-6 text-gray-gray11 hover:text-white"
           xmlns="http://www.w3.org/2000/svg"
@@ -41,11 +44,15 @@ let followersOpen = false
           viewBox="0 0 24 24"
           stroke="currentColor"
         /></button
-        >
+      >
     </div>
     <div class="flex items-center ">
-      <button class="text-sm inline-block mr-2" on:click={()=> followingOpen = true}>{followingCount || 0} following</button>
-      <button class="text-sm inline-block" on:click={()=> followersOpen = true}>{followerCount || 0} followers</button>
+      <button class="text-sm inline-block mr-2" on:click={() => (followingOpen = true)}
+        >{followingCount || 0} following</button
+      >
+      <button class="text-sm inline-block" on:click={() => (followersOpen = true)}
+        >{followerCount || 0} followers</button
+      >
     </div>
     {#if headline}<h3 class="my-1">{headline}</h3>{/if}
     <p class="my-1">{bio}</p>
@@ -70,19 +77,19 @@ let followersOpen = false
 {/if}
 
 {#if settingsOpen}
-<Modal on:close={() => (settingsOpen = false)}>
-  <Settings {settingsOpen}/>
-</Modal>
+  <Modal on:close={() => (settingsOpen = false)}>
+    <Settings {settingsOpen} />
+  </Modal>
 {/if}
 
 {#if followingOpen}
-<Modal on:close={()=> (followingOpen = false)}>
-<Following {following}/>
+  <Modal on:close={() => (followingOpen = false)}>
+    <Following {following} />
   </Modal>
 {/if}
 
 {#if followersOpen}
-<Modal on:close={()=> (followersOpen = false)}>
-  <Followers {followers}/>
-</Modal>
+  <Modal on:close={() => (followersOpen = false)}>
+    <Followers {followers} />
+  </Modal>
 {/if}
