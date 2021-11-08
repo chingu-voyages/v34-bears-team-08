@@ -10,6 +10,8 @@ import { queryOp } from '$lib/gql/urql'
 import { Gear } from '@svicons/bootstrap'
 import Modal from '$lib/components/Modal.svelte'
 import Settings from '$lib/components/settings.svelte'
+import Following from './Following.svelte'
+import Followers from './Followers.svelte'
 
 export let username
 let currentUser = $auth?.userInfo.username
@@ -18,7 +20,12 @@ $: ({ headline, fullName, followingCount, followerCount, bio, username, profileI
   $UserInfo.data?.result || {})
 const execFollowUser = FollowUser()
 
+$: following = $UserInfo.data?.result.following.data
+$: followers = $UserInfo.data?.result.followers.data
+
 let settingsOpen = false
+let followingOpen = false
+let followersOpen = false
 </script>
 
 {#if $UserInfo.data}
@@ -37,8 +44,8 @@ let settingsOpen = false
         >
     </div>
     <div class="flex items-center ">
-      <span class="text-sm inline-block mr-2">{followingCount || 0} following</span>
-      <span class="text-sm inline-block">{followerCount || 0} followers</span>
+      <button class="text-sm inline-block mr-2" on:click={()=> followingOpen = true}>{followingCount || 0} following</button>
+      <button class="text-sm inline-block" on:click={()=> followersOpen = true}>{followerCount || 0} followers</button>
     </div>
     {#if headline}<h3 class="my-1">{headline}</h3>{/if}
     <p class="my-1">{bio}</p>
@@ -65,5 +72,17 @@ let settingsOpen = false
 {#if settingsOpen}
 <Modal on:close={() => (settingsOpen = false)}>
   <Settings {settingsOpen}/>
+</Modal>
+{/if}
+
+{#if followingOpen}
+<Modal on:close={()=> (followingOpen = false)}>
+<Following {following}/>
+  </Modal>
+{/if}
+
+{#if followersOpen}
+<Modal on:close={()=> (followersOpen = false)}>
+  <Followers {followers}/>
 </Modal>
 {/if}

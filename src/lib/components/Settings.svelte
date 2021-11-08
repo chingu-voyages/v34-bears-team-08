@@ -49,9 +49,6 @@ async function updateUserInfo() {
   alert("Your profile info has been updated!")
 }
 
-$: console.log(execUpdateUserInfo)
-$: console.log(execUpdateUserInfo.error)
-
 let loading = true
 $: if ($GetUserInfo.data?.result) loading = false
 </script>

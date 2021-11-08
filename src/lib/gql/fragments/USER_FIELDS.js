@@ -11,5 +11,23 @@ export const USER_FIELDS = gql`
     profileImgSrc
     _id
     followedByUser
+    followers {
+      data {
+        _id
+        follows {
+          _id
+          username
+        }
+      }
+    }
+    following {
+      data {
+        _id
+        follows {
+          _id
+          username
+        }
+      }
+    }
   }
 `
