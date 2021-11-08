@@ -21,6 +21,7 @@ import { ThLarge, ListUl } from '@svicons/fa-solid'
 import { page } from '$app/stores'
 import { transformMedia } from '$lib/utils'
 
+
 $: ({ username } = $page.params)
 const Timeline = queryOp(GetTimeline.query)
 $: Timeline.variables = { username }
@@ -114,3 +115,4 @@ let direction = 'wrap'
     </ul>
   {/if}
 </main>
+

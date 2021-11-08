@@ -8,6 +8,8 @@ import { FollowUser } from '$lib/gql/FollowUser'
 import { auth } from '$lib/stores/auth'
 import { queryOp } from '$lib/gql/urql'
 import { Gear } from '@svicons/bootstrap'
+import Modal from '$lib/components/Modal.svelte'
+import Settings from '$lib/components/settings.svelte'
 
 export let username
 let currentUser = $auth?.userInfo.username
@@ -15,6 +17,8 @@ const UserInfo = queryOp(GetUserInfo.query, { username })()
 $: ({ headline, fullName, followingCount, followerCount, bio, username, profileImgSrc, followedByUser, _id } =
   $UserInfo.data?.result || {})
 const execFollowUser = FollowUser()
+
+let settingsOpen = false
 </script>
 
 {#if $UserInfo.data}
@@ -22,14 +26,14 @@ const execFollowUser = FollowUser()
   <div class="flex flex-col w-3/4">
     <div class="flex flex-row justify-between">
       <h2 class="my-1 text-4xl overflow-ellipsis overflow-hidden">{fullName || username}</h2>
-      <a href="/settings"
+      <button on:click={()=>{settingsOpen = true}}
         ><Gear
           class="w-8 sm:w-6 text-gray-gray11 hover:text-white"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-        /></a
+        /></button
         >
     </div>
     <div class="flex items-center ">
@@ -56,4 +60,10 @@ const execFollowUser = FollowUser()
   </div>
 {:else}
   <Loader />
+{/if}
+
+{#if settingsOpen}
+<Modal on:close={() => (settingsOpen = false)}>
+  <Settings {settingsOpen}/>
+</Modal>
 {/if}

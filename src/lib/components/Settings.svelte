@@ -56,16 +56,16 @@ let loading = true
 $: if ($GetUserInfo.data?.result) loading = false
 </script>
 
-<div class="flex flex-col h-screen justify-center items-center">
+<div class="flex flex-col justify-center items-center w-full">
   {#if loading}
     <Loader />
     <h3>Loading your information . . . </h3>
   {/if}
   <form
     on:submit|preventDefault={updateUserInfo}
-    class="w-1/2 h-2/3 flex flex-col items-center justify-center bg-grayDark-gray1 border border-gray-500 rounded-xl p-4 mt-3"
+    class="flex w-4/5 flex-col items-center justify-center bg-grayDark-gray1 border border-gray-500 rounded-xl p-4 my-3"
   >
-    <div class="w-1/2 h-1/3 justify-self-center rounded-full border">
+    <div class="w-3/4 h-1/3 justify-self-center rounded-full border">
       <img src={newUserInfo.profileImgSrc} alt="profile img" />
     </div>
 
