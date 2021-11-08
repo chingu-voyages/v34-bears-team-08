@@ -1,19 +1,22 @@
 <script>
 import { AngleRight, AngleDown } from '@svicons/fa-solid'
-import { Heart, HeartFill } from '@svicons/bootstrap'
+import { Heart, HeartFill, ThreeDots } from '@svicons/bootstrap'
 import { ChatDelete } from '@svicons/remix-line'
 import { slide } from 'svelte/transition'
 import { quintOut } from 'svelte/easing'
-import { PostNewComment } from '$lib/gql/PostNewComment'
+import { CreateComment } from '$lib/gql/CreateComment'
 import { DeleteComment } from '$lib/gql/DeleteComment'
 import { auth } from '$lib/stores/auth'
 import { LikePhoto } from '$lib/gql/LikePhoto'
 import { sleep, transformMedia } from '$lib/utils'
+import { useMenu } from 'sashui'
+import Modal from './Modal.svelte'
 export let photoArr
 
 let currentUser = $auth.userInfo?.username
 
-const execPostNewComment = PostNewComment()
+const execCreateComment = CreateComment()
+$CreateComment.fetching = false
 
 let text = '',
   displayComments,
@@ -23,13 +26,18 @@ let text = '',
 const execDeleteComment = DeleteComment()
 
 const execLikePhoto = LikePhoto()
+let optsOpen = false,
+  curPhotoID
 </script>
 
 <ul class="flex flex-col">
   {#each photoArr as photo, index}
     <li class="mx-4 mb-4 max-w-[700px]">
-      <div class="w-full py-3 px-4 rounded-t-sm">
+      <div class="py-3 ml-4 rounded-t-sm flex justify-between">
         <span class="font-semibold">{photo.author.username}</span>
+        <button class="w-6" aria-expanded={optsOpen} on:click={() => (curPhotoID = photo._id) && (optsOpen = true)}>
+          <ThreeDots />
+        </button>
       </div>
       <img
         src={transformMedia(photo.media.src, 700)}
@@ -47,9 +55,9 @@ const execLikePhoto = LikePhoto()
             }}
           >
             {#if photo.likedByUser}
-              <HeartFill class="text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" />
+              <HeartFill class="text-red-500" />
             {:else}
-              <Heart xmlns="http://www.w3.org/2000/svg" fill="none" />
+              <Heart />
             {/if}
           </button>
           <span>{photo.likeCount || 0} likes</span>
@@ -62,21 +70,9 @@ const execLikePhoto = LikePhoto()
         >
           View comments
           {#if displayComments != index}
-            <AngleRight
-              class="w-2 ml-1 pt-0.5"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            />
+            <AngleRight class="w-2 ml-1 pt-0.5" />
           {:else}
-            <AngleDown
-              class="w-3 ml-1 pt-0.5"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            />
+            <AngleDown class="w-3 ml-1 pt-0.5" />
           {/if}
         </button>
 
@@ -118,16 +114,14 @@ const execLikePhoto = LikePhoto()
         <form
           class="-ml-2 my-2 display-block relative w-full"
           on:submit|preventDefault={async function postComment() {
-            if (!text || !postReady) return
-            postReady = false // debounce queries
-            await execPostNewComment({
+            if (!text || $CreateComment.fetching) return
+            await execCreateComment({
               text,
               posted: new Date().toISOString(),
               photo: photo._id,
               author: $auth?.userInfo._id,
             })
             text = ''
-            postReady = true
             displayComments = index
             await sleep(400)
             let height = commentsEl.scrollHeight + 100
@@ -156,3 +150,9 @@ const execLikePhoto = LikePhoto()
     </div>
   {/each}
 </ul>
+
+{#if optsOpen}
+  <Modal on:close={() => (optsOpen = false)}>
+    <a href="/p/{curPhotoID}" sveltekit:prefetch>Go to post</a>
+  </Modal>
+{/if}
