@@ -46,6 +46,7 @@ let optsOpen = false,
         alt="{photo.author.username}'s photo"
       />
       <div class="w-full max-w-full p-2 flex flex-col rounded-b-sm pt-4 px-4">
+        <h4 class="mb-3">{photo.caption}</h4>
         <div class="flex items-center">
           <button
             class="w-4 h-4 mr-2"
