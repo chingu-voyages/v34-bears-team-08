@@ -13,6 +13,10 @@ type User {
   headline: String
   photos: [Photo] @relation(name: "user_photos")
   profileImgSrc: String
+  """
+  dynamic, only available through manually defined queries/mutations
+  """
+  followedByUser: Boolean
   avatar: Media
 }
 
@@ -29,6 +33,11 @@ type Photo {
   liked: [User] @relation
   comments: [Comment] @relation
   likeCount: Int
+  """
+  dynamic
+  """
+  likedByUser: Boolean
+  # starredByUser: Boolean
 }
 
 type Media @embedded {
@@ -92,13 +101,9 @@ input GetPhotoInput {
 
 type PostPayload @embedded {
   author: User!
-  photo: Photo!
-  """
-  dynamic, only available through manually defined queries/mutations
-  """
   followedByUser: Boolean!
+  photo: Photo!
   likedByUser: Boolean!
-  # starredByUser: Boolean
 }
 
 # TODO: Check base types from adaptation have all been added to schema
