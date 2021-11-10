@@ -19,7 +19,10 @@ async function updateUserInfo() {
   alert('Your profile info has been updated!')
 }
 
-let loading = true
+let loading = true,
+  files
+$: shownImg = files?.[0] ? URL.createObjectURL(files[0]) : user?.profileImgSrc
+
 $: if ($GetUserInfo.data?.result) loading = false
 </script>
 
@@ -32,16 +35,17 @@ $: if ($GetUserInfo.data?.result) loading = false
     on:submit|preventDefault={updateUserInfo}
     class="flex w-4/5 flex-col items-center justify-center rounded-xl p-4 my-3"
   >
-    <div class="w-3/4 h-1/3 flex rounded-full items-center">
-      {#if user?.profileImgSrc}
-        <img src={newUserInfo.profileImgSrc} alt="profile img" />
+    <label for="fileUpload" class="cursor-pointer w-3/4 h-1/3 flex items-center">
+      <input type="file" id="fileUpload" name="fileUpload" class="hidden" accept="image/*" bind:files />
+      {#if shownImg}
+        <img src={shownImg} alt="profile img" class="h-10 w-10 rounded-full" />
       {:else}
         <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-gray-500">
           <span class="text-lg font-medium leading-none text-white">{username[0]}</span>
         </span>
       {/if}
       <h2 class="ml-4">Change profile photo</h2>
-    </div>
+    </label>
 
     <label for="Username" class="mt-4 w-3/4">Username</label>
     <input
