@@ -1,19 +1,22 @@
 <script>
 import { AngleRight, AngleDown } from '@svicons/fa-solid'
-import { Heart, HeartFill } from '@svicons/bootstrap'
+import { Heart, HeartFill, ThreeDots } from '@svicons/bootstrap'
 import { ChatDelete } from '@svicons/remix-line'
 import { slide } from 'svelte/transition'
 import { quintOut } from 'svelte/easing'
-import { PostNewComment } from '$lib/gql/PostNewComment'
+import { CreateComment } from '$lib/gql/CreateComment'
 import { DeleteComment } from '$lib/gql/DeleteComment'
 import { auth } from '$lib/stores/auth'
 import { LikePhoto } from '$lib/gql/LikePhoto'
 import { sleep, transformMedia } from '$lib/utils'
+import { useMenu } from 'sashui'
+import Modal from './Modal.svelte'
 export let photoArr
 
 let currentUser = $auth.userInfo?.username
 
-const execPostNewComment = PostNewComment()
+const execCreateComment = CreateComment()
+$CreateComment.fetching = false
 
 let text = '',
   displayComments,
@@ -23,13 +26,18 @@ let text = '',
 const execDeleteComment = DeleteComment()
 
 const execLikePhoto = LikePhoto()
+let optsOpen = false,
+  curPhotoID
 </script>
 
 <ul class="flex flex-col">
   {#each photoArr as photo, index}
     <li class="mx-4 mb-4 max-w-[700px]">
-      <div class="w-full py-3 px-4 rounded-t-sm">
-        <span class="font-semibold">{photo.author.username}</span>
+      <div class="py-3 ml-4 rounded-t-sm flex justify-between">
+        <a href="/{photo.author.username}" class="font-semibold">{photo.author.username}</a>
+        <button class="w-6" aria-expanded={optsOpen} on:click={() => (curPhotoID = photo._id) && (optsOpen = true)}>
+          <ThreeDots />
+        </button>
       </div>
       <img
         src={transformMedia(photo.media.src, 700)}
@@ -38,6 +46,7 @@ const execLikePhoto = LikePhoto()
         alt="{photo.author.username}'s photo"
       />
       <div class="w-full max-w-full p-2 flex flex-col rounded-b-sm pt-4 px-4">
+        <h4 class="mb-3">{photo.caption}</h4>
         <div class="flex items-center">
           <button
             class="w-4 h-4 mr-2"
@@ -47,9 +56,9 @@ const execLikePhoto = LikePhoto()
             }}
           >
             {#if photo.likedByUser}
-              <HeartFill class="text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" />
+              <HeartFill class="text-red-500" />
             {:else}
-              <Heart xmlns="http://www.w3.org/2000/svg" fill="none" />
+              <Heart />
             {/if}
           </button>
           <span>{photo.likeCount || 0} likes</span>
@@ -62,21 +71,9 @@ const execLikePhoto = LikePhoto()
         >
           View comments
           {#if displayComments != index}
-            <AngleRight
-              class="w-2 ml-1 pt-0.5"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            />
+            <AngleRight class="w-2 ml-1 pt-0.5" />
           {:else}
-            <AngleDown
-              class="w-3 ml-1 pt-0.5"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            />
+            <AngleDown class="w-3 ml-1 pt-0.5" />
           {/if}
         </button>
 
@@ -95,12 +92,12 @@ const execLikePhoto = LikePhoto()
                 <div class="flex flex-row">
                   {#if comment.author.username === currentUser}
                     <button
-                      class="w-5 mr-3 text-gray-300 hover:text-gray-800"
+                      class="w-5 mr-3 text-gray-300 hover:text-whiteA-whiteA8"
                       on:click={() => execDeleteComment({ id: comment._id, photoID: photo._id })}
                     >
                       <ChatDelete />
                     </button>
-                  {:else}
+                  {:else if false}
                     <!-- TODO Like a comment... separate type Query field for CommentPage to obtain likedByUser, but in the same query -->
                     <button class="w-4" aria-label="like">
                       <Heart />
@@ -118,16 +115,14 @@ const execLikePhoto = LikePhoto()
         <form
           class="-ml-2 my-2 display-block relative w-full"
           on:submit|preventDefault={async function postComment() {
-            if (!text || !postReady) return
-            postReady = false // debounce queries
-            await execPostNewComment({
+            if (!text || $CreateComment.fetching) return
+            await execCreateComment({
               text,
               posted: new Date().toISOString(),
               photo: photo._id,
               author: $auth?.userInfo._id,
             })
             text = ''
-            postReady = true
             displayComments = index
             await sleep(400)
             let height = commentsEl.scrollHeight + 100
@@ -156,3 +151,18 @@ const execLikePhoto = LikePhoto()
     </div>
   {/each}
 </ul>
+
+{#if optsOpen}
+  <Modal on:close={() => (optsOpen = false)}>
+    <div class="flex flex-col items-center w-full">
+      <a
+        class="w-full h-full text-center border-b-[1px] border-whiteA-whiteA8 p-4"
+        href="/p/{curPhotoID}"
+        sveltekit:prefetch>Go to post</a
+      >
+      <button on:click={() => (optsOpen = false)} class="border-whiteA-whiteA8 p-4 w-full h-full text-center">
+        Cancel
+      </button>
+    </div>
+  </Modal>
+{/if}

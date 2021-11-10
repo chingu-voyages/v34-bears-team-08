@@ -8,7 +8,8 @@ const execCreatePhoto = CreatePhoto()
 export let uploading = false
 let files = null,
   caption,
-  err
+  err,
+  ready = true
 
 function uploadPost() {
   const fileOptions = {
@@ -69,11 +70,13 @@ function uploadPost() {
             : 'bg-amberA-amberA8'}"
           disabled={!caption}
           transition:scale={{ duration: 200, start: 0.9 }}
+          on:outrostart={() => (ready = false)}
+          on:outroend={() => (ready = true)}
           type="submit">Post</button
         >
       {/if}
     </form>
-  {:else}
+  {:else if ready}
     <h4 class="w-full text-center text-lg font-bold px-2 py-3 my-auto">Uploading post.. Please wait</h4>
   {/if}
 </div>

@@ -1,10 +1,10 @@
 <!-- ? Do we want a load func to redirect if already onboarded? -->
 <script>
 import { auth, dbLogout, verify } from '$lib/stores/auth'
-import { UpdateOnboard } from '$lib/gql/UpdateOnboard'
+import { UpdateProfile } from '$lib/gql/UpdateUserInfo'
 import { goto } from '$app/navigation'
 
-const execUpdateOnboard = UpdateOnboard()
+const execUpdateOnboard = UpdateProfile()
 
 let userInput = { username: '', fullName: '', bio: '', headline: '' }
 async function submitHandler() {

@@ -34,9 +34,13 @@ $: photoArr = $Timeline.data?.result.data || []
 const execDeletePhoto = DeletePhoto()
 const execDeleteComment = DeleteComment()
 
-let direction = 'wrap'
+let direction = 'wrap',
+  innerWidth
+
+$: innerWidth <= 640 && (direction = 'col')
 </script>
 
+<svelte:window bind:innerWidth />
 <main class="flex flex-col items-center min-h-screen mt-8">
   <div class="flex flex-row justify-between w-3/5 max-w-screen-lg">
     {#key username}
