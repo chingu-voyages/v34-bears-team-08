@@ -3,13 +3,11 @@ export let following
 $: console.log(following)
 </script>
 
-<ul>
-    {#if !following.length}
+<ul class="flex flex-col items-center">
+  {#if !following.length}
     <li>You're not following anyone!!</li>
-    {/if}
+  {/if}
   {#each following as user}
-    <li class="flex flex-row">
-      <a href="/{user.follows.username}">{user.follows.username}</a>
-    </li>
+    <a class="w-full p-4 text-center" href="/{user.follows.username}">{user.follows.username}</a>
   {/each}
 </ul>

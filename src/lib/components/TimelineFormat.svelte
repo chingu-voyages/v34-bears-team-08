@@ -34,7 +34,7 @@ let optsOpen = false,
   {#each photoArr as photo, index}
     <li class="mx-4 mb-4 max-w-[700px]">
       <div class="py-3 ml-4 rounded-t-sm flex justify-between">
-        <span class="font-semibold">{photo.author.username}</span>
+        <a href="/{photo.author.username}" class="font-semibold">{photo.author.username}</a>
         <button class="w-6" aria-expanded={optsOpen} on:click={() => (curPhotoID = photo._id) && (optsOpen = true)}>
           <ThreeDots />
         </button>
@@ -97,7 +97,7 @@ let optsOpen = false,
                     >
                       <ChatDelete />
                     </button>
-                  {:else}
+                  {:else if false}
                     <!-- TODO Like a comment... separate type Query field for CommentPage to obtain likedByUser, but in the same query -->
                     <button class="w-4" aria-label="like">
                       <Heart />
@@ -154,6 +154,15 @@ let optsOpen = false,
 
 {#if optsOpen}
   <Modal on:close={() => (optsOpen = false)}>
-    <a href="/p/{curPhotoID}" sveltekit:prefetch>Go to post</a>
+    <div class="flex flex-col items-center w-full">
+      <a
+        class="w-full h-full text-center border-b-[1px] border-whiteA-whiteA8 p-4"
+        href="/p/{curPhotoID}"
+        sveltekit:prefetch>Go to post</a
+      >
+      <button on:click={() => (optsOpen = false)} class="border-whiteA-whiteA8 p-4 w-full h-full text-center">
+        Cancel
+      </button>
+    </div>
   </Modal>
 {/if}
