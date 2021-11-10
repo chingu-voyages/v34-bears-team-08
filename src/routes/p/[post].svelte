@@ -26,7 +26,8 @@ GetPost({ id: $page.params.post })
 // $: if($GetPhoto.data && Object.is($GetPhoto.data.result, null)) {
 //   //
 // }
-$: ({ photo, author } = $GetPost.data?.result || {})
+$: ({ photo, author, likedByUser: postLikedByUser } = $GetPost.data?.result || {})
+$: likedByUser = photo?.likedByUser != null ? photo.likedByUser : postLikedByUser // null/undefined check, get from cache if it exists
 $: if (!$GetPost.fetching) {
   console.dir($GetPost)
   // if (!$GetPhoto.data.result) {
@@ -88,11 +89,11 @@ let followingOpen
           <button
             class="w-4 h-4 mr-2"
             on:click={async () => {
-              await execLikePhoto({ id: photo._id, value: !photo.likedByUser, photo })
+              await execLikePhoto({ id: photo._id, value: !likedByUser, photo })
               console.log('Executed like photo', LikePhoto.data)
             }}
           >
-            {#if photo.likedByUser}
+            {#if likedByUser}
               <HeartFill class="text-red-500" fill="none" />
             {:else}
               <Heart xmlns="http://www.w3.org/2000/svg" fill="none" />
