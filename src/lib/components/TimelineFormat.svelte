@@ -92,7 +92,7 @@ let optsOpen = false,
                 <div class="flex flex-row">
                   {#if comment.author.username === currentUser}
                     <button
-                      class="w-5 mr-3 text-gray-300 hover:text-gray-800"
+                      class="w-5 mr-3 text-gray-300 hover:text-whiteA-whiteA8"
                       on:click={() => execDeleteComment({ id: comment._id, photoID: photo._id })}
                     >
                       <ChatDelete />

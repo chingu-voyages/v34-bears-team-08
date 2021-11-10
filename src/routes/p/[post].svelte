@@ -87,7 +87,7 @@ let followingOpen
             </div>
             {#if author.username === currentUser}
               <button
-                class="w-5 text-gray-300 hover:text-gray-800"
+                class="w-5 text-gray-300 hover:text-whiteA-whiteA8"
                 on:click={() => execDeleteComment({ id: _id, photoID: photo._id })}
               >
                 <ChatDelete />
