@@ -19,7 +19,10 @@ async function updateUserInfo() {
   alert('Your profile info has been updated!')
 }
 
-let loading = true
+let loading = true,
+  files
+$: shownImg = files?.[0] ? URL.createObjectURL(files[0]) : user?.profileImgSrc
+
 $: if ($GetUserInfo.data?.result) loading = false
 </script>
 
@@ -32,14 +35,22 @@ $: if ($GetUserInfo.data?.result) loading = false
     on:submit|preventDefault={updateUserInfo}
     class="flex w-4/5 flex-col items-center justify-center rounded-xl p-4 my-3"
   >
-    <div class="w-3/4 h-1/3 justify-self-center rounded-full border">
-      <img src={newUserInfo.profileImgSrc} alt="profile img" />
-    </div>
+    <label for="fileUpload" class="cursor-pointer w-3/4 h-1/3 flex items-center">
+      <input type="file" id="fileUpload" name="fileUpload" class="hidden" accept="image/*" bind:files />
+      {#if shownImg}
+        <img src={shownImg} alt="profile img" class="h-10 w-10 rounded-full" />
+      {:else}
+        <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-gray-500">
+          <span class="text-lg font-medium leading-none text-white">{username[0]}</span>
+        </span>
+      {/if}
+      <h2 class="ml-4">Change profile photo</h2>
+    </label>
 
-    <label for="Username" class="mt-4 w-3/4 ">Username</label>
+    <label for="Username" class="mt-4 w-3/4">Username</label>
     <input
       type="text"
-      class="w-3/4 mt-2 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500 focus:outline-none rounded-sm p-1"
+      class="w-3/4 mt-2 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500 focus:outline-none rounded-sm py-2 px-3"
       bind:value={newUserInfo.username}
       placeholder={user?.username}
       disabled={loading}
@@ -48,7 +59,7 @@ $: if ($GetUserInfo.data?.result) loading = false
     <label for="fullName" class="mt-4 w-3/4 ">Full Name</label>
     <input
       type="text"
-      class="w-3/4 mt-2 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500 focus:outline-none rounded-sm p-1"
+      class="w-3/4 mt-2 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500 focus:outline-none rounded-sm py-2 px-3"
       bind:value={newUserInfo.fullName}
       placeholder={user?.fullName}
       disabled={loading}
@@ -56,7 +67,7 @@ $: if ($GetUserInfo.data?.result) loading = false
     <label for="headline" class="mt-4 w-3/4">Headline</label>
     <input
       type="text"
-      class="w-3/4 mt-2 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500 focus:outline-none rounded-sm p-1"
+      class="w-3/4 mt-2 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500 focus:outline-none rounded-sm py-2 px-3"
       bind:value={newUserInfo.headline}
       placeholder={user?.headline}
       disabled={loading}
@@ -65,7 +76,7 @@ $: if ($GetUserInfo.data?.result) loading = false
     <textarea
       type="text"
       rows="3"
-      class="w-3/4 mt-2 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500 focus:outline-none rounded-sm p-1"
+      class="w-3/4 mt-2 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500 focus:outline-none rounded-sm py-2 px-3"
       bind:value={newUserInfo.bio}
       placeholder={user?.bio}
       disabled={loading}
