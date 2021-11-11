@@ -54,8 +54,13 @@ let error = false
 
 <style>
 .neonText {
-  animation: flicker 4.5s infinite alternate;
+  animation: flicker 10s infinite alternate;
   color: #fff;
+}
+@media screen and (prefers-reduced-motion) {
+  .neonText {
+    animation: none;
+  }
 }
 /* Flickering animation, credited to https://css-tricks.com/how-to-create-neon-text-with-css/ */
 @keyframes flicker {
@@ -66,8 +71,8 @@ let error = false
   53%,
   57%,
   100% {
-    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #0fa, 0 0 80px #0fa, 0 0 90px #0fa, 0 0 100px #0fa,
-      0 0 150px #0fa;
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px rgb(128, 255, 255), 0 0 80px rgb(128, 255, 255),
+      0 0 90px rgb(128, 255, 255), 0 0 100px rgb(128, 255, 255), 0 0 150px rgb(128, 255, 255);
   }
 
   20%,
