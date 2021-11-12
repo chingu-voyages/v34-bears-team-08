@@ -55,7 +55,9 @@ let error = false
 <style>
 .neonText {
   animation: flicker 10s infinite alternate;
-  color: #fff;
+  --primary: hsla(0, 0%, 100%, 0.8);
+  --secondary: hsla(180, 100%, 75%, 0.6);
+  color: var(--primary);
 }
 @media screen and (prefers-reduced-motion) {
   .neonText {
@@ -71,8 +73,8 @@ let error = false
   53%,
   57%,
   100% {
-    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px rgb(128, 255, 255), 0 0 80px rgb(128, 255, 255),
-      0 0 90px rgb(128, 255, 255), 0 0 100px rgb(128, 255, 255), 0 0 150px rgb(128, 255, 255);
+    text-shadow: 0 0 4px var(--primary), 0 0 11px var(--primary), 0 0 19px var(--primary), 0 0 25px var(--secondary),
+      0 0 30px var(--secondary), 0 0 35px var(--secondary), 0 0 40px var(--secondary), 0 0 45px var(--secondary);
   }
 
   20%,
