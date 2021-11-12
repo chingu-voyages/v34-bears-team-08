@@ -100,7 +100,7 @@ let uploading = false
 // SearchForUser
 $SearchForUser.fetching = false
 async function searchQuery() {
-  await SearchForUser({ username: inp })
+  await SearchForUser({ username: inp.toLowerCase() })
 }
 $: searchMode && inp && searchQuery()
 $: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.data || []
