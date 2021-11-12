@@ -24,13 +24,13 @@ let error = false
   <title>Login</title>
 </svelte:head>
 <div class="flex justify-center items-center h-full">
-  <div class="container flex mx-auto max-w-screen-md items-center h-screen px-3">
-    <div class="flex w-3/5">
+  <div class="container flex mx-auto max-w-screen-md items-center justify-center h-screen px-3">
+    <!-- <div class="flex w-3/5">
       <img class="max-h-full" src="/images/iphone.png" alt="iPhone with app on screen" />
-    </div>
-    <div class="flex flex-col w-3/5 border border-gray-primary space-y-4 py-6">
-      <div class="flex flex-col items-center bg-black-off rounded">
-        <h1 class="flex justify-center w-full">
+    </div> -->
+    <div class="flex flex-col w-3/5 space-y-4 py-6">
+      <div class="flex flex-col items-center bg-black-off rounded mb-12">
+        <h1 class="flex justify-center w-full neonText">
           <Logo disabled class="text-6xl" />
         </h1>
 
@@ -51,3 +51,34 @@ let error = false
   </div>
 </div>
 <Footer />
+
+<style>
+.neonText {
+  animation: flicker 10s infinite alternate;
+  color: #fff;
+}
+@media screen and (prefers-reduced-motion) {
+  .neonText {
+    animation: none;
+  }
+}
+/* Flickering animation, credited to https://css-tricks.com/how-to-create-neon-text-with-css/ */
+@keyframes flicker {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px rgb(128, 255, 255), 0 0 80px rgb(128, 255, 255),
+      0 0 90px rgb(128, 255, 255), 0 0 100px rgb(128, 255, 255), 0 0 150px rgb(128, 255, 255);
+  }
+
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+</style>
