@@ -37,9 +37,9 @@ let error = false
         {#if error} <p class="mb-4 text-xs text-red-primary">{error}</p> {/if}
       </div>
 
-      <div class="flex flex-col items-center bg-black-off rounded">
+      <div class="flex flex-col items-center rounded">
         <button
-          class="bg-black-light text-white flex flex-row p-3 rounded-md hover:scale-100"
+          class="bg-whiteA-whiteA4 text-white flex flex-row p-4 px-5 rounded-md hover:scale-100 items-center"
           on:click={async () => {
             await oAuthLogin('github')
           }}
