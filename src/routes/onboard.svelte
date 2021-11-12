@@ -20,8 +20,7 @@ async function submitHandler() {
 $: invalid = {
   username: $form.username?.touched && !$form.username?.valid,
 }
-const lazyEager = (field) => () =>
-  setTimeout(() => $form[field]?.touched && $form[field].valid && ($form[field].touched = false))
+const lazyEagerTouched = (field) => () => setTimeout(() => $form[field]?.valid && ($form[field].touched = false))
 
 const form = useForm()
 const urlSafeUsername = (str) => (/^[a-zA-Z0-9_-]*$/.test(str) ? null : { username: 'Username is not valid.' })
@@ -40,7 +39,7 @@ const urlSafeUsername = (str) => (/^[a-zA-Z0-9_-]*$/.test(str) ? null : { userna
         class:error={invalid.username}
         id="username"
         use:validators={[required, maxLength(30), urlSafeUsername]}
-        on:blur={lazyEager('username')}
+        on:blur={lazyEagerTouched('username')}
       />
       {#if invalid.username}
         <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
