@@ -26,7 +26,7 @@ const form = useForm()
 const urlSafeUsername = (str) => (/^[a-zA-Z0-9_-]*$/.test(str) ? null : { username: 'Username is not valid.' })
 </script>
 
-<main class="flex flex-row w-full justify-center min-h-[calc(100vh-)] items-center">
+<main class="flex flex-row w-full justify-center items-center">
   <form use:form on:submit|preventDefault={submitHandler} class="flex flex-col p-20 text-white rounded-md">
     <h2 class="text-3xl">Welcome to Devvy!</h2>
     <p class="mb-4 text-gray-300 text-sm self-center">Enter some basic info to get started.</p>
