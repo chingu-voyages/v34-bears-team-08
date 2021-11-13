@@ -91,10 +91,7 @@ $: focusFirstOnInp(inp, searchResults, searchMode)
 async function focusFirstOnInp() {
   // go to first on input
   await tick()
-  if (searchMode && searchResults.length) {
-    await sleep(250)
-    Menu.gotoItem?.()
-  } else buttons.length && Menu.gotoItem?.()
+  Menu.gotoItem?.()
 }
 
 let uploading = false
@@ -109,8 +106,10 @@ async function searchQuery() {
 }
 $: searchMode && inp && searchQuery()
 $: !$SearchForUser.fetching && setSearchResults($SearchForUser.data?.result.data)
-function setSearchResults(arr = []) {
+async function setSearchResults(arr = []) {
   searchResults = arr
+  await sleep()
+  Menu.gotoItem?.()
 }
 </script>
 
