@@ -9,6 +9,7 @@ import { Compass, SignOutAlt, Home } from '@svicons/fa-solid'
 import { logout } from '$lib/stores/auth'
 import { SearchForUser } from '$lib/gql/SearchForUser'
 import CreatePost from '../CreatePost.svelte'
+import { sleep } from '$lib/utils'
 
 export let isOpen = false,
   searchMode = false,
@@ -90,8 +91,9 @@ $: focusFirstOnInp(inp, searchResults, searchMode)
 async function focusFirstOnInp() {
   // go to first on input
   await tick()
-  if (searchMode) {
-    searchResults.length && Menu.gotoItem?.()
+  if (searchMode && searchResults.length) {
+    await sleep(250)
+    Menu.gotoItem?.()
   } else buttons.length && Menu.gotoItem?.()
 }
 
@@ -99,11 +101,17 @@ let uploading = false
 
 // SearchForUser
 $SearchForUser.fetching = false
+SearchForUser.reexecute({ pause: true })
+SearchForUser()
 async function searchQuery() {
-  await SearchForUser({ username: inp.toLowerCase() })
+  $SearchForUser.context.pause = false
+  SearchForUser.variables = { username: inp.toLowerCase() }
 }
 $: searchMode && inp && searchQuery()
-$: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.data || []
+$: !$SearchForUser.fetching && setSearchResults($SearchForUser.data?.result.data)
+function setSearchResults(arr = []) {
+  searchResults = arr
+}
 </script>
 
 <section class="fixed z-10 inset-0 overflow-y-auto" use:dialog on:close={() => !uploading && (isOpen = false)}>
