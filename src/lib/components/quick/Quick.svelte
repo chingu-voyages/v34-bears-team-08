@@ -93,6 +93,10 @@ async function focusFirstOnInp() {
   await tick()
   Menu.gotoItem?.()
 }
+async function inpMountedFocus(node) {
+  await tick()
+  node.focus()
+}
 
 let uploading = false
 
