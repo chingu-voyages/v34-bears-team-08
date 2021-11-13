@@ -35,6 +35,7 @@
     "sashui": "^0.1.0",
     "svelte": "3.44.0",
     "svelte-preprocess": "^4.9.5",
+    "svelte-use-form": "^2.4.3",
     "tailwindcss": "^2.2.16",
     "uuid": "^8.3.2"
   },

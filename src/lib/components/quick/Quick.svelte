@@ -9,6 +9,7 @@ import { Compass, SignOutAlt, Home } from '@svicons/fa-solid'
 import { logout } from '$lib/stores/auth'
 import { SearchForUser } from '$lib/gql/SearchForUser'
 import CreatePost from '../CreatePost.svelte'
+import { sleep } from '$lib/utils'
 
 export let isOpen = false,
   searchMode = false,
@@ -90,23 +91,25 @@ $: focusFirstOnInp(inp, searchResults, searchMode)
 async function focusFirstOnInp() {
   // go to first on input
   await tick()
-  if (searchMode) {
-    searchResults.length && Menu.gotoItem?.()
-  } else buttons.length && Menu.gotoItem?.()
+  Menu.gotoItem?.()
 }
 
 let uploading = false
 
 // SearchForUser
 $SearchForUser.fetching = false
+SearchForUser.reexecute({ pause: true })
+SearchForUser()
 async function searchQuery() {
-  await SearchForUser({ username: inp })
+  $SearchForUser.context.pause = false
+  SearchForUser.variables = { username: inp.toLowerCase() }
 }
 $: searchMode && inp && searchQuery()
-$: if (!$SearchForUser.fetching) searchResults = $SearchForUser.data?.result.data || []
-async function inpMountedFocus(node) {
-  await tick()
-  node.focus()
+$: !$SearchForUser.fetching && setSearchResults($SearchForUser.data?.result.data)
+async function setSearchResults(arr = []) {
+  searchResults = arr
+  await sleep()
+  Menu.gotoItem?.()
 }
 </script>
 
