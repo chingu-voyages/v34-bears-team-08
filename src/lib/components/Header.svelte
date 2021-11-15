@@ -27,7 +27,7 @@ let gPressedId = null
       <nav class="text-gray-700 text-center flex items-center align-items space-x-5">
         {#if $isAuthenticated}
           <button
-            class="fixed bottom-6 right-6 p-4 sm:static rounded-full text-gray-gray11 bg-whiteA-whiteA5 sm:p-2 hover:text-whiteA-whiteA11 hover:bg-whiteA-whiteA6"
+            class="fixed bottom-6 right-6 p-4 sm:static rounded-full text-gray-gray11 bg-grayA-grayA10 sm:bg-whiteA-whiteA5 sm:p-2 hover:text-whiteA-whiteA11 hover:bg-whiteA-whiteA6"
             aria-label="quick actions"
             on:click={() => (quickOpen = !quickOpen)}
           >

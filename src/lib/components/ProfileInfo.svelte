@@ -29,7 +29,14 @@ let followersOpen = false
 </script>
 
 {#if $UserInfo.data}
-  <img src={profileImgSrc || 'https://picsum.photos/200'} class="mr-3 rounded-full" alt="profile avatar" width="200" />
+  <div class="mr-3 flex items-center w-full max-w-[200px]">
+    <img
+      src={profileImgSrc || 'https://picsum.photos/200'}
+      class="w-full rounded-full"
+      alt="profile avatar"
+      width="200"
+    />
+  </div>
   <div class="flex flex-col w-3/4">
     <div class="flex flex-row justify-between place-items-center">
       <h2 class="my-1 text-[2.25rem] overflow-ellipsis overflow-hidden">{fullName || username}</h2>
@@ -87,3 +94,9 @@ let followersOpen = false
     <Followers {followers} />
   </Modal>
 {/if}
+
+<style>
+img {
+  aspect-ratio: 1;
+}
+</style>
