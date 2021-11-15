@@ -1,7 +1,7 @@
 <script>
 import { goto } from '$app/navigation'
 import { useDialog, useMenu } from 'sashui'
-import { onMount, tick } from 'svelte'
+import { onDestroy, tick } from 'svelte'
 import { fly, fade } from 'svelte/transition'
 import Fuse from 'fuse.js'
 import { PlusSquareFill, Search } from '@svicons/bootstrap'
@@ -15,24 +15,20 @@ export let isOpen = false,
   searchMode = false,
   post = false
 const dialog = useDialog(false),
-  { overlay } = dialog
-const Menu = useMenu(true),
+  { overlay } = dialog,
+  Menu = useMenu(true),
   { Item, selected } = Menu
 
-let documentStyle
-onMount(() => {
-  documentStyle = document.documentElement.style
-  return () => {
-    post = false
-    document.documentElement.style = documentStyle
-  }
+let uploading = false,
+  inp = ''
+onDestroy(() => {
+  post = false
 })
 
 function navigate(href) {
   if (location.pathname != href) goto(href)
 }
 
-let inp = ''
 $: queryStr = inp.toLowerCase()
 let buttonsArr = [
     {
@@ -93,18 +89,16 @@ async function focusFirstOnInp() {
   await tick()
   Menu.gotoItem?.()
 }
-async function inpMountedFocus(node) {
+async function autofocus(node) {
   await tick()
   node.focus()
 }
-
-let uploading = false
 
 // SearchForUser
 $SearchForUser.fetching = false
 SearchForUser.reexecute({ pause: true })
 SearchForUser()
-async function searchQuery() {
+function searchQuery() {
   $SearchForUser.context.pause = false
   SearchForUser.variables = { username: inp.toLowerCase() }
 }
@@ -134,7 +128,7 @@ async function setSearchResults(arr = []) {
         <input
           class="w-full outline-none p-4"
           class:animate-pulse={$SearchForUser.fetching}
-          use:inpMountedFocus
+          use:autofocus
           type="text"
           bind:value={inp}
           placeholder={!searchMode ? 'Get there in a flash' : 'Find your buddies'}
