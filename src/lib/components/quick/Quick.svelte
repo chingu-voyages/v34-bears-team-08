@@ -172,9 +172,7 @@ async function setSearchResults(arr = []) {
             {#each buttons as { text, click, Icon, shortcut } (text)}
               <Item let:active>
                 <button
-                  class="text-left flex items-center w-full p-4 {active
-                    ? 'bg-whiteA-whiteA8'
-                    : 'text-gray-gray11'} transition-all duration-200 ease-in text-lg h-[60px]"
+                  class="[ item ] {active ? 'bg-whiteA-whiteA8' : 'text-gray-gray11'}"
                   title={text}
                   on:click={click}
                   >{#if Icon}<Icon class="mr-6" width="16" />{/if}
@@ -193,13 +191,11 @@ async function setSearchResults(arr = []) {
             {#each searchResults as user (user._id)}
               <!-- Search -->
               <!-- TODO: Might want to think about how the loading is visually represented, probably a small loader next to or inside the search bar? -->
-              <Menu.Item let:active>
+              <Item let:active>
                 <a
                   sveltekit:prefetch
                   href="/{user.username}"
-                  class="text-left flex items-center w-full p-4 {active
-                    ? 'bg-whiteA-whiteA8'
-                    : 'text-gray-gray11'} transition-all duration-200 ease-in text-lg h-[60px]"
+                  class="[ item ] {active ? 'bg-whiteA-whiteA8' : 'text-gray-gray11'}"
                   on:click={() => {
                     isOpen = false
                   }}
@@ -208,7 +204,7 @@ async function setSearchResults(arr = []) {
                     {user.username}
                   </p>
                 </a>
-              </Menu.Item>
+              </Item>
             {/each}
           {/if}
         </menu>
@@ -220,5 +216,8 @@ async function setSearchResults(arr = []) {
 <style>
 menu {
   transition: all 0.2s ease, opacity 0.2s ease;
+}
+.item {
+  @apply text-left flex items-center w-full p-4 transition-all duration-200 ease-in text-lg h-[60px];
 }
 </style>
