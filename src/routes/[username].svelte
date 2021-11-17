@@ -28,16 +28,16 @@ Timeline()
 let currentUser = $auth?.userInfo.username
 //get current user
 //check who follows
-//dispplay follow or unfollow button
+//display follow or unfollow button
 $: photoArr = $Timeline.data?.result.data || []
 
-const execDeletePhoto = DeletePhoto()
-const execDeleteComment = DeleteComment()
+const execDeletePhoto = DeletePhoto(),
+  execDeleteComment = DeleteComment()
 
 let direction = 'wrap',
   innerWidth
 
-$: innerWidth <= 640 && (direction = 'col')
+$: if (innerWidth <= 640) direction = 'col'
 </script>
 
 <svelte:window bind:innerWidth />

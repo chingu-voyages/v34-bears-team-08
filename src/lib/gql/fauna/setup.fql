@@ -366,4 +366,4 @@ Update(Function('search_user'), {
   ),
 })
 
-// TODO DELETE query for deleting a photo in one shot
+// TODO DELETE query for deleting a photo in one query

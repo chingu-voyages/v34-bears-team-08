@@ -5,6 +5,7 @@ import { LightningCharge } from '@svicons/bootstrap'
 import Quick from './quick/Quick.svelte'
 import { goto } from '$app/navigation'
 import { quickDisabled } from '$lib/stores/quickDisabled'
+import { fly } from 'svelte/transition'
 
 let username = $auth.userInfo?.username,
   post = false,
@@ -12,7 +13,8 @@ let username = $auth.userInfo?.username,
   searchMode = false
 $: if (!quickOpen) searchMode = false
 
-let gPressedId = null
+let gPressedId = null,
+  quickTooltipOpen = false
 </script>
 
 <header class="px-4 h-16 bg-blackA-blackA11 w-full fixed z-10 top-0">
@@ -26,9 +28,23 @@ let gPressedId = null
       <div class="absolute">beta</div>
       <nav class="text-gray-700 text-center flex items-center align-items space-x-5">
         {#if $isAuthenticated}
+          {#if quickTooltipOpen}
+            <div transition:fly={{ x: -50 }} class="hidden text-whiteA-whiteA12 text-sm -ml-20 sm:flex items-center">
+              <kbd class="rounded-md py-1 px-2 bg-whiteA-whiteA5 mr-2">
+                {navigator?.userAgentData?.platform == 'Windows' || navigator?.userAgentData?.platform == 'Linux'
+                  ? 'CTRL'
+                  : '⌘'}
+              </kbd>
+              <kbd class="rounded-md py-1 px-2 bg-whiteA-whiteA5">K</kbd>
+            </div>
+          {/if}
           <button
             class="fixed bottom-6 right-6 p-4 sm:static rounded-full text-gray-gray11 bg-grayA-grayA10 sm:bg-whiteA-whiteA5 sm:p-2 hover:text-whiteA-whiteA11 hover:bg-whiteA-whiteA6"
             aria-label="quick actions"
+            on:mouseenter={() => (quickTooltipOpen = true)}
+            on:mouseleave={() => (quickTooltipOpen = false)}
+            on:focus={() => (quickTooltipOpen = true)}
+            on:blur={() => (quickTooltipOpen = false)}
             on:click={() => (quickOpen = !quickOpen)}
           >
             <LightningCharge
