@@ -17,7 +17,7 @@ $: if (!quickOpen) searchMode = false
 let gPressedId = null,
   quickTooltipOpen = false
 const platform = browser && (navigator?.userAgentData?.platform || navigator?.platform)?.toLowerCase?.(),
-  isMac = !platform?.includes?.('mac')
+  isMac = platform?.includes?.('mac')
 </script>
 
 <header class="px-4 h-16 bg-blackA-blackA11 w-full fixed z-10 top-0">
