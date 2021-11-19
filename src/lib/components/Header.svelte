@@ -16,8 +16,8 @@ $: if (!quickOpen) searchMode = false
 
 let gPressedId = null,
   quickTooltipOpen = false
-const platform = browser && navigator?.userAgentData?.platform.toLowerCase(),
-  isMac = !platform.includes?.('windows') && !platform.includes?.('linux')
+const platform = browser && (navigator?.userAgentData?.platform || navigator?.platform)?.toLowerCase?.(),
+  isMac = !platform?.includes?.('mac')
 </script>
 
 <header class="px-4 h-16 bg-blackA-blackA11 w-full fixed z-10 top-0">
@@ -33,7 +33,7 @@ const platform = browser && navigator?.userAgentData?.platform.toLowerCase(),
         {#if $isAuthenticated}
           {#if quickTooltipOpen}
             <div transition:fly={{ x: -25 }} class="hidden text-whiteA-whiteA12 text-sm -ml-20 sm:flex items-center">
-              <kbd class="rounded-md py-1 px-2 bg-whiteA-whiteA5 mr-2">{!isMac ? 'CTRL' : '⌘'}</kbd>
+              <kbd class="rounded-md py-1 px-2 bg-whiteA-whiteA5 mr-2">{isMac ? '⌘' : 'CTRL'}</kbd>
               <kbd class="rounded-md py-1 px-2 bg-whiteA-whiteA5">K</kbd>
             </div>
           {/if}
