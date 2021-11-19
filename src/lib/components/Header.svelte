@@ -88,7 +88,7 @@ const platform = browser && navigator?.userAgentData?.platform.toLowerCase(),
 <!-- shortcuts -->
 <svelte:window
   on:keydown={(e) => {
-    if (e.ctrlKey && e.key == 'k') {
+    if ((e.ctrlKey || e.metaKey) && e.key == 'k') {
       e.preventDefault()
       if (post) post = false
       else if (searchMode) searchMode = false
