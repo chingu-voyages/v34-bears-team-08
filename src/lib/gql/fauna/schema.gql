@@ -65,6 +65,8 @@ type Query {
   getUserByUsername(username: String!): User! @resolver(name: "get_user_by_username")
   searchUser(username: String!): [User]! @resolver(name: "search_user", paginated: true)
   getPostByID(id: ID!): PostPayload! @resolver(name: "get_post_by_id")
+  getFollowUserByUsername(username: String!, followers: Boolean): [User]!
+    @resolver(name: "get_follow_User_by_username", paginated: true)
 }
 
 type Mutation {

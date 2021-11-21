@@ -79,6 +79,23 @@ CreateIndex({
   ],
 })
 
+CreateIndex({
+  name: '_followers_by_user',
+  unique: false,
+  serialized: true,
+  source: Collection('Follow'),
+  terms: [
+    {
+      field: ['data', 'follows'],
+    },
+  ],
+  values: [
+    {
+      field: ['data', 'user'],
+    },
+  ],
+})
+
 // TODO: Paginate may return null results in which case you'd need to Get() the actual data, see get_profile_photos for
 // TODO: the logic that does this. Also, test if sending back an obj w/ the ref on it instead of using Get() works.
 // ? If reusable code desired, can abstract this UDF into a more general UDF that takes the size, after, before, & `match` as a variable and invoke it.
@@ -130,6 +147,48 @@ Update(Function('get_timeline'), {
                 data: Merge(Select('data', Var('photoDoc')), {
                   likedByUser: Exists(
                     Match(Index('photo_liked_by_photo_and_user'), [Var('docRef'), CurrentIdentity()])
+                  ),
+                }),
+              })
+            )
+          )
+        )
+      )
+    )
+  ),
+})
+
+// Gets followers for a user if followers true, else gets following.
+Update(Function('get_follow_User_by_username'), {
+  body: Query(
+    Lambda(
+      ['username', 'followers', 'size', 'after', 'before'],
+      Let(
+        {
+          userRef: Select('ref', Get(Match(Index('unique_User_username'), Var('username')))),
+          match: Match(
+            Index(If(Equals(Var('followers'), true), '_followers_by_user', '_following_by_user')),
+            Var('userRef')
+          ),
+        },
+        Map(
+          If(
+            Equals(Var('before'), null),
+            If(
+              Equals(Var('after'), null),
+              Paginate(Var('match'), { size: Var('size') }),
+              Paginate(Var('match'), { size: Var('size'), after: Var('after') })
+            ),
+            Paginate(Var('match'), { size: Var('size'), before: Var('before') })
+          ),
+          Lambda(
+            'docRef',
+            Let(
+              { userDoc: Get(Var('docRef')) },
+              Merge(Var('userDoc'), {
+                data: Merge(Select('data', Var('userDoc')), {
+                  followedByUser: Exists(
+                    Match(Index('Follow_by_user_and_follows'), CurrentIdentity(), Select('ref', Var('userDoc')))
                   ),
                 }),
               })
