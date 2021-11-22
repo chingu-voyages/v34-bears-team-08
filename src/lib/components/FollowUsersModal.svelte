@@ -18,9 +18,9 @@ $: users = $GetFollowUsers.data?.result.data || []
       {#each users as { username, followedByUser, _id }, i (_id)}
         <li class="text-center p-4 flex">
           <!-- Placeholder, use profile pic later -->
-          <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-gray-500">
+          <a href="/{username}" class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-gray-500">
             <span class="text-lg font-medium leading-none text-white">{username[0]}</span>
-          </span>
+          </a>
           <div class="ml-4">
             <a class="w-full font-semibold" href="/{username}">{username}</a>
           </div>
