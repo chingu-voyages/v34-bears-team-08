@@ -1,6 +1,7 @@
 <script>
 import { FollowUser } from '$lib/gql/FollowUser'
 import { GetFollowUsers } from '$lib/gql/GetFollowUsers'
+import { auth } from '$lib/stores/auth'
 import Modal from './Modal.svelte'
 export let followers = false,
   username
@@ -24,11 +25,13 @@ $: users = $GetFollowUsers.data?.result.data || []
           <div class="ml-4">
             <a class="w-full font-semibold" href="/{username}">{username}</a>
           </div>
-          <button
-            class="ml-auto p-2 rounded-md {followedByUser ? 'border-whiteA-whiteA8 border' : 'bg-amber-amber8'}"
-            on:click={() => execFollowUser({ id: _id, value: !followedByUser, user: users[i] })}
-            >{followedByUser ? 'Following' : 'Follow'}
-          </button>
+          {#if username != $auth.userInfo?.username}
+            <button
+              class="ml-auto p-2 rounded-md {followedByUser ? 'border-whiteA-whiteA8 border' : 'bg-amber-amber8'}"
+              on:click={() => execFollowUser({ id: _id, value: !followedByUser, user: users[i] })}
+              >{followedByUser ? 'Following' : 'Follow'}
+            </button>
+          {/if}
         </li>
       {:else}
         <li class="inline-block text-center m-auto">Loading...</li>
