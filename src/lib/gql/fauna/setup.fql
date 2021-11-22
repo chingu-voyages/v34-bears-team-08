@@ -188,7 +188,7 @@ Update(Function('get_follow_User_by_username'), {
               Merge(Var('userDoc'), {
                 data: Merge(Select('data', Var('userDoc')), {
                   followedByUser: Exists(
-                    Match(Index('Follow_by_user_and_follows'), CurrentIdentity(), Select('ref', Var('userDoc')))
+                    Match(Index('Follow_by_user_and_follows'), [CurrentIdentity(), Var('docRef')])
                   ),
                 }),
               })
@@ -277,7 +277,7 @@ Update(Function('get_post_by_id'), {
         {
           author: Select(['data', 'author'], Var('photoDoc')),
           followedByUser: Exists(
-            Match(Index('Follow_by_user_and_follows'), CurrentIdentity(), Select('ref', Var('userDoc')))
+            Match(Index('Follow_by_user_and_follows'), [CurrentIdentity(), Select('ref', Var('userDoc'))])
           ),
           photo: Var('photoRef'),
           likedByUser: Exists(Match(Index('photo_liked_by_photo_and_user'), [Var('photoRef'), CurrentIdentity()])),
@@ -296,7 +296,7 @@ Update(Function('get_user_by_username'), {
         Merge(Var('userDoc'), {
           data: Merge(Select('data', Var('userDoc')), {
             followedByUser: Exists(
-              Match(Index('Follow_by_user_and_follows'), CurrentIdentity(), Select('ref', Var('userDoc')))
+              Match(Index('Follow_by_user_and_follows'), [CurrentIdentity(), Select('ref', Var('userDoc'))])
             ),
           }),
         })
