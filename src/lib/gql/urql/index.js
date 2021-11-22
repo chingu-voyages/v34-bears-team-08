@@ -113,6 +113,7 @@ const getClient = (ssrExchange, fetch) =>
           CommentPage: () => null,
           QueryGetTimelinePage: () => null,
           QuerySearchUserPage: () => null,
+          QueryGetFollowUserByUsernamePage: () => null,
           PostPayload: (data) => data.photo._id,
         },
       }),
