@@ -1,27 +1,28 @@
 <script>
 import { GetFollowUsers } from '$lib/gql/GetFollowUsers'
-
 import Frown from '@svicons/fa-solid/frown.svelte'
 import Modal from './Modal.svelte'
 export let followers = false,
   username
 
-$: console.log(username)
 GetFollowUsers({ username, followers })
-$: console.log($GetFollowUsers.error)
+$: users = $GetFollowUsers.data?.result.data || []
 </script>
 
 <Modal on:close>
-  <!-- <ul class="flex flex-col w-full">
-    {#if !followers.length}
-      <li class="inline-block">
-        You have no followers <Frown class="w-8 sm:w-6" />
-      </li>
+  <ul class="flex flex-col w-full">
+    {#if !$GetFollowUsers.fetching}
+      {#each users as { username, ...user }}
+        <a class="w-full" href="/{username}">
+          <li class="text-center p-4">{username}</li>
+        </a>
+      {:else}
+        <li class="inline-block">
+          Nobody <Frown class="w-8 sm:w-6" />
+        </li>
+      {/each}
+    {:else}
+      <li class="inline-block">Loading...</li>
     {/if}
-    {#each followers as user}
-      <a class="w-full" href="/{user.follows.username}">
-        <li class="text-center p-4">{user.follows.username}</li>
-      </a>
-    {/each}
-  </ul> -->
+  </ul>
 </Modal>
