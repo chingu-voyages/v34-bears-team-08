@@ -26,16 +26,16 @@ $: shownImg = files?.[0] ? URL.createObjectURL(files[0]) : user?.profileImgSrc
 $: if ($GetUserInfo.data?.result) loading = false
 </script>
 
-<div class="flex flex-col justify-center items-center w-full">
+<div class="flex w-full flex-col items-center justify-center">
   {#if loading}
     <Loader />
     <h3>Loading your information . . .</h3>
   {/if}
   <form
     on:submit|preventDefault={updateUserInfo}
-    class="flex w-4/5 flex-col items-center justify-center rounded-xl p-4 my-3"
+    class="my-3 flex w-4/5 flex-col items-center justify-center rounded-xl p-4"
   >
-    <label for="fileUpload" class="cursor-pointer w-3/4 h-1/3 flex items-center">
+    <label for="fileUpload" class="flex h-1/3 w-3/4 cursor-pointer items-center">
       <input type="file" id="fileUpload" name="fileUpload" class="hidden" accept="image/*" bind:files />
       {#if shownImg}
         <img src={shownImg} alt="profile img" class="h-10 w-10 rounded-full" />
@@ -50,7 +50,7 @@ $: if ($GetUserInfo.data?.result) loading = false
     <label for="Username" class="mt-4 w-3/4">Username</label>
     <input
       type="text"
-      class="w-3/4 mt-2 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500 focus:outline-none rounded-sm py-2 px-3"
+      class="focus:outline-none mt-2 w-3/4 rounded-sm py-2 px-3 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500"
       bind:value={newUserInfo.username}
       placeholder={user?.username}
       disabled={loading}
@@ -59,7 +59,7 @@ $: if ($GetUserInfo.data?.result) loading = false
     <label for="fullName" class="mt-4 w-3/4 ">Full Name</label>
     <input
       type="text"
-      class="w-3/4 mt-2 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500 focus:outline-none rounded-sm py-2 px-3"
+      class="focus:outline-none mt-2 w-3/4 rounded-sm py-2 px-3 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500"
       bind:value={newUserInfo.fullName}
       placeholder={user?.fullName}
       disabled={loading}
@@ -67,7 +67,7 @@ $: if ($GetUserInfo.data?.result) loading = false
     <label for="headline" class="mt-4 w-3/4">Headline</label>
     <input
       type="text"
-      class="w-3/4 mt-2 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500 focus:outline-none rounded-sm py-2 px-3"
+      class="focus:outline-none mt-2 w-3/4 rounded-sm py-2 px-3 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500"
       bind:value={newUserInfo.headline}
       placeholder={user?.headline}
       disabled={loading}
@@ -76,12 +76,12 @@ $: if ($GetUserInfo.data?.result) loading = false
     <textarea
       type="text"
       rows="3"
-      class="w-3/4 mt-2 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500 focus:outline-none rounded-sm py-2 px-3"
+      class="focus:outline-none mt-2 w-3/4 rounded-sm py-2 px-3 text-gray-400 focus:text-gray-gray7 focus:ring-1 focus:ring-gray-500"
       bind:value={newUserInfo.bio}
       placeholder={user?.bio}
       disabled={loading}
     />
     <label for="username" class="mt-4 w-3/4" />
-    <button type="submit" class="mt-6 py-2 px-8 rounded-md bg-amber-amber8 font-semibold">Save</button>
+    <button type="submit" class="mt-6 rounded-md bg-amber-amber8 py-2 px-8 font-semibold">Save</button>
   </form>
 </div>
