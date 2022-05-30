@@ -13,23 +13,29 @@ export async function load({ session }) {
 </script>
 
 <script>
-import GitHub from '@svicons/fa-brands/github.svelte'
-import { oAuthLogin } from '$lib/utils/magic'
-import Footer from '$lib/components/Footer.svelte'
 import Logo from '$components/Logo.svelte'
+import Footer from '$lib/components/Footer.svelte'
+import { oAuthLogin } from '$lib/utils/magic'
+import GitHub from '@svicons/fa-brands/github.svelte'
 let error = false
+let bgImages = ['https://images.unsplash.com/photo-1653856114616-ec604cb38719?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
+'https://images.unsplash.com/photo-1645956949733-27efb4bf8f53?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
+'https://images.unsplash.com/photo-1653856114603-d67a3735c376?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
+'https://images.unsplash.com/photo-1653856289645-8601ab0e422f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDR8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=60'
+]
+let bgImage = bgImages[Math.floor(Math.random() * bgImages.length)];
 </script>
 
 <svelte:head>
   <title>Login</title>
 </svelte:head>
-<div class="flex justify-center items-center h-full">
+<div class="flex justify-center items-center h-full" style="background-image: url('{bgImage} ');">
   <div class="container flex mx-auto max-w-screen-md items-center justify-center h-screen px-3">
     <!-- <div class="flex w-3/5">
       <img class="max-h-full" src="/images/iphone.png" alt="iPhone with app on screen" />
     </div> -->
     <div class="flex flex-col w-3/5 space-y-4 py-6">
-      <div class="flex flex-col items-center bg-black-off rounded mb-12">
+      <div class="flex flex-col items-center bg-black-medium rounded mb-12">
         <h1 class="flex justify-center w-full neonText">
           <Logo disabled class="text-6xl" />
         </h1>
@@ -39,7 +45,7 @@ let error = false
 
       <div class="flex flex-col items-center rounded">
         <button
-          class="bg-whiteA-whiteA4 text-white flex flex-row p-4 px-5 rounded-md hover:scale-100 items-center"
+          class="bg-whiteA-whiteA8 text-white flex flex-row p-4 px-5 rounded-md hover:scale-100 items-center"
           on:click={async () => {
             await oAuthLogin('github')
           }}
