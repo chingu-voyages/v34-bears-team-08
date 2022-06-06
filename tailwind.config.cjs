@@ -15,6 +15,7 @@ const config = {
         black: {
           0: '#000',
           light: '#262626',
+          medium:"rgba(134, 134, 134, 0.1)",
           off: '#1a1b20',
         },
         gray: {

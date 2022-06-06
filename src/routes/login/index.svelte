@@ -13,23 +13,29 @@ export async function load({ session }) {
 </script>
 
 <script>
-import GitHub from '@svicons/fa-brands/github.svelte'
-import { oAuthLogin } from '$lib/utils/magic'
-import Footer from '$lib/components/Footer.svelte'
 import Logo from '$components/Logo.svelte'
+import Footer from '$lib/components/Footer.svelte'
+import { oAuthLogin } from '$lib/utils/magic'
+import GitHub from '@svicons/fa-brands/github.svelte'
 let error = false
+let bgImages = [
+'/images/loginBgOne.png',
+'/images/loginBgTwo.png'
+]
+let image = Math.round(Math.random())
+let bgImage = bgImages[image];
 </script>
 
 <svelte:head>
   <title>Login</title>
 </svelte:head>
-<div class="flex justify-center items-center h-full">
+<div class="flex justify-center items-center h-full" style="background-image: url('{bgImage} ');">
   <div class="container flex mx-auto max-w-screen-md items-center justify-center h-screen px-3">
     <!-- <div class="flex w-3/5">
       <img class="max-h-full" src="/images/iphone.png" alt="iPhone with app on screen" />
     </div> -->
     <div class="flex flex-col w-3/5 space-y-4 py-6">
-      <div class="flex flex-col items-center bg-black-off rounded mb-12">
+      <div class="flex flex-col items-center  rounded mb-12">
         <h1 class="flex justify-center w-full neonText">
           <Logo disabled class="text-6xl" />
         </h1>
@@ -39,7 +45,7 @@ let error = false
 
       <div class="flex flex-col items-center rounded">
         <button
-          class="bg-whiteA-whiteA4 text-white flex flex-row p-4 px-5 rounded-md hover:scale-100 items-center"
+          class="bg-whiteA-whiteA8 text-white flex flex-row p-4 px-5 rounded-md hover:scale-100 items-center"
           on:click={async () => {
             await oAuthLogin('github')
           }}
